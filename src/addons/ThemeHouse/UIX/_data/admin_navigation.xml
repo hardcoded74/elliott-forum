@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<admin_navigation>
+  <admin_navigation_entry navigation_id="th_uix" parent_navigation_id="stylesAndTemplates" display_order="999999" link="styles/themehouse" admin_permission_id="style" debug_only="0" development_only="0" hide_no_children="0"/>
+</admin_navigation>

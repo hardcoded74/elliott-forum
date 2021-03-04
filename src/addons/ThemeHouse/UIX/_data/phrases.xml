@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<phrases>
+  <phrase title="admin_navigation.th_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[ThemeHouse styles]]></phrase>
+  <phrase title="admin_permission.uploadSPImages" version_id="2010231" version_string="2.1.2 Beta 1"><![CDATA[Upload images for style properties]]></phrase>
+  <phrase title="cron_entry.th_updateCheck_uix" version_id="2000070" version_string="2.0.0"><![CDATA[[TH] UI.X: Check for updates]]></phrase>
+  <phrase title="option.th_apiKey_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[API key]]></phrase>
+  <phrase title="option.th_deviantArtUrl_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[DeviantArt URL]]></phrase>
+  <phrase title="option.th_discordUrl_uix" version_id="2000591" version_string="2.0.5 Patch Level 1"><![CDATA[Discord URL]]></phrase>
+  <phrase title="option.th_enableFtp_uix" version_id="2000270" version_string="2.0.2"><![CDATA[Enable FTP]]></phrase>
+  <phrase title="option.th_facebookUrl_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[Facebook URL]]></phrase>
+  <phrase title="option.th_gitHubUrl_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[GitHub URL]]></phrase>
+  <phrase title="option.th_googlePlus_uix" version_id="2000731" version_string="2.0.7 Beta 1"><![CDATA[Google+ URL]]></phrase>
+  <phrase title="option.th_instagramUrl_uix" version_id="2000491" version_string="2.0.4 Patch Level 1"><![CDATA[Instagram URL]]></phrase>
+  <phrase title="option.th_linkedInUrl_uix" version_id="2000491" version_string="2.0.4 Patch Level 1"><![CDATA[LinkedIn URL]]></phrase>
+  <phrase title="option.th_materialAvatars_uix" version_id="2000031" version_string="2.0.0 Beta 1"><![CDATA[Globally enable material avatars]]></phrase>
+  <phrase title="option.th_newDirectoryPermissions_uix" version_id="2000270" version_string="2.0.2"><![CDATA[New directory octal permission]]></phrase>
+  <phrase title="option.th_pinterestUrl_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[Pinterest URL]]></phrase>
+  <phrase title="option.th_postbitCollapseDefault_uix" version_id="2010232" version_string="2.1.2 Beta 2"><![CDATA[Collapsed postbit by default]]></phrase>
+  <phrase title="option.th_redditUrl_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[Reddit URL]]></phrase>
+  <phrase title="option.th_sidebarCollapseDefault_uix" version_id="2001070" version_string="2.0.10"><![CDATA[Collapsed sidebar by default]]></phrase>
+  <phrase title="option.th_sidebarCollapseTime_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[Sidebar collapse time]]></phrase>
+  <phrase title="option.th_sidebarNavCollapseDefault_uix" version_id="2001070" version_string="2.0.10"><![CDATA[Collapsed side navigation by default]]></phrase>
+  <phrase title="option.th_steamUrl_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[Steam URL]]></phrase>
+  <phrase title="option.th_tumblrUrl_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[Tumblr URL]]></phrase>
+  <phrase title="option.th_twitchUrl_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[Twitch URL]]></phrase>
+  <phrase title="option.th_twitterUrl_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[Twitter URL]]></phrase>
+  <phrase title="option.th_updateCheck_uix" version_id="2000170" version_string="2.0.1"><![CDATA[Automatically check for updates]]></phrase>
+  <phrase title="option.th_youtubeUrl_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[YouTube URL]]></phrase>
+  <phrase title="option.thuix_enableManifest" version_id="2010053" version_string="2.1.0 Release Candidate 3"><![CDATA[Enable manifest.json]]></phrase>
+  <phrase title="option.thuix_enableStyleOptions" version_id="2001270" version_string="2.0.12"><![CDATA[Enable style options in user preferences]]></phrase>
+  <phrase title="option.thuix_userStyleChangeStorage" version_id="2001270" version_string="2.0.12"><![CDATA[Remember user style changes]]></phrase>
+  <phrase title="option.thuix_webAppDisplay" version_id="2010053" version_string="2.1.0 Release Candidate 3"><![CDATA[Web app display]]></phrase>
+  <phrase title="option.thuix_webAppName" version_id="2010053" version_string="2.1.0 Release Candidate 3"><![CDATA[Web app name]]></phrase>
+  <phrase title="option.thuix_webAppShortName" version_id="2010053" version_string="2.1.0 Release Candidate 3"><![CDATA[Web app short name]]></phrase>
+  <phrase title="option_explain.th_apiKey_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[Your ThemeHouse API key. You can find your API key <a href="https://www.themehouse.com/customer/account/api">here</a>.]]></phrase>
+  <phrase title="option_explain.th_deviantArtUrl_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[]]></phrase>
+  <phrase title="option_explain.th_discordUrl_uix" version_id="2000591" version_string="2.0.5 Patch Level 1"><![CDATA[]]></phrase>
+  <phrase title="option_explain.th_enableFtp_uix" version_id="2000270" version_string="2.0.2"><![CDATA[If this option is enabled, all styles will be installed through FTP instead of attempting to copy the files on the server using PHP. Use this if you get permission errors while installing a style.]]></phrase>
+  <phrase title="option_explain.th_facebookUrl_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[]]></phrase>
+  <phrase title="option_explain.th_gitHubUrl_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[]]></phrase>
+  <phrase title="option_explain.th_googlePlus_uix" version_id="2000731" version_string="2.0.7 Beta 1"><![CDATA[]]></phrase>
+  <phrase title="option_explain.th_instagramUrl_uix" version_id="2000491" version_string="2.0.4 Patch Level 1"><![CDATA[]]></phrase>
+  <phrase title="option_explain.th_linkedInUrl_uix" version_id="2000491" version_string="2.0.4 Patch Level 1"><![CDATA[]]></phrase>
+  <phrase title="option_explain.th_materialAvatars_uix" version_id="2000031" version_string="2.0.0 Beta 1"><![CDATA[If you're using any additional styles and want your default avatars consistent across styles you'll want to enable this option to enable Material avatars regardless of style]]></phrase>
+  <phrase title="option_explain.th_newDirectoryPermissions_uix" version_id="2000270" version_string="2.0.2"><![CDATA[This will define the octal file permissions to use for new directories. The default value of "0755" should work in most situations. This option is only used if you install with FTP]]></phrase>
+  <phrase title="option_explain.th_pinterestUrl_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[]]></phrase>
+  <phrase title="option_explain.th_postbitCollapseDefault_uix" version_id="2010232" version_string="2.1.2 Beta 2"><![CDATA[By default, the postbit will be collapsed for all users. Use this option to set it as collapsed by default for registered or unregistered users, or both.]]></phrase>
+  <phrase title="option_explain.th_redditUrl_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[]]></phrase>
+  <phrase title="option_explain.th_sidebarCollapseDefault_uix" version_id="2001070" version_string="2.0.10"><![CDATA[By default, the sidebar will not be collapsed for any users. Use this option to set it as collapsed by default for registered or unregistered users, or both.]]></phrase>
+  <phrase title="option_explain.th_sidebarCollapseTime_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[How long (in seconds) should the sidebar collapse for before being reopened? Leave at 0 for indefinite.]]></phrase>
+  <phrase title="option_explain.th_sidebarNavCollapseDefault_uix" version_id="2001070" version_string="2.0.10"><![CDATA[By default, the side navigation will not be collapsed for any users. Use this option to set it as collapsed by default for registered or unregistered users, or both.]]></phrase>
+  <phrase title="option_explain.th_steamUrl_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[]]></phrase>
+  <phrase title="option_explain.th_tumblrUrl_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[]]></phrase>
+  <phrase title="option_explain.th_twitchUrl_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[]]></phrase>
+  <phrase title="option_explain.th_twitterUrl_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[]]></phrase>
+  <phrase title="option_explain.th_updateCheck_uix" version_id="2000170" version_string="2.0.1"><![CDATA[]]></phrase>
+  <phrase title="option_explain.th_youtubeUrl_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[]]></phrase>
+  <phrase title="option_explain.thuix_enableManifest" version_id="2010053" version_string="2.1.0 Release Candidate 3"><![CDATA[This will add an app manifest to all pages to allow the forum to be saved as a web app.]]></phrase>
+  <phrase title="option_explain.thuix_enableStyleOptions" version_id="2001270" version_string="2.0.12"><![CDATA[This allows users with the appropriate permissions to override the above settings for collapsed sidebar and collapsed side navigation from their preferences page.]]></phrase>
+  <phrase title="option_explain.thuix_userStyleChangeStorage" version_id="2001270" version_string="2.0.12"><![CDATA[Select how you would like user style changes (e.g. collapsed sidebar) to be remembered. User session data is deleted after a user has been inactive for 4 hours.]]></phrase>
+  <phrase title="option_explain.thuix_webAppDisplay" version_id="2010053" version_string="2.1.0 Release Candidate 3"><![CDATA[You can customize what browser UI is shown when your app is launched. For example, you can hide the address bar and browser chrome. Or you may want to go completely full screen.]]></phrase>
+  <phrase title="option_explain.thuix_webAppName" version_id="2010053" version_string="2.1.0 Release Candidate 3"><![CDATA[This is the name used in the web app install prompt. If a short name is not provided, this name is also used on the user's home screen, launcher, or other places where space may be limited.]]></phrase>
+  <phrase title="option_explain.thuix_webAppShortName" version_id="2010053" version_string="2.1.0 Release Candidate 3"><![CDATA[If not empty, this name is used instead of the web app name on the user's home screen, launcher, or other places where space may be limited.]]></phrase>
+  <phrase title="option_group.th_uix" version_id="2000731" version_string="2.0.7 Beta 1"><![CDATA[[UI.X] Options]]></phrase>
+  <phrase title="option_group_description.th_uix" version_id="2000731" version_string="2.0.7 Beta 1"><![CDATA[Options in this group allow you to customize your UI.X experience.]]></phrase>
+  <phrase title="permission.th_uix_collapseCategories" version_id="2000032" version_string="2.0.0 Beta 2"><![CDATA[Can collapse categories]]></phrase>
+  <phrase title="permission.th_uix_collapseSidebar" version_id="2000032" version_string="2.0.0 Beta 2"><![CDATA[Can collapse sidebar]]></phrase>
+  <phrase title="permission.th_uix_showWelcomeSection" version_id="2000032" version_string="2.0.0 Beta 2"><![CDATA[Show welcome section]]></phrase>
+  <phrase title="permission.th_uix_togglePageWidth" version_id="2000032" version_string="2.0.0 Beta 2"><![CDATA[Can toggle page width]]></phrase>
+  <phrase title="permission_interface.th_uix" version_id="2000031" version_string="2.0.0 Beta 1"><![CDATA[UI.X Permissions]]></phrase>
+  <phrase title="style_prop.th_uix_staffMessageBlock" version_id="2010093" version_string="2.1.0 Patch Level 3"><![CDATA[Staff message container]]></phrase>
+  <phrase title="style_prop.th_uix_staffMessageNewIndicator" version_id="2010093" version_string="2.1.0 Patch Level 3"><![CDATA[Staff message new message indicator]]></phrase>
+  <phrase title="style_prop.th_uix_staffMessageSignature" version_id="2010093" version_string="2.1.0 Patch Level 3"><![CDATA[Staff message indicator]]></phrase>
+  <phrase title="style_prop.th_uix_staffMessageUserBlock" version_id="2010093" version_string="2.1.0 Patch Level 3"><![CDATA[Staff message user info block]]></phrase>
+  <phrase title="style_prop.th_uix_threadStarterMessageBlock" version_id="2010093" version_string="2.1.0 Patch Level 3"><![CDATA[Thread starter message container]]></phrase>
+  <phrase title="style_prop.th_uix_threadStarterMessageNewIndicator" version_id="2010093" version_string="2.1.0 Patch Level 3"><![CDATA[Thread starter message new message indicator]]></phrase>
+  <phrase title="style_prop.th_uix_threadStarterMessageSignature" version_id="2010093" version_string="2.1.0 Patch Level 3"><![CDATA[Thread starter message indicator]]></phrase>
+  <phrase title="style_prop.th_uix_threadStarterMessageUserBlock" version_id="2010093" version_string="2.1.0 Patch Level 3"><![CDATA[Thread starter message user info block]]></phrase>
+  <phrase title="style_prop.thuix_webapp_backgroundColor" version_id="2010053" version_string="2.1.0 Release Candidate 3"><![CDATA[Web app background color]]></phrase>
+  <phrase title="style_prop.thuix_webapp_icon192x192" version_id="2010053" version_string="2.1.0 Release Candidate 3"><![CDATA[Web app icon (192x192)]]></phrase>
+  <phrase title="style_prop.thuix_webapp_icon512x512" version_id="2010053" version_string="2.1.0 Release Candidate 3"><![CDATA[Web app icon (512x512)]]></phrase>
+  <phrase title="style_prop_desc.th_uix_staffMessageBlock" version_id="2010093" version_string="2.1.0 Patch Level 3"><![CDATA[]]></phrase>
+  <phrase title="style_prop_desc.th_uix_staffMessageNewIndicator" version_id="2010093" version_string="2.1.0 Patch Level 3"><![CDATA[Usually a small token attached to the message block, the indicator that a message is new/unread is controlled here]]></phrase>
+  <phrase title="style_prop_desc.th_uix_staffMessageSignature" version_id="2010093" version_string="2.1.0 Patch Level 3"><![CDATA[Any rules used to apply styling to users' signatures in their messages are defined here]]></phrase>
+  <phrase title="style_prop_desc.th_uix_staffMessageUserBlock" version_id="2010093" version_string="2.1.0 Patch Level 3"><![CDATA[Apart from its width, the (left) message user info column is styled here]]></phrase>
+  <phrase title="style_prop_desc.th_uix_threadStarterMessageBlock" version_id="2010093" version_string="2.1.0 Patch Level 3"><![CDATA[]]></phrase>
+  <phrase title="style_prop_desc.th_uix_threadStarterMessageNewIndicator" version_id="2010093" version_string="2.1.0 Patch Level 3"><![CDATA[Usually a small token attached to the message block, the indicator that a message is new/unread is controlled here]]></phrase>
+  <phrase title="style_prop_desc.th_uix_threadStarterMessageSignature" version_id="2010093" version_string="2.1.0 Patch Level 3"><![CDATA[Any rules used to apply styling to users' signatures in their messages are defined here]]></phrase>
+  <phrase title="style_prop_desc.th_uix_threadStarterMessageUserBlock" version_id="2010093" version_string="2.1.0 Patch Level 3"><![CDATA[Apart from its width, the (left) message user info column is styled here]]></phrase>
+  <phrase title="style_prop_desc.thuix_webapp_backgroundColor" version_id="2010053" version_string="2.1.0 Release Candidate 3"><![CDATA[This color is used on the splash screen when the web application is first launched.]]></phrase>
+  <phrase title="style_prop_desc.thuix_webapp_icon192x192" version_id="2010053" version_string="2.1.0 Release Candidate 3"><![CDATA[Icon should be in png format. Icons are used in places like the home screen, app launcher, task switcher, splash screen, etc.]]></phrase>
+  <phrase title="style_prop_desc.thuix_webapp_icon512x512" version_id="2010053" version_string="2.1.0 Release Candidate 3"><![CDATA[Icon should be in png format. Icons are used in places like the home screen, app launcher, task switcher, splash screen, etc.]]></phrase>
+  <phrase title="style_prop_group.th_uix_staffMessages" version_id="2010093" version_string="2.1.0 Patch Level 3"><![CDATA[Staff messages]]></phrase>
+  <phrase title="style_prop_group.th_uix_threadStarterMessages" version_id="2010093" version_string="2.1.0 Patch Level 3"><![CDATA[Thread starter messages]]></phrase>
+  <phrase title="style_prop_group_desc.th_uix_staffMessages" version_id="2010093" version_string="2.1.0 Patch Level 3"><![CDATA[]]></phrase>
+  <phrase title="style_prop_group_desc.th_uix_threadStarterMessages" version_id="2010093" version_string="2.1.0 Patch Level 3"><![CDATA[]]></phrase>
+  <phrase title="style_prop_vgroup.uix_backstretch" version_id="2001170" version_string="2.0.11"><![CDATA[Backstretch]]></phrase>
+  <phrase title="style_prop_vgroup.uix_brandColors" version_id="2001170" version_string="2.0.11"><![CDATA[Brand colors]]></phrase>
+  <phrase title="style_prop_vgroup.uix_extendedFooter" version_id="2001170" version_string="2.0.11"><![CDATA[Extended footer]]></phrase>
+  <phrase title="style_prop_vgroup.uix_footerCovered" version_id="2001170" version_string="2.0.11"><![CDATA[Footer bar widths]]></phrase>
+  <phrase title="style_prop_vgroup.uix_footerPositions" version_id="2001170" version_string="2.0.11"><![CDATA[Footer bar positions]]></phrase>
+  <phrase title="style_prop_vgroup.uix_footerWidgets" version_id="2001170" version_string="2.0.11"><![CDATA[Footer widgets]]></phrase>
+  <phrase title="style_prop_vgroup.uix_iconOptions" version_id="2001170" version_string="2.0.11"><![CDATA[Icon options]]></phrase>
+  <phrase title="style_prop_vgroup.uix_loginTabs" version_id="2001170" version_string="2.0.11"><![CDATA[Visitor and guest tabs]]></phrase>
+  <phrase title="style_prop_vgroup.uix_logoBlock" version_id="2001170" version_string="2.0.11"><![CDATA[Logo block (header/logo row)]]></phrase>
+  <phrase title="style_prop_vgroup.uix_logoText" version_id="2001170" version_string="2.0.11"><![CDATA[Text logo]]></phrase>
+  <phrase title="style_prop_vgroup.uix_mainTabs" version_id="2001170" version_string="2.0.11"><![CDATA[Main page tabs]]></phrase>
+  <phrase title="style_prop_vgroup.uix_nodeCategories" version_id="2001170" version_string="2.0.11"><![CDATA[Category strips]]></phrase>
+  <phrase title="style_prop_vgroup.uix_nodeStats" version_id="2001170" version_string="2.0.11"><![CDATA[Node stats]]></phrase>
+  <phrase title="style_prop_vgroup.uix_parallax" version_id="2001170" version_string="2.0.11"><![CDATA[Parallax image]]></phrase>
+  <phrase title="style_prop_vgroup.uix_responsiveLogo" version_id="2001170" version_string="2.0.11"><![CDATA[Responsive logo]]></phrase>
+  <phrase title="style_prop_vgroup.uix_searchColor" version_id="2001170" version_string="2.0.11"><![CDATA[Colors]]></phrase>
+  <phrase title="style_prop_vgroup.uix_searchIcon" version_id="2001170" version_string="2.0.11"><![CDATA[Search icon]]></phrase>
+  <phrase title="style_prop_vgroup.uix_sidebarNav" version_id="2001170" version_string="2.0.11"><![CDATA[Sidebar navigation]]></phrase>
+  <phrase title="style_prop_vgroup.uix_smartBorder" version_id="2001170" version_string="2.0.11"><![CDATA[Smart border radius]]></phrase>
+  <phrase title="style_prop_vgroup.uix_staffbar" version_id="2001170" version_string="2.0.11"><![CDATA[Staff bar]]></phrase>
+  <phrase title="style_prop_vgroup.uix_subNav" version_id="2001170" version_string="2.0.11"><![CDATA[Sub navigation]]></phrase>
+  <phrase title="style_prop_vgroup.uix_welcomeText" version_id="2001170" version_string="2.0.11"><![CDATA[Text]]></phrase>
+  <phrase title="style_prop_vgroup.uix_widgthToggle" version_id="2001170" version_string="2.0.11"><![CDATA[Page width toggle]]></phrase>
+  <phrase title="th_advanced_uix" version_id="2000170" version_string="2.0.1"><![CDATA[Advanced]]></phrase>
+  <phrase title="th_cant_find_a_topic_uix" version_id="2000070" version_string="2.0.0"><![CDATA[Can't find a topic?]]></phrase>
+  <phrase title="th_child_style_uix" version_id="2000370" version_string="2.0.3"><![CDATA[Child style]]></phrase>
+  <phrase title="th_child_styles_for_x_uix" version_id="2000531" version_string="2.0.5 Beta 1"><![CDATA[Child styles for {product_name}]]></phrase>
+  <phrase title="th_child_styles_uix" version_id="2000370" version_string="2.0.3"><![CDATA[Child styles]]></phrase>
+  <phrase title="th_documentation_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[Documentation]]></phrase>
+  <phrase title="th_enter_ftp_details_explain_uix" version_id="2000270" version_string="2.0.2"><![CDATA[Please enter your FTP details so your style can be installed.]]></phrase>
+  <phrase title="th_fixed_width_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[Fixed width]]></phrase>
+  <phrase title="th_fluid_width_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[Fluid width]]></phrase>
+  <phrase title="th_force_reinstall_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[Force reinstall]]></phrase>
+  <phrase title="th_ftp_directory_uix" version_id="2000270" version_string="2.0.2"><![CDATA[FTP directory]]></phrase>
+  <phrase title="th_ftp_host_uix" version_id="2000270" version_string="2.0.2"><![CDATA[FTP host]]></phrase>
+  <phrase title="th_ftp_password_uix" version_id="2000270" version_string="2.0.2"><![CDATA[FTP password]]></phrase>
+  <phrase title="th_ftp_port_uix" version_id="2000671" version_string="2.0.6.1"><![CDATA[FTP port]]></phrase>
+  <phrase title="th_ftp_username_uix" version_id="2000270" version_string="2.0.2"><![CDATA[FTP username]]></phrase>
+  <phrase title="th_install_x_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[Install {product_name}]]></phrase>
+  <phrase title="th_installing_x_confirm_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[By continuing we will attempt to automatically install the selected version of {product_name}. To ensure we provide the best installation possible your XenForo version, XenForo installation URL and ThemeHouse API key will be passed to our servers when the installation happens.]]></phrase>
+  <phrase title="th_invalid_api_key_uix" version_id="2000791" version_string="2.0.7 Patch Level 1"><![CDATA[You have not entered a valid API key. You can find our documentation for this process <a href="https://www.themehouse.com/help/documentation/uix2/installing-uix-with-uix-2-add-on" target="_BLANK">here</a>. You can enter your API key <a href="{url}" target="_blank">here</a>.]]></phrase>
+  <phrase title="th_no_active_licenses_found_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[No active licenses found, if you believe this is an error please <a href="https://www.themehouse.com/contact/create-ticket/choose-product">contact us</a>]]></phrase>
+  <phrase title="th_no_child_styles_found_for_x_uix" version_id="2000570" version_string="2.0.5"><![CDATA[No child styles found for {product_name}.]]></phrase>
+  <phrase title="th_normal_threads" version_id="2000892" version_string="2.0.8 Patch Level 2"><![CDATA[Normal threads]]></phrase>
+  <phrase title="th_original_poster" version_id="2010036" version_string="2.1.0 Beta 6"><![CDATA[Original poster]]></phrase>
+  <phrase title="th_page_width_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[Page width]]></phrase>
+  <phrase title="th_profile_uix" version_id="2000591" version_string="2.0.5 Patch Level 1"><![CDATA[Profile]]></phrase>
+  <phrase title="th_sidebar_uix" version_id="2000591" version_string="2.0.5 Patch Level 1"><![CDATA[Sidebar]]></phrase>
+  <phrase title="th_sticky_threads" version_id="2000892" version_string="2.0.8 Patch Level 2"><![CDATA[Sticky threads]]></phrase>
+  <phrase title="th_style_preferences_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[Style preferences]]></phrase>
+  <phrase title="th_themehouse_styles_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[ThemeHouse Styles]]></phrase>
+  <phrase title="th_toggle_width_uix" version_id="2000170" version_string="2.0.1"><![CDATA[Toggle width]]></phrase>
+  <phrase title="th_uix_addon_prerelease_uix" version_id="2000170" version_string="2.0.1"><![CDATA[You are running a prerelease version of the UI.X add-on, some bugs and issues may be expected.]]></phrase>
+  <phrase title="th_uix_addon_requires_update_uix" version_id="2000170" version_string="2.0.1"><![CDATA[A new version for the UI.X add-on has been released, <a href="https://www.themehouse.com/xenforo/2/addons/uix-addon">Click here</a> to update.]]></phrase>
+  <phrase title="th_uix_customize_file_name" version_id="2010231" version_string="2.1.2 Beta 1"><![CDATA[Customize file name]]></phrase>
+  <phrase title="th_uix_customize_upload_path" version_id="2010231" version_string="2.1.2 Beta 1"><![CDATA[Customize upload path]]></phrase>
+  <phrase title="th_uix_error" version_id="2000891" version_string="2.0.8 Patch Level 1"><![CDATA[UI.X Error]]></phrase>
+  <phrase title="th_uix_error_message" version_id="2000891" version_string="2.0.8 Patch Level 1"><![CDATA[It appears that you do not have the UI.X Add-on installed. Please install this add-on to ensure your style works as expected. You can download the UI.X add-on <a href="https://www.themehouse.com/xenforo/2/addons/uix-addon">here</a>.]]></phrase>
+  <phrase title="th_uix_expand_signature" version_id="2010291" version_string="2.1.2 Patch Level 1"><![CDATA[Expand signature]]></phrase>
+  <phrase title="th_uix_icon" version_id="2010270" version_string="2.1.2"><![CDATA[Ui.X Icon]]></phrase>
+  <phrase title="th_uix_icon_explain" version_id="2010270" version_string="2.1.2"><![CDATA[Notice icon shown in all UI.X based styles. You may either use FontAwesome or Material Design Icons with their respective prefixes.]]></phrase>
+  <phrase title="th_uix_image_successfully_uploaded" version_id="2010231" version_string="2.1.2 Beta 1"><![CDATA[Image successfully uploaded]]></phrase>
+  <phrase title="th_uix_posted" version_id="2010231" version_string="2.1.2 Beta 1"><![CDATA[posted]]></phrase>
+  <phrase title="th_uix_replied" version_id="2000791" version_string="2.0.7 Patch Level 1"><![CDATA[replied]]></phrase>
+  <phrase title="th_uix_sp_upload_allowed_file_types" version_id="2010231" version_string="2.1.2 Beta 1"><![CDATA[Allowed file extensions are: .jpg, .jpeg, .jpe, .png, .gif]]></phrase>
+  <phrase title="th_uix_upload_style_property_image" version_id="2010231" version_string="2.1.2 Beta 1"><![CDATA[Upload style property image]]></phrase>
+  <phrase title="th_use_default_value_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[Use default value]]></phrase>
+  <phrase title="th_version_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[Version]]></phrase>
+  <phrase title="th_view_documentation_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[View documentation]]></phrase>
+  <phrase title="th_x_no_version_available_styles_uix" version_id="2010054" version_string="2.1.0 Release Candidate 4"><![CDATA[You are currently running {count} outdated version(s) of ThemeHouse styles, but no update is currently available. Some bugs/issues may be expected.]]></phrase>
+  <phrase title="th_x_prerelease_styles_uix" version_id="2000170" version_string="2.0.1"><![CDATA[You are currently running {count} prerelease version(s) of ThemeHouse styles, some bugs/issues may be expected.]]></phrase>
+  <phrase title="th_x_updated_styles_uix" version_id="2000170" version_string="2.0.1"><![CDATA[An update has been released for {count} of your ThemeHouse styles, <a href="admin.php?styles/themehouse">Click here</a> to update.]]></phrase>
+  <phrase title="thuix_account" version_id="2010231" version_string="2.1.2 Beta 1"><![CDATA[Account]]></phrase>
+  <phrase title="thuix_addon_requires_upgrade" version_id="2000791" version_string="2.0.7 Patch Level 1"><![CDATA[The UI.X add-on requires an update before you can upgrade this style.]]></phrase>
+  <phrase title="thuix_all_users" version_id="2001070" version_string="2.0.10"><![CDATA[All users]]></phrase>
+  <phrase title="thuix_browser" version_id="2010053" version_string="2.1.0 Release Candidate 3"><![CDATA[Browser]]></phrase>
+  <phrase title="thuix_collapse_postbit_by_default" version_id="2010232" version_string="2.1.2 Beta 2"><![CDATA[Collapse postbit by default]]></phrase>
+  <phrase title="thuix_collapse_postbit_by_default_hint" version_id="2010232" version_string="2.1.2 Beta 2"><![CDATA[If the selected style includes a collapsible postbit, this will collapse the postbit on all posts by default.]]></phrase>
+  <phrase title="thuix_collapse_side_navigation_by_default" version_id="2001270" version_string="2.0.12"><![CDATA[Collapse side navigation by default]]></phrase>
+  <phrase title="thuix_collapse_side_navigation_by_default_hint" version_id="2001270" version_string="2.0.12"><![CDATA[If the selected style includes a collapsible side navigation, this will collapse the side navigation on all pages by default.]]></phrase>
+  <phrase title="thuix_collapse_sidebar_by_default" version_id="2001270" version_string="2.0.12"><![CDATA[Collapse sidebar by default]]></phrase>
+  <phrase title="thuix_collapse_sidebar_by_default_hint" version_id="2001270" version_string="2.0.12"><![CDATA[If the selected style includes a collapsible sidebar, this will collapse the sidebar on all pages by default.]]></phrase>
+  <phrase title="thuix_do_not_remember" version_id="2001270" version_string="2.0.12"><![CDATA[Do not remember]]></phrase>
+  <phrase title="thuix_extra_large" version_id="2010051" version_string="2.1.0 Release Candidate 1"><![CDATA[Extra large]]></phrase>
+  <phrase title="thuix_file_must_be_an_image" version_id="2010231" version_string="2.1.2 Beta 1"><![CDATA[File must be an image.]]></phrase>
+  <phrase title="thuix_font_size" version_id="2010051" version_string="2.1.0 Release Candidate 1"><![CDATA[Font size]]></phrase>
+  <phrase title="thuix_fullscreen" version_id="2010053" version_string="2.1.0 Release Candidate 3"><![CDATA[Fullscreen]]></phrase>
+  <phrase title="thuix_large" version_id="2010051" version_string="2.1.0 Release Candidate 1"><![CDATA[Large]]></phrase>
+  <phrase title="thuix_medium_recommended" version_id="2010051" version_string="2.1.0 Release Candidate 1"><![CDATA[Medium (recommended)]]></phrase>
+  <phrase title="thuix_minimal_ui" version_id="2010053" version_string="2.1.0 Release Candidate 3"><![CDATA[Minimal UI]]></phrase>
+  <phrase title="thuix_no_compatible_style_versions" version_id="2010054" version_string="2.1.0 Release Candidate 4"><![CDATA[There are no versions of this style that are compatible with your currently installed version of XenForo. If this version of XenForo has recently been released, please try again later.]]></phrase>
+  <phrase title="thuix_platform" version_id="2000670" version_string="2.0.6"><![CDATA[Platform]]></phrase>
+  <phrase title="thuix_registered_users_only" version_id="2001070" version_string="2.0.10"><![CDATA[Registered users only]]></phrase>
+  <phrase title="thuix_show_postbit_by_default" version_id="2010232" version_string="2.1.2 Beta 2"><![CDATA[Show postbit by default]]></phrase>
+  <phrase title="thuix_show_postbit_by_default_hint" version_id="2010232" version_string="2.1.2 Beta 2"><![CDATA[If the selected style includes a collapsible postbit, this will show the postbit on all posts by default.]]></phrase>
+  <phrase title="thuix_show_side_navigation_by_default" version_id="2001270" version_string="2.0.12"><![CDATA[Show side navigation by default]]></phrase>
+  <phrase title="thuix_show_side_navigation_by_default_hint" version_id="2001270" version_string="2.0.12"><![CDATA[If the selected style includes a collapsible side navigation, this will show the side navigation on all pages by default.]]></phrase>
+  <phrase title="thuix_show_sidebar_by_default" version_id="2001270" version_string="2.0.12"><![CDATA[Show sidebar by default]]></phrase>
+  <phrase title="thuix_show_sidebar_by_default_hint" version_id="2001270" version_string="2.0.12"><![CDATA[If the selected style includes a collapsible sidebar, this will show the sidebar on all pages by default.]]></phrase>
+  <phrase title="thuix_small" version_id="2010051" version_string="2.1.0 Release Candidate 1"><![CDATA[Small]]></phrase>
+  <phrase title="thuix_social_media" version_id="2000731" version_string="2.0.7 Beta 1"><![CDATA[Social Media]]></phrase>
+  <phrase title="thuix_standalone" version_id="2010053" version_string="2.1.0 Release Candidate 3"><![CDATA[Standalone]]></phrase>
+  <phrase title="thuix_store_in_browser_cookie" version_id="2001270" version_string="2.0.12"><![CDATA[Store in browser cookie]]></phrase>
+  <phrase title="thuix_store_in_session_data" version_id="2001270" version_string="2.0.12"><![CDATA[Store in session data]]></phrase>
+  <phrase title="thuix_style_options" version_id="2001270" version_string="2.0.12"><![CDATA[Style options]]></phrase>
+  <phrase title="thuix_unregistered_users_only" version_id="2001070" version_string="2.0.10"><![CDATA[Unregistered users only]]></phrase>
+  <phrase title="thuix_writeable_error" version_id="2000791" version_string="2.0.7 Patch Level 1"><![CDATA[Your XenForo directory is not writable by the PHP user. You can contact your host and recommend they use a method that allows PHP to run as the same user that owns the XenForo files or alternatively you can <a href="https://www.themehouse.com/help/documentation/uix2/installing-uix-2-manually">install your style manually</a>.<br> Alternatively, you can enable the option to install via FTP <a href="{url}" target="_BLANK">here</a> which should allow you to proceed.]]></phrase>
+  <phrase title="thuix_zip_extension_error" version_id="2000791" version_string="2.0.7 Patch Level 1"><![CDATA[The PHP zip extension has not been installed and is required for this functionality to work. Please contact your host to get this issue resolved as this is not something we're able to fix from the add-on.]]></phrase>
+  <phrase title="uix_deviantArt" version_id="2000491" version_string="2.0.4 Patch Level 1"><![CDATA[Deviant Art]]></phrase>
+  <phrase title="uix_flickr" version_id="2000491" version_string="2.0.4 Patch Level 1"><![CDATA[Flickr]]></phrase>
+  <phrase title="uix_github" version_id="2000491" version_string="2.0.4 Patch Level 1"><![CDATA[GitHub]]></phrase>
+  <phrase title="uix_instagram" version_id="2000491" version_string="2.0.4 Patch Level 1"><![CDATA[Instagram]]></phrase>
+  <phrase title="uix_linkedin" version_id="2000491" version_string="2.0.4 Patch Level 1"><![CDATA[LinkedIn]]></phrase>
+  <phrase title="uix_steam" version_id="2000491" version_string="2.0.4 Patch Level 1"><![CDATA[Steam]]></phrase>
+  <phrase title="uix_twitch" version_id="2000491" version_string="2.0.4 Patch Level 1"><![CDATA[Twitch]]></phrase>
+  <phrase title="uix_youtube" version_id="2000491" version_string="2.0.4 Patch Level 1"><![CDATA[YouTube]]></phrase>
+  <phrase title="widget_def.th_post_thread_uix" version_id="2000791" version_string="2.0.7 Patch Level 1"><![CDATA[[UI.X] Start a thread]]></phrase>
+  <phrase title="widget_def.th_widget_login_uix" version_id="2000070" version_string="2.0.0"><![CDATA[[UI.X] Login form]]></phrase>
+  <phrase title="widget_def.thuix_socialMedia" version_id="2000670" version_string="2.0.6"><![CDATA[[TH] UI.X social media feed]]></phrase>
+  <phrase title="widget_def_desc.th_post_thread_uix" version_id="2000070" version_string="2.0.0"><![CDATA[Allows you to display a post new thread block in your sidebar]]></phrase>
+  <phrase title="widget_def_desc.th_widget_login_uix" version_id="2000070" version_string="2.0.0"><![CDATA[Allows you to display a login bar in your sidebar, or any other widget location.]]></phrase>
+  <phrase title="widget_def_desc.thuix_socialMedia" version_id="2000670" version_string="2.0.6"><![CDATA[]]></phrase>
+  <phrase title="widget_pos.th_footer_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[UI.X: Extended footer]]></phrase>
+  <phrase title="widget_pos.th_sidebarNavigation_uix" version_id="2000031" version_string="2.0.0 Beta 1"><![CDATA[UI.X: Sidebar navigation]]></phrase>
+  <phrase title="widget_pos.thuix_index_page" version_id="2000671" version_string="2.0.6.1"><![CDATA[Forums default page: Sidebar]]></phrase>
+  <phrase title="widget_pos_desc.th_footer_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[]]></phrase>
+  <phrase title="widget_pos_desc.th_sidebarNavigation_uix" version_id="2000031" version_string="2.0.0 Beta 1"><![CDATA[]]></phrase>
+  <phrase title="widget_pos_desc.thuix_index_page" version_id="2000671" version_string="2.0.6.1"><![CDATA[Position in the sidebar while viewing the forums default page.]]></phrase>
+</phrases>

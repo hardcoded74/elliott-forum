@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<code_event_listeners>
+  <listener event_id="entity_structure" execute_order="10" callback_class="ThemeHouse\Nodes\Listener\EntityStructure" callback_method="xfNode" active="1" hint="XF\Entity\Node"/>
+  <listener event_id="templater_setup" execute_order="10" callback_class="\ThemeHouse\Nodes\Listener\TemplaterSetup" callback_method="run" active="1"/>
+</code_event_listeners>

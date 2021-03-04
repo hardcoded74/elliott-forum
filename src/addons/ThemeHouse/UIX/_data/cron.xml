@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cron>
+  <entry entry_id="th_updateCheck_uix" cron_class="\ThemeHouse\UIX\Cron\UpdateCheck" cron_method="run" active="1"><![CDATA[{"day_type":"dom","dom":[-1],"hours":[0,3,6,9,12,15,18,21],"minutes":[0]}]]></entry>
+</cron>

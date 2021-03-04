@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<routes>
+  <route route_type="admin" route_prefix="layout-separators" format=":int&lt;node_id,title&gt;/" controller="ThemeHouse\Nodes:LayoutSeparator" context="nodes"/>
+  <route route_type="admin" route_prefix="node-layout" format=":int&lt;node_id,title&gt;/" controller="ThemeHouse\Nodes:NodeLayout" context="th_nodeLayout_nodes"/>
+</routes>

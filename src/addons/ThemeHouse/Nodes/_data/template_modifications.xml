@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template_modifications>
+  <modification type="public" template="category_view" modification_key="th_category_view_wrapper_nodes" description="Wraps node list in &quot;thNodes__nodeList&quot; div, and loads necessary css for node styling" execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/<xf:if is="\$nodeTree">(.*?)<xf:else \/>/s]]></find>
+    <replace><![CDATA[<xf:if is="$nodeTree">
+<xf:if is="{{ property('th_enableGrid_nodes') }}">
+	<xf:include template="th_forum_list_grid_nodes" />
+	<div class="block thNodes__nodeList">
+</xf:if>
+$1
+<xf:if is="{{ property('th_enableGrid_nodes') }}">
+	</div>
+</xf:if>
+<xf:if is="{{ property('th_enableStyling_nodes') }} || {{ property('th_enableGrid_nodes') }}">
+	<xf:css src="th_nodeStyling_nodes.css" />
+</xf:if>
+<xf:else />
+]]></replace>
+  </modification>
+  <modification type="public" template="forum_list" modification_key="th_node_list_wrapper_nodes" description="Wraps node list in &quot;thNodes__nodeList&quot; div, and loads necessary css for node styling" execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<xf:macro name="node_list" arg-children="{$nodeTree}" arg-extras="{$nodeExtras}" />]]></find>
+    <replace><![CDATA[<xf:if is="{{ property('th_enableGrid_nodes') }}">
+	<xf:include template="th_forum_list_grid_nodes" />
+	<div class="block thNodes__nodeList">
+</xf:if>
+$0
+<xf:if is="{{ property('th_enableGrid_nodes') }}">
+	</div>
+</xf:if>
+
+<xf:if is="{{ property('th_enableStyling_nodes') }} || {{ property('th_enableGrid_nodes') }}">
+		<xf:css src="th_nodeStyling_nodes.css" />
+</xf:if>]]></replace>
+  </modification>
+  <modification type="public" template="forum_view" modification_key="th_forum_view_wrapper_nodes" description="Wraps node list in &quot;thNodes__nodeList&quot; div, and loads necessary css for node styling" execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/<xf:ad position="forum_view_above_node_list" arg-forum="{\$forum}" \/>(.*?)<xf:ad position="forum_view_below_node_list" arg-forum="{\$forum}" \/>/s]]></find>
+    <replace><![CDATA[<xf:ad position="forum_view_above_node_list" arg-forum="{$forum}" />
+<xf:if is="{{ property('th_enableGrid_nodes') }}">
+	<xf:include template="th_forum_list_grid_nodes" />
+	<div class="block thNodes__nodeList">
+</xf:if>
+$1
+<xf:if is="{{ property('th_enableGrid_nodes') }}">
+	</div>
+</xf:if>
+<xf:ad position="forum_view_below_node_list" arg-forum="{$forum}" />
+<xf:if is="{{ property('th_enableStyling_nodes') }} || {{ property('th_enableGrid_nodes') }}">
+	<xf:css src="th_nodeStyling_nodes.css" />
+</xf:if>]]></replace>
+  </modification>
+  <modification type="public" template="node_list.less" modification_key="th_node_list_less_nodes" description="Adds additional css for node grid" execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/$/]]></find>
+    <replace><![CDATA[<xf:if is="{{ property('th_enableGrid_nodes') }}">
+	<xf:include template="th_node_list_grid_nodes.less" />
+</xf:if>
+<xf:if is="{{ property('th_enableStyling_nodes') }}">
+	<xf:include template="th_node_list_style_nodes.less" />
+</xf:if>
+
+<xf:include template="th_node_list_icons_nodes.less" />]]></replace>
+  </modification>
+  <modification type="public" template="node_list_category" modification_key="th_node_list_category_nodeIcon_nodes" description="Adds node icon markup" execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/node-icon(.*?)<i(.*?)>/]]></find>
+    <replace><![CDATA[$0 {{ th_nodeicon_nodes($node, $extras) }}]]></replace>
+  </modification>
+  <modification type="public" template="node_list_category" modification_key="th_node_list_category_stylingOptions_nodes" description="Adds node styling class to category" execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/(block\-container|node--depth{\$depth})/]]></find>
+    <replace><![CDATA[$0 {{ th_nodeclasses_nodes($node, $extras) }}]]></replace>
+  </modification>
+  <modification type="public" template="node_list_category" modification_key="th_node_list_category_nodeHeaderFooter_nodes" description="Wraps category in &quot;thNodes__nodeHeader&quot; div and adds node footer" execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/<span class="node-icon(.*?)property\('nodeListSubDisplay'\) == 'flat'">(.*?)<\/div>/s]]></find>
+    <replace><![CDATA[<xf:if is="{{ property('th_enableGrid_nodes') }}">
+	<div class="thNodes__nodeHeader">
+</xf:if>
+$0
+<xf:if is="{{ property('th_enableGrid_nodes') }}">
+	</div>
+	<xf:macro template="th_node_macros_nodes" name="node_list_item_footer" arg-node="{$node}" />
+</xf:if>]]></replace>
+  </modification>
+  <modification type="public" template="node_list_forum" modification_key="th_node_list_forum_stylingOptions_nodes" description="Adds node styling class to forum" execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/(block\-container|node--depth{\$depth})/]]></find>
+    <replace><![CDATA[$0 {{ th_nodeclasses_nodes($node, $extras) }}]]></replace>
+  </modification>
+  <modification type="public" template="node_list_forum" modification_key="th_node_list_forum_nodeIcon_nodes" description="Adds node icon markup" execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/node-icon(.*?)<i(.*?)>/]]></find>
+    <replace><![CDATA[$0 {{ th_nodeicon_nodes($node, $extras) }}]]></replace>
+  </modification>
+  <modification type="public" template="node_list_forum" modification_key="th_node_list_forum_nodeHeaderFooter_nodes" description="Wraps forum in &quot;thNodes__nodeHeader&quot; div and adds node footer" execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/<span class="node-icon(.*?){\$bonusInfo}<\/div>(.*?)<\/div>/s]]></find>
+    <replace><![CDATA[<xf:if is="{{ property('th_enableGrid_nodes') }}">
+	<div class="thNodes__nodeHeader">
+</xf:if>
+$0
+<xf:if is="{{ property('th_enableGrid_nodes') }}">
+	</div>
+	<xf:macro template="th_node_macros_nodes" name="node_list_item_footer" arg-node="{$node}" />
+</xf:if>]]></replace>
+  </modification>
+  <modification type="public" template="node_list_link_forum" modification_key="th_node_list_link_forum_nodeHeaderFooter_nodes" description="Wraps link forum in &quot;thNodes__nodeHeader&quot; div" execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/<span class="node-icon(.*?)name="sub_nodes_flat"(.*?)<\/div>(.*?)<\/div>/s]]></find>
+    <replace><![CDATA[<xf:if is="{{ property('th_enableGrid_nodes') }}"><div class="thNodes__nodeHeader"></xf:if>
+$0
+<xf:if is="{{ property('th_enableGrid_nodes') }}"></div></xf:if>]]></replace>
+  </modification>
+  <modification type="public" template="node_list_link_forum" modification_key="th_node_list_link_forum_stylingOptions_nodes" description="Adds node styling class to link forum" execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/(block\-container|node--depth{\$depth})/]]></find>
+    <replace><![CDATA[$0 {{ th_nodeclasses_nodes($node, $extras) }}]]></replace>
+  </modification>
+  <modification type="public" template="node_list_link_forum" modification_key="th_node_list_link_forum_nodeIcon_nodes" description="Adds node icon markup" execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/node-icon(.*?)<i(.*?)>/]]></find>
+    <replace><![CDATA[$0 {{ th_nodeicon_nodes($node, $extras) }}]]></replace>
+  </modification>
+  <modification type="public" template="node_list_page" modification_key="th_node_list_page_nodeHeaderFooter_nodes" description="Wraps page node in &quot;thNodes__nodeHeader&quot; div" execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/<span class="node-icon(.*?)name="sub_nodes_flat"(.*?)<\/div>(.*?)<\/div>/s]]></find>
+    <replace><![CDATA[<xf:if is="{{ property('th_enableGrid_nodes') }}"><div class="thNodes__nodeHeader"></xf:if>
+$0
+<xf:if is="{{ property('th_enableGrid_nodes') }}"></div></xf:if>]]></replace>
+  </modification>
+  <modification type="public" template="node_list_page" modification_key="th_node_list_page_nodeIcon_nodes" description="Adds node icon markup" execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/node-icon(.*?)<i(.*?)>/]]></find>
+    <replace><![CDATA[$0 {{ th_nodeicon_nodes($node, $extras) }}]]></replace>
+  </modification>
+  <modification type="public" template="node_list_page" modification_key="th_node_list_page_stylingOptions_nodes" description="Adds node styling class to page node" execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/(block\-container|node--depth{\$depth})/]]></find>
+    <replace><![CDATA[$0 {{ th_nodeclasses_nodes($node, $extras) }}]]></replace>
+  </modification>
+</template_modifications>

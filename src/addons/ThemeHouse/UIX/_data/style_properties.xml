@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style_properties>
+  <style_property property_name="th_uix_staffMessageBlock" group_name="th_uix_staffMessages" title="Staff message container" property_type="css" display_order="100" css_components="text,background,border,border_radius,padding,extra">
+    <value>[]</value>
+  </style_property>
+  <style_property property_name="th_uix_staffMessageNewIndicator" group_name="th_uix_staffMessages" title="Staff message new message indicator" description="Usually a small token attached to the message block, the indicator that a message is new/unread is controlled here" property_type="css" display_order="300" css_components="text,background,border,border_radius,padding,extra">
+    <value>[]</value>
+  </style_property>
+  <style_property property_name="th_uix_staffMessageSignature" group_name="th_uix_staffMessages" title="Staff message indicator" description="Any rules used to apply styling to users' signatures in their messages are defined here" property_type="css" display_order="300" css_components="text,background,border,border_radius,padding,extra">
+    <value>[]</value>
+  </style_property>
+  <style_property property_name="th_uix_staffMessageUserBlock" group_name="th_uix_staffMessages" title="Staff message user info block" description="Apart from its width, the (left) message user info column is styled here" property_type="css" display_order="200" css_components="text,background,border,border_radius,padding,extra">
+    <value>[]</value>
+  </style_property>
+  <style_property property_name="th_uix_threadStarterMessageBlock" group_name="th_uix_threadStarterMessages" title="Thread starter message container" property_type="css" display_order="100" css_components="text,background,border,border_radius,padding,extra">
+    <value>[]</value>
+  </style_property>
+  <style_property property_name="th_uix_threadStarterMessageNewIndicator" group_name="th_uix_threadStarterMessages" title="Thread starter message new message indicator" description="Usually a small token attached to the message block, the indicator that a message is new/unread is controlled here" property_type="css" display_order="300" css_components="text,background,border,border_radius,padding,extra">
+    <value>[]</value>
+  </style_property>
+  <style_property property_name="th_uix_threadStarterMessageSignature" group_name="th_uix_threadStarterMessages" title="Thread starter message indicator" description="Any rules used to apply styling to users' signatures in their messages are defined here" property_type="css" display_order="400" css_components="text,background,border,border_radius,padding,extra">
+    <value>[]</value>
+  </style_property>
+  <style_property property_name="th_uix_threadStarterMessageUserBlock" group_name="th_uix_threadStarterMessages" title="Thread starter message user info block" description="Apart from its width, the (left) message user info column is styled here" property_type="css" display_order="200" css_components="text,background,border,border_radius,padding,extra">
+    <value>[]</value>
+  </style_property>
+  <style_property property_name="thuix_webapp_backgroundColor" group_name="misc" title="Web app background color" description="This color is used on the splash screen when the web application is first launched." property_type="value" value_type="color" display_order="901">
+    <value>"@xf-publicHeader--background-color"</value>
+  </style_property>
+  <style_property property_name="thuix_webapp_icon192x192" group_name="misc" title="Web app icon (192x192)" description="Icon should be in png format. Icons are used in places like the home screen, app launcher, task switcher, splash screen, etc." property_type="value" value_type="string" display_order="910">
+    <value>""</value>
+  </style_property>
+  <style_property property_name="thuix_webapp_icon512x512" group_name="misc" title="Web app icon (512x512)" description="Icon should be in png format. Icons are used in places like the home screen, app launcher, task switcher, splash screen, etc." property_type="value" value_type="string" display_order="910">
+    <value>""</value>
+  </style_property>
+</style_properties>

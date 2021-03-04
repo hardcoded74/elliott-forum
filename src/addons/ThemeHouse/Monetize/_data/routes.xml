@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<routes>
+  <route route_type="admin" route_prefix="affiliate-links" format=":int&lt;affiliate_link_id,title&gt;/" controller="ThemeHouse\Monetize:AffiliateLink" context="thMonetize_affiliateLinks"/>
+  <route route_type="admin" route_prefix="keywords" format=":int&lt;keyword_id,title&gt;/" controller="ThemeHouse\Monetize:Keyword" context="thMonetize_keywords"/>
+  <route route_type="admin" route_prefix="logs" sub_name="monetize-alert" format="monetize-alert/:int&lt;alert_log_id&gt;/" controller="XF:Log" context="thMonetize_alertLog" action_prefix="monetizeAlert"/>
+  <route route_type="admin" route_prefix="logs" sub_name="monetize-email" format="monetize-email/:int&lt;email_log_id&gt;/" controller="XF:Log" context="thMonetize_emailLog" action_prefix="monetizeEmail"/>
+  <route route_type="admin" route_prefix="logs" sub_name="monetize-message" format="monetize-message/:int&lt;message_log_id&gt;/" controller="XF:Log" context="thMonetize_messageLog" action_prefix="monetizeMessage"/>
+  <route route_type="admin" route_prefix="monetize" controller="ThemeHouse\Monetize:Monetize" context="thMonetize"/>
+  <route route_type="admin" route_prefix="monetize-alerts" format=":int&lt;alert_id,title&gt;/" controller="ThemeHouse\Monetize:Alert" context="thMonetize_alerts"/>
+  <route route_type="admin" route_prefix="monetize-emails" format=":int&lt;email_id,title&gt;/" controller="ThemeHouse\Monetize:Email" context="thMonetize_emails"/>
+  <route route_type="admin" route_prefix="monetize-messages" format=":int&lt;message_id,title&gt;/" controller="ThemeHouse\Monetize:Message" context="thMonetize_messages"/>
+  <route route_type="admin" route_prefix="sponsors" format=":int&lt;th_sponsor_id,title&gt;/" controller="ThemeHouse\Monetize:Sponsor" context="thMonetize_sponsors"/>
+  <route route_type="admin" route_prefix="upgrade-pages" format=":int&lt;upgrade_page_id,title&gt;/" controller="ThemeHouse\Monetize:UpgradePage" context="thMonetize_upgradePages"/>
+  <route route_type="public" route_prefix="affiliate-links" controller="ThemeHouse\Monetize:AffiliateLink"/>
+  <route route_type="public" route_prefix="sponsors" controller="ThemeHouse\Monetize:Sponsors"/>
+</routes>

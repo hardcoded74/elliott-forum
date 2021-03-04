@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<addon addon_id="RegisterEmail" title="Register Email" version_string="3.5" version_id="1" url="" install_callback_class="" install_callback_method="" uninstall_callback_class="" uninstall_callback_method="">
+  <admin_navigation/>
+  <admin_permissions/>
+  <admin_style_properties/>
+  <admin_templates/>
+  <admin_template_modifications/>
+  <code_events/>
+  <code_event_listeners>
+    <listener event_id="load_class_controller" execute_order="10" callback_class="Andy_RegisterEmail_Listener" callback_method="Register" active="1" hint="XenForo_ControllerPublic_Register" description="Register Email looad_class_controller"/>
+  </code_event_listeners>
+  <cron/>
+  <email_templates>
+    <template title="registeremail_contact">
+      <subject><![CDATA[{xen:phrase contact_email_subject, 'subject={$subject}', 'board_title={$xenOptions.boardTitle}'}]]></subject>
+      <body_text><![CDATA[{xen:phrase contact_email_body_text,
+	'name={$user.username}',
+	'user_id={$user.user_id}',
+	'email={$user.email}',
+	'subject={$subject}',
+	'message={$message}',
+	'board_title={$xenOptions.boardTitle}'
+}]]></body_text>
+      <body_html><![CDATA[<h2 style="font-size: 18pt; font-weight: normal; margin: 10px 0">{$subject}</h2>
+
+<hr style="height: 1px; margin: 10px 0; border: 0; color: #D7EDFC; background-color: #D7EDFC" />
+
+<table cellpadding="0" cellspacing="0" border="0">
+<tr valign="top">
+<xen:if is="{$user.user_id}">
+<td style="font-size: 13px; line-height: 1.231; padding-{xen:if $emailIsRtl, left, right}: 20px">
+	<a href="{xen:link canonical:members, $user}" title="{$user.username}" style="color: #176093; text-decoration: none; font-size: 9px; display: block; background-color: #D7EDFC; border: 1px solid #D7EDFC; border-radius: 5px">
+		<span style="display: block; background-color: #F0F7FC; padding: 5px; border-radius: 4px">
+			<img src="{xen:helper avatar, $user, s, '', 1}" alt="{$user.username}" title="{$user.username}" style="display: block; width: 48px; height: 48px; background-color: #FCFCFF; border: 1px solid #A5CAE4; padding: 2px; border-radius: 4px" />
+		</span>
+		<span style="padding: 3px 5px; display: block"><!--{$user.username}-->&nbsp;</span>
+	</a>
+</td>
+</xen:if>
+<td style="font-family: Georgia, 'Times New Roman', Times, serif; font-size: 11pt; line-height: 1.4">
+	{xen:raw $message}
+</td>	
+</tr>
+</table>
+
+<hr style="height: 1px; margin: 10px 0; border: 0; color: #D7EDFC; background-color: #D7EDFC" />]]></body_html>
+    </template>
+  </email_templates>
+  <email_template_modifications/>
+  <optiongroups>
+    <group group_id="RegisterEmail" display_order="4000" debug_only="0"/>
+    <option option_id="registerEmailCustomUserFields" edit_format="textbox" data_type="string" can_backup="1">
+      <default_value></default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="RegisterEmail" display_order="3"/>
+    </option>
+    <option option_id="registerEmailEmailFromUsername" edit_format="textbox" data_type="string" can_backup="1">
+      <default_value></default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="RegisterEmail" display_order="1"/>
+    </option>
+    <option option_id="registerEmailEmailTo" edit_format="textbox" data_type="string" can_backup="1">
+      <default_value></default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="RegisterEmail" display_order="2"/>
+    </option>
+    <option option_id="registerEmailLanguageId" edit_format="spinbox" data_type="numeric" can_backup="1">
+      <default_value>1</default_value>
+      <edit_format_params>min=1</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="RegisterEmail" display_order="5"/>
+    </option>
+    <option option_id="registerEmailLocation" edit_format="onoff" data_type="boolean" can_backup="1">
+      <default_value>1</default_value>
+      <edit_format_params></edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="RegisterEmail" display_order="4"/>
+    </option>
+  </optiongroups>
+  <permissions>
+    <permission_groups/>
+    <permissions/>
+    <interface_groups/>
+  </permissions>
+  <phrases>
+    <phrase title="option_group_RegisterEmail" version_id="1" version_string="1.0"><![CDATA[Register Email]]></phrase>
+    <phrase title="option_group_RegisterEmail_description" version_id="1" version_string="1.0"><![CDATA[Options here control the Register Email add-on.]]></phrase>
+    <phrase title="option_registerEmailCustomUserFields" version_id="1" version_string="1.8"><![CDATA[Custom User Fields]]></phrase>
+    <phrase title="option_registerEmailCustomUserFields_explain" version_id="1" version_string="2.9"><![CDATA[Enter Custom User Field IDs here. Only textbox fields are supported. Separate each Custom User Field ID with a comma.]]></phrase>
+    <phrase title="option_registerEmailEmailFromUsername" version_id="1" version_string="1.8"><![CDATA[Email From Username]]></phrase>
+    <phrase title="option_registerEmailEmailFromUsername_explain" version_id="1" version_string="2.9"><![CDATA[Emails will be shown sent by this name.]]></phrase>
+    <phrase title="option_registerEmailEmailTo" version_id="1" version_string="1.8"><![CDATA[Email To]]></phrase>
+    <phrase title="option_registerEmailEmailTo_explain" version_id="1" version_string="1.8"><![CDATA[Example: example@example.com
+<br />
+<br />
+If you would like to send multiple Register Emails, add them here. Separate each email address with a comma.]]></phrase>
+    <phrase title="option_registerEmailLanguageId" version_id="1" version_string="2.9"><![CDATA[Language ID]]></phrase>
+    <phrase title="option_registerEmailLanguageId_explain" version_id="1" version_string="2.9"><![CDATA[Emails will be sent using this Language ID.]]></phrase>
+    <phrase title="option_registerEmailLocation" version_id="1" version_string="2.0"><![CDATA[Location]]></phrase>
+    <phrase title="option_registerEmailLocation_explain" version_id="1" version_string="2.0"><![CDATA[Show location based on IP address.]]></phrase>
+    <phrase title="registeremail_email" version_id="1" version_string="1.8"><![CDATA[Email:]]></phrase>
+    <phrase title="registeremail_ip_address" version_id="1" version_string="2.1"><![CDATA[IP address:]]></phrase>
+    <phrase title="registeremail_location_determined_by_ip" version_id="1" version_string="2.3"><![CDATA[Location determined by IP:]]></phrase>
+    <phrase title="registeremail_location_entered" version_id="1" version_string="3.2"><![CDATA[Location entered:]]></phrase>
+    <phrase title="registeremail_new_registration_for" version_id="1" version_string="1.8"><![CDATA[New registration for]]></phrase>
+    <phrase title="registeremail_search_by_ip_address" version_id="1" version_string="2.1"><![CDATA[Search by IP address:]]></phrase>
+    <phrase title="registeremail_users_profile" version_id="1" version_string="2.9"><![CDATA[Users profile:]]></phrase>
+    <phrase title="registeremail_user_id" version_id="1" version_string="1.8"><![CDATA[User ID:]]></phrase>
+    <phrase title="registeremail_user_name" version_id="1" version_string="3.1"><![CDATA[User name:]]></phrase>
+    <phrase title="regsiteremail_userid" version_id="1" version_string="1.8"><![CDATA[User ID:]]></phrase>
+    <phrase title="userid" version_id="1" version_string="1.0"><![CDATA[UserID]]></phrase>
+  </phrases>
+  <route_prefixes/>
+  <style_properties/>
+  <templates/>
+  <public_template_modifications/>
+  <bb_code_media_sites/>
+  <bb_codes/>
+</addon>

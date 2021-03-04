@@ -1,0 +1,19 @@
+{
+    "legacy_addon_id": "",
+    "title": "[TH] Monetize",
+    "description": "The tools you need to monetize your forum",
+    "version_id": 1000291,
+    "version_string": "1.0.2 Patch Level 1",
+    "dev": "ThemeHouse",
+    "dev_url": "https://www.themehouse.com",
+    "faq_url": "https://www.themehouse.com/help/documentation/monetize/faqs",
+    "support_url": "https://www.themehouse.com/contact/support",
+    "extra_urls": [],
+    "require": {
+        "XF": [
+            2010010,
+            "XenForo 2.1.0+"
+        ]
+    },
+    "icon": "icon.png"
+}

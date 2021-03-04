@@ -1,0 +1,9 @@
+/*
+ * XenForo acp_nav.min.js
+ * Copyright 2010-2016 XenForo Ltd.
+ * Released under the XenForo License Agreement: http://xenforo.com/license-agreement
+ */
+(function(a,e,j){XenForo.acpNavInit=function(){var b=a("#sideNav"),f=a("#body"),c=a("#tabsNav .acpTabs"),g=b.hasClass("active"),i=!1,d=XenForo.isRTL()?"right":"left",k=function(a){var b={};b[d]=a;return b},h=function(a){!i&&a!=g&&(i=!0,a?(b.addClass("active"),l(),b.css(d,-b.width()).animate(k(0),function(){b.css(d,"");g=!0;i=!1})):b.animate(k(-b.width()),function(){b.css(d,"").removeClass("active");i=g=!1}))},l=function(){if(f.length){var c=b.css("height","").height(),d=Math.max(f.height(),a(e).height()-
+f.offset().top);d&&c<d&&b.css("height",d)}};a(j).on("click",".AcpSidebarToggler",function(a){a.preventDefault();h(g?!1:!0)});a(j).on("click",".AcpSidebarCloser",function(a){a.preventDefault();h(!1)});a(e).resize(function(){g&&l()});var m=function(){if(c.length){var a=c[0];c.removeClass("withNoLinks");a.scrollHeight>=c.height()*1.1?(b.addClass("withSections"),c.addClass("withNoLinks")):b.removeClass("withSections")}};m();a(e).resize(function(){m()})};var h=!1;a(e).on("load",function(){if(!h&&e.location.hash){var b=
+a("#header");if(b.css("position")=="fixed"){var f=a.browser.webkit||a.browser.mozilla&&!navigator.userAgent.match(/Trident\//)?0:50;setTimeout(function(){var c=e.location.hash.replace(/[^a-zA-Z0-9_-]/g,""),c=c?a("#"+c):a();c.length&&(c.parents().filter(function(b,c){var d=a(c),e=d.css("max-height");if(d.is("body, html"))return!1;return e&&e!="none"&&(e=d.css("overflow"),d=d.css("overflow-y"),e=="auto"||e=="scroll"||d=="auto"||d=="scroll")?!0:!1}).length?c.get(0).scrollIntoView(!0):(c=c.offset().top-
+b.outerHeight(),a("html, body").animate({scrollTop:c},0)))},f)}}});a(function(){XenForo.acpNavInit();if(e.location.hash)a(e).one("scroll",function(){h=!0})})})(jQuery,this,document);

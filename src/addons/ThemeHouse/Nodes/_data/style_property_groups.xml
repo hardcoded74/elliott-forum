@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style_property_groups>
+  <style_property_group group_name="th_grid_nodes" title="[TH] Nodes: grid" display_order="2050"/>
+  <style_property_group group_name="th_styling_nodes" title="[TH] Nodes: styling" display_order="2050"/>
+</style_property_groups>

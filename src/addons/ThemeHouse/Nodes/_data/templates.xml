@@ -1,0 +1,612 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+  <template type="public" title="th_forum_list_grid_nodes" version_id="1000070" version_string="1.0.0"><![CDATA[
+<xf:js src="themehouse/global/20180112.js" min="themehouse/global/20180112.js"/>
+<xf:js src="themehouse/nodes/index.js" min="themehouse/nodes/index.js" addon="ThemeHouse/Nodes"/>
+
+<xf:js>
+	{{ th_grid_config_nodes() }}
+
+	window.themehouse.nodes.ele = new window.themehouse.nodes.grid({
+		layout: window.themehouse.nodes.grid_options,
+		settings: {
+
+		},
+	});
+
+	window.themehouse.nodes.ele.register();
+</xf:js>
+]]></template>
+  <template type="admin" title="th_layoutSeparator_nodes_delete" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[<xf:title>{{ phrase('confirm_action') }}</xf:title>
+
+<xf:form action="{{ link('layout-separators/delete', $node) }}" ajax="true" class="block">
+	<div class="block-container">
+		<div class="block-body">
+			<xf:inforow rowtype="confirm">
+				{{ phrase('please_confirm_want_to_delete_forum_and_discussions:') }}
+				<strong><a href="{{ link('layout-separators/edit', $node) }}">{$node.title}</a></strong>
+			</xf:inforow>
+
+			<xf:macro template="helper_node_delete_children" name="delete_row" arg-node="{$node}" arg-nodeTree="{$nodeTree}" />
+		</div>
+		<xf:submitrow rowtype="{{ !$node.hasChildren() ? 'simple' : '' }}" icon="delete" />
+	</div>
+	<xf:redirect />
+</xf:form>]]></template>
+  <template type="admin" title="th_layoutSeparator_nodes_edit" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[<xf:if is="$layoutSeparator.isInsert()">
+	<xf:title>{{ phrase('th_add_layout_separator_nodes') }}</xf:title>
+	<xf:else />
+	<xf:title>{{ phrase('th_edit_layout_separator_nodes:') }} {$node.title}</xf:title>
+</xf:if>
+
+<xf:pageaction if="$layoutSeparator.isUpdate()">
+	<xf:button href="{{ link('layout-separators/delete', $node) }}" icon="delete" overlay="true" />
+</xf:pageaction>
+
+<xf:form action="{{ link('layout-separators/save', $node) }}" ajax="true" class="block">
+	<div class="block-container">
+		<div class="block-body">
+			<xf:macro template="node_edit_macros" name="title" arg-node="{$node}" />
+
+			<hr class="formRowSep" />
+			<xf:macro template="node_edit_macros" name="position" arg-node="{$node}" arg-nodeTree="{$nodeTree}" />
+			<hr class="formRowSep" />
+
+			<xf:comment>
+				<xf:selectrow label="{{ phrase('th_separator_type_nodes') }}" name="separator_type" value="{$layoutSeparator.separator_type}">
+					<xf:option value="grid">{{ phrase('th_grid_layout_nodes') }}</xf:option>
+					<xf:option value="collapse">{{ phrase('th_collapse_nodes') }}</xf:option>
+				</xf:selectrow>
+
+				<xf:numberboxrow label="{{ phrase('th_separator_max_width_nodes') }}" name="separator_max_width" value="{$layoutSeparator.separator_max_width}" />
+			</xf:comment>
+			<hr class="formRowSep" />
+
+			<xf:formrow>
+				<p class="u-muted">
+					{{ phrase('th_layout_separator_grid_hint') }}
+				</p>
+			</xf:formrow>
+			<xf:macro template="th_node_layout_edit_nodes" name="grid_options" arg-nodeStyling="{$nodeStyling}" arg-autoEnable="1" />
+		</div>
+		<xf:submitrow icon="save" sticky="true" />
+	</div>
+</xf:form>
+]]></template>
+  <template type="admin" title="th_node_layout_edit_nodes" version_id="1000211" version_string="1.0.2 Alpha 1"><![CDATA[<xf:title>{{ phrase('th_edit_node_layout_styling_nodes:') }} {$node.title}</xf:title>
+
+<xf:form action="{{ link('node-layout/save', $node) }}" class="block" ajax="true">
+	<div class="block-container">
+		<h3 class="block-header"><span class="collapseTrigger collapseTrigger--block is-active" data-xf-click="toggle" data-target="< :up:next">
+			{{ phrase('th_node_styling_nodes') }}
+		</span></h3>
+		<div class="block-body block-body--collapsible is-active">
+			<xf:checkboxrow label="{{ phrase('th_node_class_nodes') }}" hint="{{ th_inheritedstylingvalue_nodes($node, $style, 'styling_options', 'class_name')}}">
+				<xf:option name="styling_options[class_name][enable]" selected="{$nodeStyling.styling_options.class_name.enable}"
+						   label="{{ phrase('th_use_custom_value_nodes') }}">
+					<xf:textbox name="styling_options[class_name][value]" value="{$nodeStyling.styling_options.class_name.value}" />
+				</xf:option>
+			</xf:checkboxrow>
+			<xf:checkboxrow label="{{ phrase('th_background_image_url_nodes') }}" hint="{{ th_inheritedstylingvalue_nodes($node, $style, 'styling_options', 'background_image_url')}}">
+				<xf:option name="styling_options[background_image_url][enable]" selected="{$nodeStyling.styling_options.background_image_url.enable}"
+						   label="{{ phrase('th_use_custom_value_nodes') }}">
+					<xf:textbox name="styling_options[background_image_url][value]" value="{$nodeStyling.styling_options.background_image_url.value}" />
+				</xf:option>
+			</xf:checkboxrow>
+			<xf:checkboxrow label="{{ phrase('th_background_color_nodes') }}" hint="{{ th_inheritedstylingvalue_nodes($node, $style, 'styling_options', 'background_color')}}">
+				<xf:option name="styling_options[background_color][enable]" selected="{$nodeStyling.styling_options.background_color.enable}"
+						   label="{{ phrase('th_use_custom_value_nodes') }}">
+					<xf:textbox name="styling_options[background_color][value]" value="{$nodeStyling.styling_options.background_color.value}" />
+				</xf:option>
+			</xf:checkboxrow>
+			<xf:checkboxrow label="{{ phrase('text_color') }}" hint="{{ th_inheritedstylingvalue_nodes($node, $style, 'styling_options', 'text_color')}}">
+				<xf:option name="styling_options[text_color][enable]" selected="{$nodeStyling.styling_options.text_color.enable}"
+						   label="{{ phrase('th_use_custom_value_nodes') }}">
+					<xf:textbox name="styling_options[text_color][value]" value="{$nodeStyling.styling_options.text_color.value}" />
+				</xf:option>
+			</xf:checkboxrow>
+			<xf:checkboxrow label="{{ phrase('th_retain_text_styling_nodes') }}" hint="{{ th_inheritedstylingvalue_nodes($node, $style, 'styling_options', 'retain_text_styling')}}">
+				<xf:option name="styling_options[retain_text_styling][enable]" selected="{$nodeStyling.styling_options.retain_text_styling.enable}"
+						   label="{{ phrase('th_use_custom_value_nodes') }}">
+					<xf:select name="styling_options[retain_text_styling][value]" value="{$nodeStyling.styling_options.retain_text_styling.value}">
+						<xf:option value="0">{{ phrase('no') }}</xf:option>
+						<xf:option value="1">{{ phrase('yes') }}</xf:option>
+					</xf:select>
+				</xf:option>
+			</xf:checkboxrow>
+		</div>
+
+		<xf:if is="!$node.depth || $node.node_type_id === 'LayoutSeparator'">
+			<h3 class="block-header"><span class="collapseTrigger collapseTrigger--block" data-xf-click="toggle" data-target="< :up:next">
+				{{ phrase('th_node_grid_nodes') }}
+			</span></h3>
+			<div class="block-body block-body--collapsible">
+				<xf:macro name="grid_options" arg-nodeStyling="{$nodeStyling}" arg-style="{$style}" />
+			</div>
+		</xf:if>
+
+		<h3 class="block-header"><span class="collapseTrigger collapseTrigger--block" data-xf-click="toggle" data-target="< :up:next">
+			{{ phrase('th_node_icons_nodes') }}
+		</span></h3>
+		<div class="block-body block-body--collapsible">
+			<xf:checkboxrow label="{{ phrase('th_category_icon_class_nodes') }}" hint="{{ th_inheritedstylingvalue_nodes($node, $style, 'styling_options', 'category_icon_class')}}">
+				<xf:option name="styling_options[category_icon_class][enable]" selected="{$nodeStyling.styling_options.category_icon_class.enable}"
+						   label="{{ phrase('th_use_custom_value_nodes') }}">
+					<xf:textbox name="styling_options[category_icon_class][value]" value="{$nodeStyling.styling_options.category_icon_class.value}" />
+				</xf:option>
+			</xf:checkboxrow>
+			<xf:checkboxrow label="{{ phrase('th_category_icon_class_unread_nodes') }}" hint="{{ th_inheritedstylingvalue_nodes($node, $style, 'styling_options', 'category_icon_class_unread')}}">
+				<xf:option name="styling_options[category_icon_class_unread][enable]" selected="{$nodeStyling.styling_options.category_icon_class_unread.enable}"
+						   label="{{ phrase('th_use_custom_value_nodes') }}">
+					<xf:textbox name="styling_options[category_icon_class_unread][value]" value="{$nodeStyling.styling_options.category_icon_class_unread.value}" />
+				</xf:option>
+			</xf:checkboxrow>
+			<xf:checkboxrow label="{{ phrase('th_forum_icon_class_nodes') }}" hint="{{ th_inheritedstylingvalue_nodes($node, $style, 'styling_options', 'forum_icon_class')}}">
+				<xf:option name="styling_options[forum_icon_class][enable]" selected="{$nodeStyling.styling_options.forum_icon_class.enable}"
+						   label="{{ phrase('th_use_custom_value_nodes') }}">
+					<xf:textbox name="styling_options[forum_icon_class][value]" value="{$nodeStyling.styling_options.forum_icon_class.value}" />
+				</xf:option>
+			</xf:checkboxrow>
+			<xf:checkboxrow label="{{ phrase('th_forum_icon_class_unread_nodes') }}" hint="{{ th_inheritedstylingvalue_nodes($node, $style, 'styling_options', 'forum_icon_class_unread')}}">
+				<xf:option name="styling_options[forum_icon_class_unread][enable]" selected="{$nodeStyling.styling_options.forum_icon_class_unread.enable}"
+						   label="{{ phrase('th_use_custom_value_nodes') }}">
+					<xf:textbox name="styling_options[forum_icon_class_unread][value]" value="{$nodeStyling.styling_options.forum_icon_class_unread.value}" />
+				</xf:option>
+			</xf:checkboxrow>
+			<xf:checkboxrow label="{{ phrase('th_page_icon_class_nodes') }}" hint="{{ th_inheritedstylingvalue_nodes($node, $style, 'styling_options', 'page_icon_class')}}">
+				<xf:option name="styling_options[page_icon_class][enable]" selected="{$nodeStyling.styling_options.page_icon_class.enable}"
+						   label="{{ phrase('th_use_custom_value_nodes') }}">
+					<xf:textbox name="styling_options[page_icon_class][value]" value="{$nodeStyling.styling_options.page_icon_class.value}" />
+				</xf:option>
+			</xf:checkboxrow>
+			<xf:checkboxrow label="{{ phrase('th_link_forum_icon_class_nodes') }}" hint="{{ th_inheritedstylingvalue_nodes($node, $style, 'styling_options', 'link_forum_icon_class')}}">
+				<xf:option name="styling_options[link_forum_icon_class][enable]" selected="{$nodeStyling.styling_options.link_forum_icon_class.enable}"
+						   label="{{ phrase('th_use_custom_value_nodes') }}">
+					<xf:textbox name="styling_options[link_forum_icon_class][value]" value="{$nodeStyling.styling_options.link_forum_icon_class.value}" />
+				</xf:option>
+			</xf:checkboxrow>
+		</div>
+
+		<xf:hiddenval name="style_id" value="{$style.style_id}" />
+		<xf:submitrow sticky="true" icon="save" />
+	</div>
+</xf:form>
+
+<xf:macro name="grid_options" arg-nodeStyling="!" arg-style="{{ NULL }}" arg-autoEnable="{{ false }}">
+	<xf:if is="$autoEnable">
+		<xf:hiddenval name="grid_options[max_columns][enable]" value="1" />
+		<xf:hiddenval name="grid_options[min_column_width][enable]" value="1" />
+		<xf:hiddenval name="grid_options[fill_last_row][enable]" value="1" />
+
+		<xf:textboxrow label="{{ phrase('th_maximum_columns_nodes') }}" name="grid_options[max_columns][value]" value="{$nodeStyling.grid_options.max_columns.value}" hint="{{ th_inheritedstylingvalue_nodes($node, $style, 'grid_options', 'max_columns') }}" />
+
+		<xf:textboxrow label="{{ phrase('th_minimum_column_width_nodes') }}" name="grid_options[min_column_width][value]" value="{$nodeStyling.grid_options.min_column_width.value}" hint="{{ th_inheritedstylingvalue_nodes($node, $style, 'grid_options', 'min_column_width') }}" />
+
+		<xf:selectrow label="{{ phrase('th_fill_last_row_nodes') }}" name="grid_options[fill_last_row][value]" value="{$nodeStyling.grid_options.fill_last_row.value}" hint="{{ th_inheritedstylingvalue_nodes($node, $style, 'grid_options', 'fill_last_row') }}">
+			<xf:option value="0">{{ phrase('th_divide_last_row_into_equal_widths_nodes') }}</xf:option>
+			<xf:option value="1">{{ phrase('th_dont_fill_nodes') }}</xf:option>
+			<xf:option value="2">{{ phrase('th_divide_last_row_according_to_lower_number_of_columns_nodes') }}</xf:option>
+			<xf:option value="3">{{ phrase('th_make_remaining_nodes_full_width_on_own_row_nodes') }}</xf:option>
+		</xf:selectrow>
+
+		<xf:else />
+
+		<xf:checkboxrow label="{{ phrase('th_maximum_columns_nodes') }}" hint="{{ th_inheritedstylingvalue_nodes($node, $style, 'grid_options', 'max_columns') }}">
+			<xf:option name="grid_options[max_columns][enable]" selected="{$nodeStyling.grid_options.max_columns.enable}"
+					   label="{{ phrase('th_use_custom_value_nodes') }}">
+				<xf:textbox name="grid_options[max_columns][value]" value="{$nodeStyling.grid_options.max_columns.value}" />
+			</xf:option>
+		</xf:checkboxrow>
+
+		<xf:checkboxrow label="{{ phrase('th_minimum_column_width_nodes') }}" hint="{{ th_inheritedstylingvalue_nodes($node, $style, 'grid_options', 'min_column_width') }}">
+			<xf:option name="grid_options[min_column_width][enable]" selected="{$nodeStyling.grid_options.min_column_width.enable}"
+					   label="{{ phrase('th_use_custom_value_nodes') }}">
+				<xf:textbox name="grid_options[min_column_width][value]" value="{$nodeStyling.grid_options.min_column_width.value}" />
+			</xf:option>
+		</xf:checkboxrow>
+
+		<xf:checkboxrow label="{{ phrase('th_fill_last_row_nodes') }}" hint="{{ th_inheritedstylingvalue_nodes($node, $style, 'grid_options', 'fill_last_row') }}">
+			<xf:option name="grid_options[fill_last_row][enable]" selected="{$nodeStyling.grid_options.fill_last_row.enable}"
+					   label="{{ phrase('th_use_custom_value_nodes') }}">
+				<xf:select name="grid_options[fill_last_row][value]" value="{$nodeStyling.grid_options.fill_last_row.value}">
+					<xf:option value="0">{{ phrase('th_divide_last_row_into_equal_widths_nodes') }}</xf:option>
+					<xf:option value="1">{{ phrase('th_dont_fill_nodes') }}</xf:option>
+					<xf:option value="2">{{ phrase('th_divide_last_row_according_to_lower_number_of_columns_nodes') }}</xf:option>
+					<xf:option value="3">{{ phrase('th_make_remaining_nodes_full_width_on_own_row_nodes') }}</xf:option>
+				</xf:select>
+			</xf:option>
+		</xf:checkboxrow>
+	</xf:if>
+
+	<xf:comment>
+	<xf:checkboxrow label="{{ phrase('th_maximum_columns_nodes') }}" hint="{{ th_inheritedstylingvalue_nodes($node, $style, 'grid_options', 'max_columns') }}">
+		<xf:option name="grid_options[max_columns][enable]" selected="{$nodeStyling.grid_options.max_columns.enable}"
+				   label="{{ phrase('th_use_custom_value_nodes') }}">
+			<xf:textbox name="grid_options[max_columns][value]" value="{$nodeStyling.grid_options.max_columns.value}" />
+		</xf:option>
+	</xf:checkboxrow>
+
+	<xf:checkboxrow label="{{ phrase('th_minimum_column_width_nodes') }}" hint="{{ th_inheritedstylingvalue_nodes($node, $style, 'grid_options', 'min_column_width') }}">
+		<xf:option name="grid_options[min_column_width][enable]" selected="{$nodeStyling.grid_options.min_column_width.enable}"
+				   label="{{ phrase('th_use_custom_value_nodes') }}">
+			<xf:textbox name="grid_options[min_column_width][value]" value="{$nodeStyling.grid_options.min_column_width.value}" />
+		</xf:option>
+	</xf:checkboxrow>
+
+	<xf:checkboxrow label="{{ phrase('th_fill_last_row_nodes') }}" hint="{{ th_inheritedstylingvalue_nodes($node, $style, 'grid_options', 'fill_last_row') }}">
+		<xf:option name="grid_options[fill_last_row][enable]" selected="{$nodeStyling.grid_options.fill_last_row.enable}"
+				   label="{{ phrase('th_use_custom_value_nodes') }}">
+			<xf:select name="grid_options[fill_last_row][value]" value="{$nodeStyling.grid_options.fill_last_row.value}">
+				<xf:option value="0">{{ phrase('th_divide_last_row_into_equal_widths_nodes') }}</xf:option>
+				<xf:option value="1">{{ phrase('th_dont_fill_nodes') }}</xf:option>
+				<xf:option value="2">{{ phrase('th_divide_last_row_according_to_lower_number_of_columns_nodes') }}</xf:option>
+				<xf:option value="3">{{ phrase('th_make_remaining_nodes_full_width_on_own_row_nodes') }}</xf:option>
+			</xf:select>
+		</xf:option>
+	</xf:checkboxrow>
+	</xf:comment>
+</xf:macro>]]></template>
+  <template type="admin" title="th_node_layout_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[<xf:title>{{ phrase('th_node_layout_styling_nodes') }}</xf:title>
+
+<xf:pageaction>
+	<xf:button href="{{ link('node-layout/default-grid') }}" icon="add">
+		{{ phrase('th_default_grid_options_nodes') }}
+	</xf:button>
+	<xf:button href="{{ link('node-layout/rebuild') }}" icon="refresh">
+		{{ phrase('th_rebuild_cache_nodes') }}
+	</xf:button>
+</xf:pageaction>
+
+<xf:if is="$nodeTree.countChildren()">
+	<div class="block">
+		<div class="block-outer">
+			<div class="block-outer-main">
+				<xf:macro template="th_style_macros_nodes" name="style_change_menu"
+						  arg-styleTree="{$styleTree}"
+						  arg-currentStyle="{$style}"
+						  arg-route="node-layout" />
+			</div>
+			<xf:macro template="filter_macros" name="quick_filter" arg-key="nodes" arg-class="block-outer-opposite" />
+		</div>
+		<div class="block-container">
+			<div class="block-body">
+				<xf:datalist>
+					<xf:foreach loop="$nodeTree.getFlattened(0)" value="$treeEntry">
+						<xf:set var="$node" value="{$treeEntry.record}" />
+						<xf:datarow>
+							<xf:cell class="dataList-cell--link dataList-cell--main" hash="{$node.node_id}">
+								<a href="{{ link('node-layout', $node, {"style_id": $style.style_id}) }}">
+									<div class="u-depth{$treeEntry.depth}">
+										<div class="dataList-mainRow">{$node.title} <span class="dataList-hint" dir="auto">{$node.NodeType.title}</span></div>
+									</div>
+								</a>
+							</xf:cell>
+						</xf:datarow>
+					</xf:foreach>
+				</xf:datalist>
+			</div>
+			<div class="block-footer">
+				<span class="block-footer-counter">{{ display_totals($nodeTree.getFlattened(0)) }}</span>
+			</div>
+		</div>
+	</div>
+	<xf:else />
+	<div class="blockMessage">{{ phrase('no_items_have_been_created_yet') }}</div>
+</xf:if>]]></template>
+  <template type="public" title="th_node_list_grid_nodes.less" version_id="1000070" version_string="1.0.0"><![CDATA[.has-flexbox .thNodes__nodeList {
+    display: flex;
+    margin-left: -@xf-th_nodeGutter;
+	margin-right: -@xf-th_nodeGutter;
+    flex-wrap: wrap;
+
+    > .block {
+        padding: 0 @xf-th_nodeGutter;
+        width: 100%;
+    }
+
+    .thNodes_separator {
+        display: none;
+    }
+}
+
+.has-js .thNodes__nodeList {
+    visibility: hidden;
+}
+
+.has-js .thNodes__nodeList.thNodes__nodeList--running {
+    visibility: visible;
+}
+
+.has-flexbox .thNodes__nodeList .block-container {
+    background: none;
+    border: none;
+    box-shadow: none;
+
+    .block-body {
+        background: none;
+        display: flex;
+        margin: -@xf-th_nodeGutter 0;
+        flex-wrap: wrap;
+    }
+
+    .thNodes__nodeHeader {
+        display: flex;
+        flex-grow: 1;
+    }
+
+    .block-header {
+        margin-bottom: @xf-th_nodeGutter;
+    }
+
+    .node {
+        padding: @xf-th_nodeGutter;
+		padding-left: 0;
+        flex-basis: 300px;
+        display: flex;
+        flex-direction: column;
+		
+		+ .node {border: none;}
+		
+		&.th_nodes_right {padding-right: 0;}
+    }
+
+	.node-stats {display: none;}
+	.node-statsMeta {display: inline;}
+
+    .th_nodes--below-lg {
+
+        .node-main {
+            flex-grow: 1;
+        }
+
+        .node-stats {display: none;}
+
+        .node-extra {
+            display: flex;
+            width: 100%;
+            margin-top: 0;
+            padding-top: @xf-paddingLarge;
+        }
+    }
+
+    .th_nodes--below-md {
+        .node-statsMeta {display: inline;}
+    }
+
+    .node-body {
+        display: flex;
+        border-radius: 3px;
+        flex-grow: 1;
+        flex-wrap: wrap;
+        background-color: @xf-contentBg;
+		.xf-th_nodeBody();
+    }
+
+    .block-footer {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        order: 1;
+		align-self: flex-end;
+
+        &:before,
+        &:after {display: none;}
+
+        a {
+            display: inline-flex;
+            align-items: center;
+
+            &:hover {text-decoration: none;}
+        }
+    }
+
+    .node-footer--more a:before {
+        .m-faBase();
+        .m-faContent(@fa-var-arrow-right);
+        font-size: 18px;
+        padding-right: 6px;
+    }
+
+    .node-footer--createThread:before {
+        .m-faBase();
+        .m-faContent(@fa-var-plus-circle, .58em);
+        font-size: 18px;
+    }
+
+    .th_node--hasBackground {
+        .node-icon {
+            i:before {color: rgba(255,255,255,.5);}
+        }
+        .node-description {color: rgba(255,255,255,.7);}
+        .node-title {color: #fff;}
+        .node-title a {color: inherit;}
+        .node-extra {color: rgba(255,255,255,.7);}
+        .node-extra-row {
+            color: inherit;
+            .node-extra-title {color: #fff;}
+            .username {color: inherit; text-decoration: underline;}
+        }
+
+        .node-statsMeta {
+            dt {color: rgba(255,255,255,.5);}
+            dd {color: rgba(255,255,255,.7);}
+        }
+
+        .node-stats {
+            dt {color: rgba(255,255,255,.5);}
+            dd {color: rgba(255,255,255,.7);}
+        }
+
+        .block-footer {
+            background: rgba(0,0,0,.3);
+			// background: none;
+            border: none;
+
+            a {color: #fff;}
+        }
+
+        .node-subNodeFlatList {
+            .subNodeLink:before {color: rgba(255,255,255,.5);}
+            a {color: rgba(255,255,255,.7);}
+        }
+    }
+
+    .th_node--hasBackgroundImage {
+        .node-body {
+            background-size: cover;
+            background-position: center;
+			position: relative;
+			
+			&:before {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background: @xf-th_imageOverlay;
+			}
+
+			> * {z-index: 1;}
+        }
+    }
+}]]></template>
+  <template type="public" title="th_node_list_icons_nodes.less" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[.th_node--hasCustomIcon {
+    .node-icon > i:before  {
+        content: "";
+        display: none;
+    }
+
+    .node-icon {
+        span {
+            display: block;
+            line-height: 1.125;
+            font-size: 32px;
+
+            color: @xf-nodeIconReadColor;
+            text-shadow: 1px 1px 0.5px fade(xf-intensify(@xf-nodeIconReadColor, 50%), 50%);
+
+            .node--unread& {
+                opacity: 1;
+                color: @xf-nodeIconUnreadColor;
+                text-shadow: 1px 1px 0.5px fade(xf-intensify(@xf-nodeIconUnreadColor, 50%), 50%);
+            }
+        }
+    }
+}]]></template>
+  <template type="public" title="th_node_list_separator_nodes" version_id="1000070" version_string="1.0.0"><![CDATA[<xf:macro name="renderSeparator" arg-node="!" arg-extras="!" arg-children="!" arg-childExtras="!" arg-depth="!">
+	<div class="thNodes_separator node--id{{$node.node_id}}" data-separatorType="{{$extras.separator.separator_type}}"></div>
+</xf:macro>
+]]></template>
+  <template type="public" title="th_node_list_style_nodes.less" version_id="1000211" version_string="1.0.2 Alpha 1"><![CDATA[.block-container {
+	.th_node--hasBackground {
+		
+		&.th_node--overwriteTextStyling {
+			.node-icon {
+				i:before {color: rgba(255,255,255,.5);}
+			}
+			.node-description {color: rgba(255,255,255,.7);}
+			.node-title {color: #fff;}
+			.node-title a {color: inherit;}
+			.node-extra {color: rgba(255,255,255,.7);}
+			.node-extra-row {
+				color: inherit;
+				.node-extra-title {color: #fff;}
+				.username {color: inherit; text-decoration: underline;}
+			}
+
+			.node-statsMeta {
+				dt {color: rgba(255,255,255,.5);}
+				dd {color: rgba(255,255,255,.7);}
+			}
+
+			.node-stats {
+				dt {color: rgba(255,255,255,.5);}
+				dd {color: rgba(255,255,255,.7);}
+			}
+			
+			.node-subNodeMenu .menuTrigger {color: rgba(255,255,255,.7);}
+			
+			.node-subNodeFlatList {
+				.subNodeLink:before {color: rgba(255,255,255,.5);}
+				a {color: rgba(255,255,255,.7);}
+			}
+			
+			.block-footer {color: #fff;}
+		}
+
+		
+
+        .block-footer {
+            background-color: rgba(0,0,0,.1);
+			// background: none;
+            border: none;
+        }
+    }
+
+    .th_node--hasBackgroundImage {
+        .node-body {
+            background-size: cover;
+            background-position: center;
+			position: relative;
+			
+			.node-main:before {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background: @xf-th_imageOverlay;
+                pointer-events: none;
+			}
+			
+			.block-footer {background: rgba(0,0,0,.4);}
+
+			> * {z-index: 1;}
+        }
+    }
+}]]></template>
+  <template type="public" title="th_node_macros_nodes" version_id="1000231" version_string="1.0.2 Beta 1"><![CDATA[<xf:macro name="node_list_item_footer"
+		  arg-node="!">
+	<xf:if is="{{ property('th_enableNodeFooter_nodes') }}">
+		<div class="block-footer has-flexbox">
+			<div class="node-footer--more">
+				<a href="{{ link($node.getRoute(), $node) }}">More</a>
+			</div>
+			<div class="node-footer--actions">
+				<xf:if is="$node.node_type_id === 'Forum' && $node.getData().canCreateThread()">
+					<a href="{{ link('forums/post-thread', $node) }}" class="node-footer--createThread" data-xf-init="tooltip" title="{{ phrase('post_thread...') }}"></a>
+				</xf:if>
+			</div>
+		</div>
+	</xf:if>
+</xf:macro>]]></template>
+  <template type="admin" title="th_style_macros_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[<xf:macro name="style_change_menu"
+		  arg-styleTree="!"
+		  arg-route="!"
+		  arg-routeParams="{{ {} }}"
+		  arg-currentStyle="{{ null }}"
+		  arg-linkClass="button button--link">
+
+	<a class="{$linkClass} menuTrigger"
+	   data-xf-click="menu"
+	   role="button"
+	   tabindex="0"
+	   aria-expanded="false"
+	   aria-haspopup="true">{{ phrase('style:') }} {{ $currentStyle.style_id ? $currentStyle.title : phrase('th_default_styling_nodes') }}</a>
+
+	<div class="menu" data-menu="menu" aria-hidden="true">
+		<div class="menu-content">
+			<h3 class="menu-header">{{ phrase('styles') }}</h3>
+			<xf:foreach loop="$styleTree.getFlattened()" value="$treeEntry">
+				<a href="{{ link($route, '', {"style_id": $treeEntry.record.style_id}) }}"
+				   class="blockLink {{ ($currentStyle && $currentStyle.style_id == $treeEntry.record.style_id) ? 'is-selected' : '' }}">
+					<span class="u-depth{$treeEntry.depth}">{{ $treeEntry.record.style_id ? $treeEntry.record.title : phrase('th_default_styling_nodes') }}</span>
+				</a>
+			</xf:foreach>
+		</div>
+	</div>
+</xf:macro>]]></template>
+</templates>

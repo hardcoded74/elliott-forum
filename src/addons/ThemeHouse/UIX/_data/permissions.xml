@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<permissions>
+  <permission permission_group_id="th_uix" permission_id="collapseCategories" permission_type="flag" interface_group_id="th_uix" display_order="15"/>
+  <permission permission_group_id="th_uix" permission_id="collapseSidebar" permission_type="flag" interface_group_id="th_uix" display_order="20"/>
+  <permission permission_group_id="th_uix" permission_id="showWelcomeSection" permission_type="flag" interface_group_id="th_uix" display_order="1"/>
+  <permission permission_group_id="th_uix" permission_id="togglePageWidth" permission_type="flag" interface_group_id="th_uix" display_order="10"/>
+</permissions>

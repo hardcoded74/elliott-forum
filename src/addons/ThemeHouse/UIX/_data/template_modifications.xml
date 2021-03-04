@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template_modifications>
+  <modification type="public" template="account_preferences" modification_key="thuix_account_preferences" description="Add style options to account preferences page." execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/<xf:if is="\$xf\.visitor\.canChangeStyle\(\)">.*?<\/xf:if>/s]]></find>
+    <replace><![CDATA[$0
+			<xf:include template="thuix_account_preferences_style_options" />]]></replace>
+  </modification>
+  <modification type="public" template="forum_list" modification_key="thuix_forum_list" description="Add sidebar widget position." execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<xf:widgetpos id="forum_list_sidebar" position="sidebar" />]]></find>
+    <replace><![CDATA[$0
+<xf:if is="$xf.options.forumsDefaultPage === 'forums'">
+	<xf:widgetpos id="thuix_index_page" position="sidebar" />
+</xf:if>]]></replace>
+  </modification>
+  <modification type="public" template="forum_new_posts" modification_key="thuix_forum_new_posts" description="Add sidebar widget position." execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<xf:widgetpos id="forum_new_posts_sidebar" position="sidebar" />]]></find>
+    <replace><![CDATA[$0
+<xf:if is="$xf.options.forumsDefaultPage === 'new_posts'">
+	<xf:widgetpos id="thuix_index_page" position="sidebar" />
+</xf:if>]]></replace>
+  </modification>
+  <modification type="admin" template="index" modification_key="th_index_admin_notice_uix" execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<xf:if is="{{ $xf.visitor.hasAdminPermission('user') }}">]]></find>
+    <replace><![CDATA[<xf:include template="th_index_admin_notice_uix" />
+$0]]></replace>
+  </modification>
+  <modification type="admin" template="notice_edit" modification_key="th_uix_notice_edit" description="Add UI.X custom icon selector" execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<xf:radiorow name="display_style"]]></find>
+    <replace><![CDATA[<xf:textboxrow label="{{ phrase('th_uix_icon') }}"
+			   name="thuix_icon"
+			   explain="{{ phrase('th_uix_icon_explain')}}"
+			   value="{$notice.thuix_icon}" />
+
+$0]]></replace>
+  </modification>
+  <modification type="public" template="post_macros" modification_key="th_uix_post_macros_staffLess" description="Add staff post less file" execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<xf:css src="message.less" />]]></find>
+    <replace><![CDATA[$0
+<xf:if is="$post.User.is_staff">
+	<xf:css src="th_uix_staffPost.less" />
+</xf:if>
+<xf:if is="$post.Thread.user_id === $post.user_id">
+	<xf:css src="th_uix_threadStarterPost.less" />
+</xf:if>]]></replace>
+  </modification>
+  <modification type="public" template="post_macros" modification_key="th_uix_post_macros_staffPost" description="Mark staff post" execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<article class="message ]]></find>
+    <replace><![CDATA[$0 {{ $post.User.is_staff ? ' message-staffPost ' : '' }} {{ $post.Thread.user_id === $post.user_id ? ' message-threadStarterPost ' : '' }}]]></replace>
+  </modification>
+  <modification type="admin" template="style_property_macros" modification_key="th_style_property_macros_brandmark_uix" execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[{$property.title}]]></find>
+    <replace><![CDATA[{{ uix_style_property_prefix($property) }}$0]]></replace>
+  </modification>
+  <modification type="admin" template="style_property_macros" modification_key="th_style_property_macros_documentation_uix" description="Adds documentation URL to style property description" execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/<xf:if is="\$xf\.de(bug|velopment)">/]]></find>
+    <replace><![CDATA[<xf:if is="$property.property_type !== 'css'">
+			{{ uix_style_property_documentation($property) }}
+		</xf:if>
+		$0]]></replace>
+  </modification>
+  <modification type="admin" template="style_property_macros" modification_key="th_uix_style_property_macros" description="Add file upload to string style property." execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<xf:textboxrow name="{$formBaseKey}"
+			value="{$property.property_value}"
+			type="{$valueOptions.type}"
+			class="{$valueOptions.class}"
+			code="{$valueOptions.code}"
+			rowclass="{$rowClass}"
+			label="{$titleHtml}"
+			hint="{$hintHtml}"
+			explain="{$property.description}"
+			dir="auto" />]]></find>
+    <replace><![CDATA[<xf:if is="thuix_uploadable_style_property($property) && $xf.visitor.hasAdminPermission('uploadSPImages')">
+	<xf:include template="th_uix_uploadable_style_property" />
+	<xf:else />
+	$0
+</xf:if>]]></replace>
+  </modification>
+  <modification type="admin" template="style_property_macros" modification_key="th_uix_style_property_macros_02" description="Add file upload to background image style property." execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<xf:textbox
+									name="{$formBaseKey}[background-image]"
+									value="{{ $property.getCssPropertyValue('background-image') }}"
+									class="input--cssProp input--colorWidthMatched" dir="ltr" />]]></find>
+    <replace><![CDATA[<xf:if is="$xf.visitor.hasAdminPermission('uploadSPImages')">
+	<xf:include template="th_uix_uploadable_background_property" />
+	<xf:else />
+	$0
+</xf:if>]]></replace>
+  </modification>
+  <modification type="public" template="uix_config" modification_key="thuix_uix_config_csrfToken" description="Add CSRF token for old styles" execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/(link: '{{ link\("uix\/toggle-[a-z-]+\.json")(\) }}',)/]]></find>
+    <replace><![CDATA[$1, null, {"t": csrf_token()}$2]]></replace>
+  </modification>
+</template_modifications>

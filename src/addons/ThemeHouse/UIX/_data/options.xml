@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<options>
+  <option option_id="th_apiKey_uix" edit_format="textbox" data_type="string">
+    <default_value></default_value>
+    <relation group_id="th_uix" display_order="1"/>
+  </option>
+  <option option_id="th_deviantArtUrl_uix" edit_format="textbox" data_type="string">
+    <default_value></default_value>
+    <relation group_id="th_uix" display_order="2000"/>
+  </option>
+  <option option_id="th_discordUrl_uix" edit_format="textbox" data_type="string">
+    <default_value></default_value>
+    <relation group_id="th_uix" display_order="2000"/>
+  </option>
+  <option option_id="th_enableFtp_uix" edit_format="onoff" data_type="boolean">
+    <default_value>0</default_value>
+    <relation group_id="th_uix" display_order="1000"/>
+  </option>
+  <option option_id="th_facebookUrl_uix" edit_format="textbox" data_type="string">
+    <default_value></default_value>
+    <relation group_id="th_uix" display_order="2000"/>
+  </option>
+  <option option_id="th_gitHubUrl_uix" edit_format="textbox" data_type="string">
+    <default_value></default_value>
+    <relation group_id="th_uix" display_order="2000"/>
+  </option>
+  <option option_id="th_googlePlus_uix" edit_format="textbox" data_type="string">
+    <default_value></default_value>
+    <relation group_id="th_uix" display_order="2000"/>
+  </option>
+  <option option_id="th_instagramUrl_uix" edit_format="textbox" data_type="string">
+    <default_value></default_value>
+    <relation group_id="th_uix" display_order="2000"/>
+  </option>
+  <option option_id="th_linkedInUrl_uix" edit_format="textbox" data_type="string">
+    <default_value></default_value>
+    <relation group_id="th_uix" display_order="2000"/>
+  </option>
+  <option option_id="th_materialAvatars_uix" edit_format="onoff" data_type="boolean">
+    <default_value>0</default_value>
+    <relation group_id="th_uix" display_order="1000"/>
+  </option>
+  <option option_id="th_newDirectoryPermissions_uix" edit_format="textbox" data_type="string">
+    <default_value>0755</default_value>
+    <relation group_id="th_uix" display_order="1"/>
+  </option>
+  <option option_id="th_pinterestUrl_uix" edit_format="textbox" data_type="string">
+    <default_value></default_value>
+    <relation group_id="th_uix" display_order="2000"/>
+  </option>
+  <option option_id="th_postbitCollapseDefault_uix" edit_format="select" data_type="string">
+    <default_value>all</default_value>
+    <edit_format_params>={{ phrase('none') }}
+registered={{ phrase('thuix_registered_users_only') }}
+unregistered={{ phrase('thuix_unregistered_users_only') }}
+all={{ phrase('thuix_all_users') }}</edit_format_params>
+    <relation group_id="th_uix" display_order="110"/>
+  </option>
+  <option option_id="th_redditUrl_uix" edit_format="textbox" data_type="string">
+    <default_value></default_value>
+    <relation group_id="th_uix" display_order="2000"/>
+  </option>
+  <option option_id="th_sidebarCollapseDefault_uix" edit_format="select" data_type="string">
+    <default_value></default_value>
+    <edit_format_params>={{ phrase('none') }}
+registered={{ phrase('thuix_registered_users_only') }}
+unregistered={{ phrase('thuix_unregistered_users_only') }}
+all={{ phrase('thuix_all_users') }}</edit_format_params>
+    <relation group_id="th_uix" display_order="110"/>
+  </option>
+  <option option_id="th_sidebarCollapseTime_uix" edit_format="spinbox" data_type="integer">
+    <default_value>0</default_value>
+    <relation group_id="th_uix" display_order="100"/>
+  </option>
+  <option option_id="th_sidebarNavCollapseDefault_uix" edit_format="select" data_type="string">
+    <default_value></default_value>
+    <edit_format_params>={{ phrase('none') }}
+registered={{ phrase('thuix_registered_users_only') }}
+unregistered={{ phrase('thuix_unregistered_users_only') }}
+all={{ phrase('thuix_all_users') }}</edit_format_params>
+    <relation group_id="th_uix" display_order="115"/>
+  </option>
+  <option option_id="th_steamUrl_uix" edit_format="textbox" data_type="string">
+    <default_value></default_value>
+    <relation group_id="th_uix" display_order="2000"/>
+  </option>
+  <option option_id="th_tumblrUrl_uix" edit_format="textbox" data_type="string">
+    <default_value></default_value>
+    <relation group_id="th_uix" display_order="2000"/>
+  </option>
+  <option option_id="th_twitchUrl_uix" edit_format="textbox" data_type="string">
+    <default_value></default_value>
+    <relation group_id="th_uix" display_order="2000"/>
+  </option>
+  <option option_id="th_twitterUrl_uix" edit_format="textbox" data_type="string">
+    <default_value></default_value>
+    <relation group_id="th_uix" display_order="2000"/>
+  </option>
+  <option option_id="th_updateCheck_uix" edit_format="onoff" data_type="boolean">
+    <default_value>1</default_value>
+    <relation group_id="th_uix" display_order="10"/>
+  </option>
+  <option option_id="th_youtubeUrl_uix" edit_format="textbox" data_type="string">
+    <default_value></default_value>
+    <relation group_id="th_uix" display_order="2000"/>
+  </option>
+  <option option_id="thuix_enableManifest" edit_format="onoff" data_type="boolean">
+    <default_value>1</default_value>
+    <relation group_id="th_uix" display_order="500"/>
+  </option>
+  <option option_id="thuix_enableStyleOptions" edit_format="onoff" data_type="boolean">
+    <default_value>0</default_value>
+    <relation group_id="th_uix" display_order="120"/>
+  </option>
+  <option option_id="thuix_userStyleChangeStorage" edit_format="radio" data_type="string">
+    <default_value>session</default_value>
+    <edit_format_params>={{ phrase('thuix_do_not_remember') }}
+session={{ phrase('thuix_store_in_session_data') }}
+cookie={{ phrase('thuix_store_in_browser_cookie') }}</edit_format_params>
+    <relation group_id="th_uix" display_order="125"/>
+  </option>
+  <option option_id="thuix_webAppDisplay" edit_format="radio" data_type="string">
+    <default_value>standalone</default_value>
+    <edit_format_params>fullscreen={{ phrase('thuix_fullscreen') }}
+standalone={{ phrase('thuix_standalone') }}
+minimal-ui={{ phrase('thuix_minimal_ui') }}
+browser={{ phrase('thuix_browser') }}</edit_format_params>
+    <relation group_id="th_uix" display_order="505"/>
+  </option>
+  <option option_id="thuix_webAppName" edit_format="textbox" data_type="string">
+    <default_value></default_value>
+    <relation group_id="th_uix" display_order="501"/>
+  </option>
+  <option option_id="thuix_webAppShortName" edit_format="textbox" data_type="string">
+    <default_value></default_value>
+    <relation group_id="th_uix" display_order="502"/>
+  </option>
+</options>

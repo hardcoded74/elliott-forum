@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="utf-8"?>
+<addon addon_id="siropu_username_change" title="Username Change" version_string="1.2.5" version_id="10" url="http://www.siropu.com/" install_callback_class="Siropu_UsernameChange_Install" install_callback_method="install" uninstall_callback_class="Siropu_UsernameChange_Install" uninstall_callback_method="uninstall">
+  <admin_navigation>
+    <navigation navigation_id="siropu_username_change" parent_navigation_id="siropu_username_change_p" display_order="3" link="change-username" admin_permission_id="addOn" debug_only="0" hide_no_children="0"/>
+    <navigation navigation_id="siropu_username_change_h" parent_navigation_id="siropu_username_change_p" display_order="2" link="username-history" admin_permission_id="addOn" debug_only="0" hide_no_children="0"/>
+    <navigation navigation_id="siropu_username_change_p" parent_navigation_id="tools" display_order="1" link="" admin_permission_id="addOn" debug_only="0" hide_no_children="0"/>
+    <navigation navigation_id="siropu_username_change_t" parent_navigation_id="siropu_username_change_p" display_order="1" link="custom-tables" admin_permission_id="addOn" debug_only="0" hide_no_children="0"/>
+  </admin_navigation>
+  <admin_permissions/>
+  <admin_style_properties/>
+  <admin_templates>
+    <template title="siropu_username_change"><![CDATA[<xen:title>{xen:phrase siropu_username_change}</xen:title>
+
+<xen:form action="{xen:adminlink 'change-username/save'}" class="AutoValidator" data-redirect="on">
+	<dl class="ctrlUnit">
+		<dt><label for="ctrl_username_old">{xen:phrase siropu_username_change_current_username}:</label></dt>
+		<dd>
+			<input type="search" name="username_old" class="textCtrl AutoComplete AcSingle" results="10" size="20" />
+		</dd>
+	</dl>
+	<xen:textboxunit name="username_new" label="{xen:phrase siropu_username_change_new_username}:" size="20">
+	</xen:textboxunit>
+	<xen:checkboxunit label="">
+		<xen:option name="incognito" value="1" checked="0" label="{xen:phrase siropu_username_change_incognito_mode}" />
+		<xen:explain>{xen:phrase siropu_username_change_incognito_mode_explain}</xen:explain>
+	</xen:checkboxunit>
+	<xen:submitunit save="{xen:phrase siropu_username_change}">
+	</xen:submitunit>
+</xen:form>]]></template>
+    <template title="siropu_username_change_history_delete_confirm"><![CDATA[<xen:title>{xen:phrase siropu_username_change_confirm_history_deletion}: {$history.username_old} &#8594; {$history.username_new}</xen:title>
+<xen:h1>{xen:phrase siropu_username_change_confirm_history_deletion}</xen:h1>
+
+<xen:navigation>
+	<xen:breadcrumb href="{xen:adminlink username-history}">{xen:phrase siropu_username_change_history}</xen:breadcrumb>
+</xen:navigation>
+
+<xen:require css="public:delete_confirmation.css" />
+
+<xen:form action="{xen:adminlink 'username-history/delete', $history}" class="deleteConfirmForm formOverlay">
+	<p>{xen:phrase siropu_username_change_please_confirm_history_deletion}:</p>
+	<strong><a href="{xen:adminlink 'username-history/edit', $history}">{$history.username_old} &#8594; {$history.username_new}</a></strong>
+	<xen:submitunit save="{xen:phrase delete}" />
+	<input type="hidden" name="_xfConfirm" value="1" />
+</xen:form>]]></template>
+    <template title="siropu_username_change_history_edit"><![CDATA[<xen:title>{xen:phrase siropu_username_change_history_edit}: {$history.username_old} &#8594; {$history.username_new}</xen:title>
+
+<xen:form action="{xen:adminlink 'username-history/save', $history}" class="AutoValidator" data-redirect="on">
+	<xen:textboxunit name="username_new" value="{$history.username_new}" label="{xen:phrase siropu_username_change_current_username}:" size="20">
+	</xen:textboxunit>
+	<xen:textboxunit name="username_old" value="{$history.username_old}" label="{xen:phrase siropu_username_change_old_username}:" size="20">
+	</xen:textboxunit>
+	<xen:checkboxunit label="">
+		<xen:option name="incognito" selected="{$history.incognito}" label="{xen:phrase siropu_username_change_incognito_mode}" />
+		<xen:explain>{xen:phrase siropu_username_change_incognito_mode_explain}</xen:explain>
+	</xen:checkboxunit>
+	<xen:submitunit save="{xen:phrase save}">
+		<a href="{xen:adminlink 'username-history/delete', $history}" class="button OverlayTrigger">{xen:phrase delete}...</a>
+	</xen:submitunit>
+	<input type="hidden" name="user_id" value="{$history.user_id}" />
+</xen:form>]]></template>
+    <template title="siropu_username_change_history_list"><![CDATA[<xen:title>{xen:phrase siropu_username_change_history}</xen:title>
+
+<xen:require css="filter_list.css" />
+<xen:require js="js/xenforo/filter_list.js" />
+
+<xen:if is="{$historyList} || {$search}">
+	<form action="{xen:adminlink username-history}" method="post">
+		<input type="search" name="search" value="{$search}" class="textCtrl" size="20" placeholder="{xen:phrase user_id} / {xen:phrase siropu_username_change_old_username}" />
+		<input type="submit" value="{xen:phrase filter}" class="button" />
+		<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+	</form>
+</xen:if>
+<div class="section">
+	<xen:form action="{xen:adminlink username-history/toggle}" class="section AutoValidator" data-redirect="on">
+		<xen:if is="{$historyList}">
+			<h2 class="subHeading">
+				<xen:include template="filter_list_controls" />
+				{xen:phrase siropu_username_change_history}
+			</h2>
+	
+			<ol class="FilterList">
+			<xen:foreach loop="$historyList" value="$history">
+				<xen:listitem
+					id="{$history.history_id}"
+					label="{$history.username_old} &#8594; {$history.username_new}"
+					href="{xen:adminlink 'username-history/edit', $history}"
+					snippet="{xen:datetime $history.date, 'absolute'}{xen:if '{$history.incognito}', ' [{xen:phrase siropu_username_change_incognito}]', ''}"
+					delete="{xen:adminlink 'username-history/delete', $history}"
+					toggletitle="{xen:phrase siropu_username_change_history_incognito_toggle}">
+				</xen:listitem>
+			</xen:foreach>
+			</ol>
+	
+			<p class="sectionFooter">{xen:phrase showing_x_of_y_items, 'count=<span class="FilterListCount">{xen:count $historyList}</span>', 'total={xen:count $historyList}'}</p>
+		<xen:else />
+			<div class="noResults">
+				{xen:phrase no_entries_have_been_logged}
+			</div>
+		</xen:if>
+	</xen:form>
+</div>
+<xen:adminpagenav page="{$page}" perpage="{$perPage}" total="{$total}" linkparams="{$linkParams}" link="username-history" />]]></template>
+    <template title="siropu_username_change_table_delete_confirm"><![CDATA[<xen:title>{xen:phrase siropu_username_change_confirm_table_deletion}: {$table.table_name}</xen:title>
+<xen:h1>{xen:phrase siropu_username_change_confirm_table_deletion}</xen:h1>
+
+<xen:navigation>
+	<xen:breadcrumb href="{xen:adminlink 'custom-tables/edit', $table}">{$table.table_name}</xen:breadcrumb>
+</xen:navigation>
+
+<xen:require css="public:delete_confirmation.css" />
+
+<xen:form action="{xen:adminlink 'custom-tables/delete', $table}" class="deleteConfirmForm formOverlay">
+	<p>{xen:phrase siropu_username_change_please_confirm_table_deletion}:</p>
+	<strong><a href="{xen:adminlink 'custom-tables/edit', $table}">{$table.table_name}</a></strong>
+	<xen:submitunit save="{xen:phrase delete}" />
+	<input type="hidden" name="_xfConfirm" value="1" />
+</xen:form>]]></template>
+    <template title="siropu_username_change_table_edit"><![CDATA[<xen:title>{xen:if '{$table}', '{xen:phrase siropu_username_change_table_edit}: {$table.table_name}', '{xen:phrase siropu_username_change_add_table}'}</xen:title>
+
+<xen:form action="{xen:adminlink 'custom-tables/save', $table}" class="AutoValidator" data-redirect="on">
+	<xen:textboxunit name="table_name" value="{$table.table_name}" label="{xen:phrase siropu_username_change_table_name}:">
+	</xen:textboxunit>
+
+	<xen:textboxunit name="column_name" value="{$table.column_name}" label="{xen:phrase siropu_username_change_column_name}:">
+	</xen:textboxunit>
+
+	<xen:textboxunit name="description" value="{$table.description}" label="{xen:phrase description}:" rows="2">
+	</xen:textboxunit>
+
+	<xen:submitunit save="{xen:phrase save}">
+		<xen:if is="{$table}"><a href="{xen:adminlink 'custom-table/delete', $table}" class="button OverlayTrigger">{xen:phrase delete}...</a></xen:if>
+	</xen:submitunit>
+</xen:form>]]></template>
+    <template title="siropu_username_change_table_list"><![CDATA[<xen:title>{xen:phrase siropu_username_change_tables}</xen:title>
+
+<xen:topctrl>
+	<a href="{xen:adminlink custom-tables/add}" class="button">+ {xen:phrase siropu_username_change_add_table}</a>
+</xen:topctrl>
+
+<xen:require css="filter_list.css" />
+<xen:require js="js/xenforo/filter_list.js" />
+
+<xen:form action="" class="section AutoValidator" data-redirect="on">
+	<xen:if is="{$tables}">
+
+		<h2 class="subHeading">
+			<xen:include template="filter_list_controls" />
+			{xen:phrase siropu_username_change_tables}
+		</h2>
+
+		<ol class="FilterList Scrollable">
+		<xen:foreach loop="$tables" value="$table">
+			<xen:listitem
+				id="{$table.table_id}"
+				label="{$table.table_name}"
+				href="{xen:adminlink 'custom-tables/edit', $table}"
+				delete="{xen:adminlink 'custom-tables/delete', $table}"
+				snippet="{$table.description}">
+			</xen:listitem>
+		</xen:foreach>
+		</ol>
+
+		<p class="sectionFooter">{xen:phrase showing_x_of_y_items, 'count=<span class="FilterListCount">{xen:count $tables}</span>', 'total={xen:count $tables}'}</p>
+
+	<xen:else />
+		<div class="noResults">
+			{xen:phrase siropu_username_change_no_tables}
+		</div>
+	</xen:if>
+</xen:form>]]></template>
+  </admin_templates>
+  <admin_template_modifications/>
+  <code_events/>
+  <code_event_listeners>
+    <listener event_id="load_class_controller" execute_order="10" callback_class="Siropu_UsernameChange_Listener" callback_method="load_class_controller" active="1" hint="" description=""/>
+    <listener event_id="template_hook" execute_order="10" callback_class="Siropu_UsernameChange_Listener" callback_method="template_hook" active="1" hint="" description=""/>
+  </code_event_listeners>
+  <cron/>
+  <email_templates/>
+  <email_template_modifications/>
+  <optiongroups>
+    <group group_id="siropu_username_change" display_order="1" debug_only="0"/>
+    <option option_id="siropu_username_change_forum_id" edit_format="textbox" data_type="integer" can_backup="1">
+      <default_value></default_value>
+      <edit_format_params>size=5</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="siropu_username_change" display_order="3"/>
+    </option>
+    <option option_id="siropu_username_change_user_id" edit_format="textbox" data_type="integer" can_backup="1">
+      <default_value></default_value>
+      <edit_format_params>size=5</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="siropu_username_change" display_order="4"/>
+    </option>
+    <option option_id="siropu_username_change_user_min_days" edit_format="spinbox" data_type="integer" can_backup="1">
+      <default_value>182</default_value>
+      <edit_format_params>min=0
+step=5
+size=5</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="siropu_username_change" display_order="1"/>
+    </option>
+    <option option_id="siropu_username_change_user_min_posts" edit_format="spinbox" data_type="integer" can_backup="1">
+      <default_value>150</default_value>
+      <edit_format_params>min=0
+step=5
+size=5</edit_format_params>
+      <sub_options></sub_options>
+      <relation group_id="siropu_username_change" display_order="2"/>
+    </option>
+  </optiongroups>
+  <permissions>
+    <permission_groups>
+      <permission_group permission_group_id="siropu_username_change"/>
+    </permission_groups>
+    <permissions>
+      <permission permission_group_id="siropu_username_change" permission_id="change" permission_type="flag" default_value="unset" interface_group_id="siropu_username_change" display_order="1"/>
+      <permission permission_group_id="siropu_username_change" permission_id="changeLimit" permission_type="integer" default_value_int="0" interface_group_id="siropu_username_change" display_order="4"/>
+      <permission permission_group_id="siropu_username_change" permission_id="history" permission_type="flag" default_value="unset" interface_group_id="siropu_username_change" display_order="3"/>
+      <permission permission_group_id="siropu_username_change" permission_id="incognito" permission_type="flag" default_value="unset" interface_group_id="siropu_username_change" display_order="2"/>
+      <permission permission_group_id="siropu_username_change" permission_id="timeFrame" permission_type="integer" default_value_int="0" interface_group_id="siropu_username_change" display_order="4"/>
+    </permissions>
+    <interface_groups>
+      <interface_group interface_group_id="siropu_username_change" display_order="99999"/>
+    </interface_groups>
+  </permissions>
+  <phrases>
+    <phrase title="admin_navigation_siropu_username_change" version_id="1" version_string="1.0.0"><![CDATA[Change Username]]></phrase>
+    <phrase title="admin_navigation_siropu_username_change_h" version_id="1" version_string="1.0.0"><![CDATA[Username History]]></phrase>
+    <phrase title="admin_navigation_siropu_username_change_p" version_id="1" version_string="1.0.0"><![CDATA[Username Change]]></phrase>
+    <phrase title="admin_navigation_siropu_username_change_t" version_id="1" version_string="1.0.0"><![CDATA[Custom Tables]]></phrase>
+    <phrase title="option_group_siropu_username_change" version_id="1" version_string="1.0.0"><![CDATA[Username Change]]></phrase>
+    <phrase title="option_group_siropu_username_change_description" version_id="1" version_string="1.0.0"><![CDATA[]]></phrase>
+    <phrase title="option_siropu_username_change_forum_id" version_id="1" version_string="1.0.0"><![CDATA[Announcements Forum ID]]></phrase>
+    <phrase title="option_siropu_username_change_forum_id_explain" version_id="1" version_string="1.0.0"><![CDATA[The forum ID for the forum in which automated username changes announcements will be posted.]]></phrase>
+    <phrase title="option_siropu_username_change_user_id" version_id="1" version_string="1.0.0"><![CDATA[Announcements User ID]]></phrase>
+    <phrase title="option_siropu_username_change_user_id_explain" version_id="1" version_string="1.0.0"><![CDATA[The user ID of the user that will post the announcements in the announcements forum.]]></phrase>
+    <phrase title="option_siropu_username_change_user_min_days" version_id="1" version_string="1.0.0"><![CDATA[Minimum Days Registered Required]]></phrase>
+    <phrase title="option_siropu_username_change_user_min_days_explain" version_id="1" version_string="1.0.0"><![CDATA[The minimum number of days a user has to have since registered in order to be able to change the username.]]></phrase>
+    <phrase title="option_siropu_username_change_user_min_posts" version_id="1" version_string="1.0.0"><![CDATA[Minimum Posts Required]]></phrase>
+    <phrase title="option_siropu_username_change_user_min_posts_explain" version_id="1" version_string="1.0.0"><![CDATA[The number of posts required in order to be able to change the username.]]></phrase>
+    <phrase title="permission_group_siropu_username_change" version_id="1" version_string="1.0.0"><![CDATA[Username Change]]></phrase>
+    <phrase title="permission_interface_siropu_username_change" version_id="1" version_string="1.0.0"><![CDATA[Username Change]]></phrase>
+    <phrase title="permission_siropu_username_change_change" version_id="1" version_string="1.0.0"><![CDATA[Change username]]></phrase>
+    <phrase title="permission_siropu_username_change_changeLimit" version_id="1" version_string="1.0.0"><![CDATA[Maximum number of changes]]></phrase>
+    <phrase title="permission_siropu_username_change_history" version_id="1" version_string="1.0.0"><![CDATA[View username history]]></phrase>
+    <phrase title="permission_siropu_username_change_incognito" version_id="1" version_string="1.0.0"><![CDATA[Use incognito mode]]></phrase>
+    <phrase title="permission_siropu_username_change_timeFrame" version_id="1" version_string="1.0.0"><![CDATA[Minimum days between changes]]></phrase>
+    <phrase title="siropu_username_change" version_id="1" version_string="1.0.0"><![CDATA[Change Username]]></phrase>
+    <phrase title="siropu_username_change_add_table" version_id="1" version_string="1.0.0"><![CDATA[Add Table]]></phrase>
+    <phrase title="siropu_username_change_cannot_be_identical" version_id="5" version_string="1.2.0"><![CDATA[The new username cannot be identical to your current username.]]></phrase>
+    <phrase title="siropu_username_change_column_name" version_id="1" version_string="1.0.0"><![CDATA[Column Name]]></phrase>
+    <phrase title="siropu_username_change_column_not_found" version_id="1" version_string="1.0.0"><![CDATA[Column '{name}' has not been found!]]></phrase>
+    <phrase title="siropu_username_change_confirm" version_id="9" version_string="1.2.4"><![CDATA[Please confirm that you want to change your username from "<b>{current}</b>" to "<b>{new}</b>".]]></phrase>
+    <phrase title="siropu_username_change_confirm_button" version_id="1" version_string="1.0.0"><![CDATA[Confirm Username Change]]></phrase>
+    <phrase title="siropu_username_change_confirm_history_deletion" version_id="1" version_string="1.0.0"><![CDATA[Confirm Deletion of Username History]]></phrase>
+    <phrase title="siropu_username_change_confirm_table_deletion" version_id="1" version_string="1.0.0"><![CDATA[Confirm Deletion of Table]]></phrase>
+    <phrase title="siropu_username_change_current_username" version_id="1" version_string="1.0.0"><![CDATA[Current Username]]></phrase>
+    <phrase title="siropu_username_change_exists_in_history" version_id="1" version_string="1.0.0"><![CDATA[We are sorry, the username '{username}' has been used before and cannot be reused.]]></phrase>
+    <phrase title="siropu_username_change_explain" version_id="8" version_string="1.2.3"><![CDATA[This option allows you to change your forum username from "{username}" to a different username.]]></phrase>
+    <phrase title="siropu_username_change_history" version_id="1" version_string="1.0.0"><![CDATA[Username History]]></phrase>
+    <phrase title="siropu_username_change_history_edit" version_id="1" version_string="1.0.0"><![CDATA[History Entry Edit]]></phrase>
+    <phrase title="siropu_username_change_history_incognito_toggle" version_id="1" version_string="1.0.0"><![CDATA[Toggle Incognito Mode]]></phrase>
+    <phrase title="siropu_username_change_history_not_found" version_id="3" version_string="1.1.1"><![CDATA[The username history entry was not found!]]></phrase>
+    <phrase title="siropu_username_change_incognito" version_id="1" version_string="1.0.0"><![CDATA[Incognito]]></phrase>
+    <phrase title="siropu_username_change_incognito_mode" version_id="1" version_string="1.0.0"><![CDATA[Use Incognito Mode]]></phrase>
+    <phrase title="siropu_username_change_incognito_mode_explain" version_id="1" version_string="1.0.0"><![CDATA[This allows you to change username without showing it in the "Username History" on the profile page.]]></phrase>
+    <phrase title="siropu_username_change_limit_reached" version_id="8" version_string="1.2.3"><![CDATA[You have reached the maximum username changes limit ({limit})]]></phrase>
+    <phrase title="siropu_username_change_minimum_time_frame" version_id="1" version_string="1.0.0"><![CDATA[You can change your username once every <b>{days}</b> days!]]></phrase>
+    <phrase title="siropu_username_change_new_username" version_id="1" version_string="1.0.0"><![CDATA[New Username]]></phrase>
+    <phrase title="siropu_username_change_no_history" version_id="1" version_string="1.0.0"><![CDATA[No username change history found for {user}.]]></phrase>
+    <phrase title="siropu_username_change_no_permissions" version_id="1" version_string="1.0.0"><![CDATA[You don't have the necessary permissions to change your username.]]></phrase>
+    <phrase title="siropu_username_change_no_tables" version_id="1" version_string="1.0.0"><![CDATA[You haven't added any custom tables.]]></phrase>
+    <phrase title="siropu_username_change_old_username" version_id="1" version_string="1.0.0"><![CDATA[Old Username]]></phrase>
+    <phrase title="siropu_username_change_only_for_selected_user_groups" version_id="1" version_string="1.0.0"><![CDATA[Only For Selected User Groups]]></phrase>
+    <phrase title="siropu_username_change_please_confirm_history_deletion" version_id="1" version_string="1.0.0"><![CDATA[Please confirm that you want to delete the following History]]></phrase>
+    <phrase title="siropu_username_change_please_confirm_table_deletion" version_id="1" version_string="1.0.0"><![CDATA[Please confirm that you want to delete the following table from the list]]></phrase>
+    <phrase title="siropu_username_change_remaining_changes" version_id="9" version_string="1.2.4"><![CDATA[Your remaining username changes: <b>{count}</b>]]></phrase>
+    <phrase title="siropu_username_change_tables" version_id="1" version_string="1.0.0"><![CDATA[Custom Tables]]></phrase>
+    <phrase title="siropu_username_change_table_edit" version_id="1" version_string="1.0.0"><![CDATA[Table Edit]]></phrase>
+    <phrase title="siropu_username_change_table_name" version_id="1" version_string="1.0.0"><![CDATA[Table Name]]></phrase>
+    <phrase title="siropu_username_change_table_not_found" version_id="1" version_string="1.0.0"><![CDATA[The table '{name}' has not been found!]]></phrase>
+    <phrase title="siropu_username_change_thread_content" version_id="5" version_string="1.2.0"><![CDATA[[u]{old}[/u] changed the username to [b][URL='{link}']{new}[/URL][/b].]]></phrase>
+    <phrase title="siropu_username_change_thread_title" version_id="2" version_string="1.1.0"><![CDATA[{old} => {new}]]></phrase>
+    <phrase title="siropu_username_change_time_to_wait" version_id="1" version_string="1.0.0"><![CDATA[You can change your username again in <b>{days}</b> days.]]></phrase>
+    <phrase title="siropu_username_change_user_not_found" version_id="1" version_string="1.0.0"><![CDATA[User '{name}' has not been found!]]></phrase>
+    <phrase title="siropu_username_change_user_tab_explain" version_id="1" version_string="1.0.0"><![CDATA[On <b>{date}</b> the username was changed from <b>{old}</b> to <b>{new}</b>.]]></phrase>
+  </phrases>
+  <route_prefixes>
+    <route_type type="admin">
+      <prefix original_prefix="change-username" class="Siropu_UsernameChange_Route_PrefixAdmin_Change" build_link="data_only"/>
+      <prefix original_prefix="custom-tables" class="Siropu_UsernameChange_Route_PrefixAdmin_Tables" build_link="data_only"/>
+      <prefix original_prefix="username-history" class="Siropu_UsernameChange_Route_PrefixAdmin_History" build_link="data_only"/>
+    </route_type>
+    <route_type type="public">
+      <prefix original_prefix="change-username" class="Siropu_UsernameChange_Route_Prefix_Account" build_link="data_only"/>
+    </route_type>
+  </route_prefixes>
+  <style_properties/>
+  <templates>
+    <template title="siropu_username_change" version_id="9" version_string="1.2.4"><![CDATA[<xen:title>{xen:phrase siropu_username_change}</xen:title>
+
+<xen:require css="account.css" />
+
+<xen:if is="{$timeToWait}">
+	<p>{xen:phrase siropu_username_change_time_to_wait, 'days={$timeToWait}'}</p>
+<xen:elseif is="{$limitReached}" />
+	<p>{xen:phrase siropu_username_change_limit_reached, 'limit={$changeLimit}'}</p>
+<xen:else />
+	<p>{xen:phrase siropu_username_change_explain, 'username=<b>{$visitor.username}</b>'}</p>
+	<br>
+	<form method="post" action="{xen:link 'account/change-username', '', 'action=confirm'}" class="xenForm">
+		<dl class="ctrlUnit">
+			<dt><label for="ctrl_username_new">{xen:phrase siropu_username_change_new_username}:</label></dt>
+			<dd>
+				<input type="text" name="username_new" id="ctrl_username_new" class="textCtrl AutoComplete AcSingle" results="10" size="20">
+				<p class="explain">
+					<xen:if is="{$timeFrame}">
+						{xen:phrase siropu_username_change_minimum_time_frame, 'days={$timeFrame}'}
+					</xen:if>
+					<xen:if is="{$changesLeft}">
+						<br>{xen:phrase siropu_username_change_remaining_changes, 'count={$changesLeft}'}
+					</xen:if>
+				</p>
+			</dd>
+		</dl>
+		<xen:if is="{$incognito}">
+		<dl class="ctrlUnit">
+			<dt></dt>
+			<dd>
+				<label for="ctrl_incognito">
+					<input type="checkbox" name="incognito" id="ctrl_incognito" value="1" />
+					{xen:phrase siropu_username_change_incognito_mode}
+				</label>
+				<p class="explain">{xen:phrase siropu_username_change_incognito_mode_explain}</p>
+			</dd>
+		</dl>
+		</xen:if>
+		<dl class="ctrlUnit submitUnit">
+			<dt></dt>
+			<dd><input type="submit" name="save" value="{xen:phrase siropu_username_change}" accesskey="s" class="button primary" /></dd>
+		</dl>
+		<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+	</form>
+</xen:if>]]></template>
+    <template title="siropu_username_change_confirm" version_id="1" version_string="1.0.0"><![CDATA[<xen:title>{xen:phrase siropu_username_change}</xen:title>
+
+<xen:require css="account.css" />
+
+<form method="post" action="{xen:link 'account/change-username'}" class="xenForm AutoValidator" data-redirect="on">
+	<dl class="ctrlUnit">
+		<p>{xen:phrase siropu_username_change_confirm, 'current={$visitor.username}', 'new={$username_new}'}</p>
+		<xen:if is="{$timeFrame}">
+		<p>{xen:phrase siropu_username_change_minimum_time_frame, 'days={$timeFrame}'}</p>
+		</xen:if>
+	</dl>
+	<dl class="ctrlUnit submitUnit">
+		<dt></dt>
+		<dd>
+			<input type="submit" name="save" value="{xen:phrase siropu_username_change_confirm_button}" accesskey="s" class="button primary" />
+			<a href="{xen:link 'account/change-username'}" class="button">{xen:phrase cancel}</a>
+		</dd>
+	</dl>
+	<input type="hidden" name="username_new" value="{$username_new}" />
+	<xen:if is="{$incognito}">
+	<input type="hidden" name="incognito" value="{$incognito}" />
+	</xen:if>
+	<input type="hidden" name="username_new" value="{$username_new}" />
+	<input type="hidden" name="_xfToken" value="{$visitor.csrf_token_page}" />
+	<input type="hidden" name="_xfConfirm" value="1" />
+</form>]]></template>
+    <template title="siropu_username_change_sidebar_link" version_id="1" version_string="1.0.0"><![CDATA[<li><a class="{xen:if "{$selectedKey} == 'account/change-username'", 'secondaryContent', 'primaryContent'}" href="{xen:link account/change-username}">{xen:phrase siropu_username_change}</a></li>]]></template>
+    <template title="siropu_username_change_tab_link" version_id="1" version_string="1.0.0"><![CDATA[<li><a href="{xen:link account/change-username}">{xen:phrase siropu_username_change}</a></li>]]></template>
+    <template title="siropu_username_change_user_tabs_content" version_id="1" version_string="1.0.0"><![CDATA[<li id="usernameHistory" class="profileContent">
+      <div class="section">
+		<xen:if is="{$usernameHistory}">
+			<ul>
+			<xen:foreach loop="$usernameHistory" value="$history">
+				<li{xen:if '{$history.incognito}', ' class="faint"', ''}>{xen:phrase siropu_username_change_user_tab_explain, 'date={xen:datetime $history.date, 'absolute'}', 'old={$history.username_old}', 'new={$history.username_new}'}</li>
+			</xen:foreach>
+			</ul>
+		<xen:else />
+			{xen:phrase siropu_username_change_no_history, 'user={$user.username}'}
+		</xen:if>     
+      </div>
+</li>]]></template>
+    <template title="siropu_username_change_user_tabs_heading" version_id="1" version_string="1.0.0"><![CDATA[<li><a href="{$requestPaths.requestUri}#usernameHistory">{xen:phrase siropu_username_change_history}</a></li>]]></template>
+  </templates>
+  <public_template_modifications/>
+  <bb_code_media_sites/>
+  <bb_codes/>
+</addon>

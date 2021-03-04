@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<admin_permission>
+  <admin_permission admin_permission_id="thMonetize_affiliateLinks" display_order="99999"/>
+  <admin_permission admin_permission_id="thMonetize_communication" display_order="99999"/>
+  <admin_permission admin_permission_id="thMonetize_keywords" display_order="99999"/>
+  <admin_permission admin_permission_id="thMonetize_sponsors" display_order="99999"/>
+  <admin_permission admin_permission_id="thMonetize_upgradePages" display_order="99999"/>
+</admin_permission>

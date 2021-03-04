@@ -1,0 +1,1 @@
+<?php header('Location: ../index.php'); /* Installed: Wed, 01 Oct 14 19:11:57 +0000 */

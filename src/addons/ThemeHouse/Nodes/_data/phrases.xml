@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<phrases>
+  <phrase title="admin_navigation.th_nodeLayout_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Node layout and styling]]></phrase>
+  <phrase title="admin_permission.th_manageNodeLayout_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Manage node layout]]></phrase>
+  <phrase title="node_type.LayoutSeparator" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Node layout separator]]></phrase>
+  <phrase title="style_prop.th_backgroundSelector_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Background selector]]></phrase>
+  <phrase title="style_prop.th_enableGrid_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Enable node grid]]></phrase>
+  <phrase title="style_prop.th_enableNodeFooter_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Enable node footer]]></phrase>
+  <phrase title="style_prop.th_enableStyling_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Enable node styling]]></phrase>
+  <phrase title="style_prop.th_imageOverlay" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Image overlay]]></phrase>
+  <phrase title="style_prop.th_nodeBody" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Node body]]></phrase>
+  <phrase title="style_prop.th_nodeGutter" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Node gutter]]></phrase>
+  <phrase title="style_prop.th_textSelector_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Text selector]]></phrase>
+  <phrase title="style_prop_desc.th_backgroundSelector_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[This is the selector that should be used to place the background image and color on a node, if selected.]]></phrase>
+  <phrase title="style_prop_desc.th_enableGrid_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[]]></phrase>
+  <phrase title="style_prop_desc.th_enableNodeFooter_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Enables the node grid footer. Note: requires node grid.]]></phrase>
+  <phrase title="style_prop_desc.th_enableStyling_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[]]></phrase>
+  <phrase title="style_prop_desc.th_imageOverlay" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[]]></phrase>
+  <phrase title="style_prop_desc.th_nodeBody" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[]]></phrase>
+  <phrase title="style_prop_desc.th_nodeGutter" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Adds a gutter space in between nodes]]></phrase>
+  <phrase title="style_prop_desc.th_textSelector_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[]]></phrase>
+  <phrase title="style_prop_group.th_grid_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[[TH] Nodes: grid]]></phrase>
+  <phrase title="style_prop_group.th_styling_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[[TH] Nodes: styling]]></phrase>
+  <phrase title="style_prop_group_desc.th_grid_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[]]></phrase>
+  <phrase title="style_prop_group_desc.th_styling_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[]]></phrase>
+  <phrase title="th_add_layout_separator_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Add layout separator]]></phrase>
+  <phrase title="th_background_color_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Background color]]></phrase>
+  <phrase title="th_background_image_url_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Background image URL]]></phrase>
+  <phrase title="th_category_icon_class_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Category icon class]]></phrase>
+  <phrase title="th_category_icon_class_unread_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Category icon class (unread)]]></phrase>
+  <phrase title="th_collapse_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Collapse]]></phrase>
+  <phrase title="th_default_grid_options_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Default grid options]]></phrase>
+  <phrase title="th_default_styling_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Default styling]]></phrase>
+  <phrase title="th_divide_last_row_according_to_lower_number_of_columns_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Divide last row according to lower number of columns]]></phrase>
+  <phrase title="th_divide_last_row_into_equal_widths_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Divide last row into equal widths]]></phrase>
+  <phrase title="th_dont_fill_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Don't Fill (Will leave empty spaces)]]></phrase>
+  <phrase title="th_edit_layout_separator_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Edit layout separator]]></phrase>
+  <phrase title="th_edit_node_layout_styling_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Edit node layout and styling]]></phrase>
+  <phrase title="th_fill_last_row_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Fill last row]]></phrase>
+  <phrase title="th_forum_icon_class_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Forum icon class]]></phrase>
+  <phrase title="th_forum_icon_class_unread_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Forum icon class (unread)]]></phrase>
+  <phrase title="th_grid_layout_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Grid layout]]></phrase>
+  <phrase title="th_grid_options_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Grid options]]></phrase>
+  <phrase title="th_inherit_grid_options_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Inherit grid options]]></phrase>
+  <phrase title="th_inherit_styling_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Inherit styling]]></phrase>
+  <phrase title="th_inherited_value_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Inherited value]]></phrase>
+  <phrase title="th_layout_separator_grid_hint" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[The following will set the default styling for this node, if you'd like to edit the per-style options for it you will need to do so from the <a href="admin.php?node-layout">Node layout and styling</a> section.]]></phrase>
+  <phrase title="th_link_forum_icon_class_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Link forum icon class]]></phrase>
+  <phrase title="th_make_remaining_nodes_full_width_on_own_row_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Make remaining nodes full width own their own rows]]></phrase>
+  <phrase title="th_maximum_columns_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Maximum columns]]></phrase>
+  <phrase title="th_minimum_column_width_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Minimum column widths]]></phrase>
+  <phrase title="th_node_class_explain_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[The class you select here will be added alongside the "node" class on each node. If this class is inherited to children each child node will have a className--inherited class added as well.<br>
+For example: if you set "orange" as a class on a category, each forum within that category that is set to inherit styling from the category will have "orange orange--inherited" added to its classes.]]></phrase>
+  <phrase title="th_node_class_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Node class]]></phrase>
+  <phrase title="th_node_grid_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Node grid]]></phrase>
+  <phrase title="th_node_icons_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Node icons]]></phrase>
+  <phrase title="th_node_layout_styling_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Node layout and styling]]></phrase>
+  <phrase title="th_node_styling_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Node styling]]></phrase>
+  <phrase title="th_page_icon_class_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Page icon class]]></phrase>
+  <phrase title="th_rebuild_cache_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Rebuild cache]]></phrase>
+  <phrase title="th_retain_text_styling_nodes" version_id="1000211" version_string="1.0.2 Alpha 1"><![CDATA[Retain text styling]]></phrase>
+  <phrase title="th_separator_max_width_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Separator max width]]></phrase>
+  <phrase title="th_separator_type_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Separator type]]></phrase>
+  <phrase title="th_styling_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Styling]]></phrase>
+  <phrase title="th_use_custom_value_nodes" version_id="1000010" version_string="1.0.0 Alpha"><![CDATA[Use custom value]]></phrase>
+</phrases>

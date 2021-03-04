@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style_property_groups>
+  <style_property_group group_name="th_uix_staffMessages" title="Staff messages" display_order="2101"/>
+  <style_property_group group_name="th_uix_threadStarterMessages" title="Thread starter messages" display_order="2102"/>
+</style_property_groups>

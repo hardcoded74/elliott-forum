@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style_properties>
+  <style_property property_name="thmonetize_userUpgradeCurrency" group_name="thmonetizeUserUpgrades" title="User upgrade currency" description="For user upgrades displaying on an upgrade page." property_type="css" display_order="11" css_components="text">
+    <value>{
+    "font-size": "24px"
+}</value>
+  </style_property>
+  <style_property property_name="thmonetize_userUpgradeLength" group_name="thmonetizeUserUpgrades" title="User upgrade length" description="For user upgrades displaying on an upgrade page." property_type="css" display_order="13" css_components="text">
+    <value>{
+    "font-size": "15px"
+}</value>
+  </style_property>
+  <style_property property_name="thmonetize_userUpgradeOccurrence" group_name="thmonetizeUserUpgrades" title="User upgrade occurrence" description="For user upgrades displaying on an upgrade page." property_type="css" display_order="12" css_components="text">
+    <value>{
+    "font-size": "16px"
+}</value>
+  </style_property>
+  <style_property property_name="thmonetize_userUpgradePrice" group_name="thmonetizeUserUpgrades" title="User upgrade price" description="For user upgrades displaying on an upgrade page." property_type="css" display_order="10" css_components="text">
+    <value>{
+    "font-size": "50px"
+}</value>
+  </style_property>
+  <style_property property_name="thmonetize_userUpgradeShapeBorderWidth" group_name="thmonetizeUserUpgrades" title="User upgrade shape border width" description="For user upgrades with a shape selected displaying on an upgrade page." property_type="value" value_type="unit" display_order="0">
+    <value>"12px"</value>
+  </style_property>
+  <style_property property_name="thmonetize_userUpgradeShapeWidth" group_name="thmonetizeUserUpgrades" title="User upgrade shape width" description="For user upgrades with a shape selected displaying on an upgrade page." property_type="value" value_type="unit" display_order="1">
+    <value>"220px"</value>
+  </style_property>
+</style_properties>

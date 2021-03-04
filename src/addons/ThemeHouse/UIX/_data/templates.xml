@@ -1,0 +1,672 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+  <template type="admin" title="th_child_style_list_uix" version_id="2000531" version_string="2.0.5 Beta 1"><![CDATA[<xf:title>{{ phrase('th_child_styles_for_x_uix', { 'product_name': $product.product_name }) }}</xf:title>
+
+<xf:if is="!$canWriteDirs && !$xf.options.th_enableFtp_uix">
+	<div class="blockMessage blockMessage--error">
+		<h2 style="margin: 0 0 .5em 0">UI.X Error</h2>
+		<p>
+			Your XenForo directory is not writable by the PHP user. You can contact your host and recommend they use a method that allows PHP to run as the same user that owns the XenForo files or alternatively you can <a href="https://www.themehouse.com/help/documentation/uix2/installing-uix-2-manually">install your style manually</a>.<br>
+			Alternatively, you can enable the option to install via FTP <a href="http://xf2.dev/admin.php?options/groups/th_uix/" target="_BLANK">here</a> which should allow you to proceed.
+		</p>
+	</div>
+</xf:if>
+
+<xf:css src="th_style_list_uix.less" />
+
+<xf:if is="$style->th_child_style_cache_uix is not empty">
+	<xf:form action="{{ link('styles/themehouse') }}" class="block">
+		<div class="block-container">
+			<div class="block-body">
+				<xf:datalist>
+					<xf:foreach loop="$style->getChildStyles()" key="$xmlName" value="$childStyle">
+						<xf:datarow>
+							<xf:main label="{$childStyle.style_name}" />
+
+							<xf:if is="!{$childStyle.installed}">
+								<xf:cell class="dataList-cell--min uix_dataList-cel uix_dataList-cel--install" href="{{ link('styles/themehouse/child-styles/install', null, { 'product_id': $product.id, 'style_id': $style.style_id, 'child_style': $xmlName }) }}">{{ phrase('install') }}</xf:cell>
+							</xf:if>
+						</xf:datarow>
+					</xf:foreach>
+				</xf:datalist>
+			</div>
+			<div class="block-footer">
+				<span class="u-pullRight">{{ phrase('showing_x_of_y_items', {'count': count($style->th_child_style_cache_uix), 'total': count($style->th_child_style_cache_uix)}) }}</span>
+			</div>
+		</div>
+	</xf:form>
+	<xf:else />
+	<div class="blockMessage">{{ phrase('th_no_child_styles_found_for_x_uix', { 'product_name': $product.product_name, 'refresh_url': $refreshUrl }) }}</div>
+</xf:if>]]></template>
+  <template type="admin" title="th_index_admin_notice_uix" version_id="2000170" version_string="2.0.1"><![CDATA[<xf:foreach loop="$uix_adminNotices" value="$notice">
+	<div class="blockMessage {$notice.class} blockMessage--iconic">
+		{$notice.message}
+	</div>
+</xf:foreach>]]></template>
+  <template type="admin" title="th_style_install_child_uix" version_id="2000370" version_string="2.0.3"><![CDATA[<xf:title>{{ phrase('th_install_x_uix', { 'product_name': $product.product_name }) }}</xf:title>
+
+<xf:breadcrumb href="{{ link('styles/themehouse') }}">{{ phrase('th_themehouse_styles_uix') }}</xf:breadcrumb>
+
+<xf:form action="{$submitUrl}" class="block">
+	<div class="block-container">
+		<xf:checkboxrow label="{{ phrase('th_child_styles_uix') }}">
+			<xf:foreach loop="$childStyles" key="$fileName" value="$childStyle">
+				<xf:option name="child_styles[]" value="{$fileName}">{$childStyle}</xf:option>
+			</xf:foreach>
+		</xf:checkboxrow>
+
+		<xf:if is="!$freshInstall">
+			<xf:hiddenval name="style_id" value="{$style.style_id}" />
+		</xf:if>
+
+		<xf:hiddenval name="step" value="install" />
+
+		<xf:hiddenval name="path" value="{$path}" />
+		<xf:hiddenval name="version_id" value="{$versionId}" />
+
+		<xf:hiddenval name="ftp_host" value="{$ftpDetails.ftp_host}" />
+		<xf:hiddenval name="ftp_port" value="{$ftpDetails.ftp_port}" />
+		<xf:hiddenval name="ftp_user" value="{$ftpDetails.ftp_user}" />
+		<xf:hiddenval name="ftp_pass" value="{$ftpDetails.ftp_pass}" />
+		<xf:hiddenval name="ftp_dir" value="{$ftpDetails.ftp_dir}" />
+
+
+		<xf:submitrow icon="submit" />
+	</div>
+</xf:form>]]></template>
+  <template type="admin" title="th_style_install_ftp_uix" version_id="2000270" version_string="2.0.2"><![CDATA[<xf:title>{{ phrase('th_install_x_uix', { 'product_name': $product.product_name }) }}</xf:title>
+
+<xf:breadcrumb href="{{ link('styles/themehouse') }}">{{ phrase('th_themehouse_styles_uix') }}</xf:breadcrumb>
+
+<xf:form action="{$submitUrl}" class="block">
+	<div class="block-container">
+		<div class="block-body">
+			<xf:inforow rowtype="confirm">
+				{{ phrase('th_enter_ftp_details_explain_uix') }}
+			</xf:inforow>
+		</div>
+
+		<xf:textboxrow label="{{ phrase('th_ftp_host_uix') }}" name="ftp_host" value="localhost" />
+
+		<xf:textboxrow label="{{ phrase('th_ftp_port_uix') }}" name="ftp_port" value="21" />
+
+		<xf:textboxrow label="{{ phrase('th_ftp_username_uix') }}" name="ftp_user" />
+
+		<xf:textboxrow label="{{ phrase('th_ftp_password_uix') }}" name="ftp_pass" type="password" />
+
+		<xf:textboxrow label="{{ phrase('th_ftp_directory_uix') }}" name="ftp_dir" value="{$fileDir}" />
+
+		<xf:if is="!$freshInstall">
+			<xf:hiddenval name="style_id" value="{$style.style_id}" />
+		</xf:if>
+
+		<xf:hiddenval name="version_id" value="{$versionId}" />
+
+		<xf:hiddenval name="step" value="install" />
+
+		<xf:submitrow icon="submit" />
+	</div>
+</xf:form>]]></template>
+  <template type="admin" title="th_style_install_version_uix" version_id="2000591" version_string="2.0.5 Patch Level 1"><![CDATA[<xf:title>{{ phrase('th_install_x_uix', { 'product_name': $product.product_name }) }}</xf:title>
+
+<xf:breadcrumb href="{{ link('styles/themehouse') }}">{{ phrase('th_themehouse_styles_uix') }}</xf:breadcrumb>
+
+<xf:form action="{$submitUrl}" class="block">
+	<xf:if is="!$freshInstall">
+		<div class="blockMessage blockMessage--important">
+			<b>Note:</b> If you're upgrading from 2.0.2.1.0 or below there are some significant changes in this update, please do <a href="https://www.themehouse.com/help/documentation/uix2/faqs#uix-204-update-potential-issues" target="_BLANK">review these changes before proceeding </a>
+		</div>
+	</xf:if>
+
+	<div class="block-container">
+		<div class="block-body">
+			<xf:inforow rowtype="confirm">
+				{{ phrase('th_installing_x_confirm_uix', { 'product_name': $product.product_name }) }}
+			</xf:inforow>
+		</div>
+
+		<xf:selectrow name="version_id" label="{{ phrase('th_version_uix') }}">
+			<xf:foreach loop="$versions" value="$version">
+				<xf:option value="{$version.id}">{$version.version}</xf:option>
+			</xf:foreach>
+		</xf:selectrow>
+
+		<xf:if is="!$freshInstall">
+			<xf:hiddenval name="style_id" value="{$style.style_id}" />
+		</xf:if>
+
+		<xf:hiddenval name="step" value="ftp_details" />
+
+		<xf:submitrow icon="submit" />
+	</div>
+</xf:form>]]></template>
+  <template type="admin" title="th_style_list_uix" version_id="2000791" version_string="2.0.7 Patch Level 1"><![CDATA[<xf:title>{{ phrase('th_themehouse_styles_uix') }}</xf:title>
+
+<xf:if is="!$canWriteDirs && !$xf.options.th_enableFtp_uix">
+	<div class="blockMessage blockMessage--error">
+		<h2 style="margin: 0 0 .5em 0">UI.X Error</h2>
+		<p>
+			{{ phrase('thuix_writeable_error', {'url': link('options/groups', {'group_id': 'th_uix'})}) }}
+		</p>
+	</div>
+</xf:if>
+
+<xf:css src="th_style_list_uix.less" />
+
+<xf:if is="$styles is not empty">
+	<xf:form action="{{ link('styles/themehouse') }}" class="block">
+		<div class="block-container">
+			<div class="block-body">
+				<xf:datalist>
+					<xf:foreach loop="$styles" value="$style">
+						<xf:datarow>
+							<xf:comment>
+								<xf:cell class="dataList-cell--min dataList-cell--image uix_dataList-cell--thumbnail">
+									<xf:if is="{$style.thumbnail_small_url}">
+										<img src="{$style.thumbnail_small_url}">
+									</xf:if>
+								</xf:cell>
+							</xf:comment>
+							<xf:main label="{$style.product_name}"
+									 hint="{$style.product_tagline}" />
+
+							<xf:if is="{$style.installed}">
+								<xf:cell class="dataList-cell--min uix_dataList-cel uix_dataList-cel--childStyles" href="{{ link('styles/themehouse/child-styles', null, { 'product_id': $style.id, 'style_id': $style.installed.style_id }) }}">{{ phrase('th_child_styles_uix') }}</xf:cell>
+								<xf:if is="{$style.isOutdated}">
+									<xf:cell class="dataList-cell--min uix_dataList-cel uix_dataList-cel--upgrade" href="{{ link('styles/themehouse/upgrade', null, { 'product_id': $style.id, 'style_id': $style.installed.style_id }) }}">{{ phrase('upgrade') }}</xf:cell>
+									<xf:else />
+									<xf:cell class="dataList-cell--min uix_dataList-cel uix_dataList-cel--forceReinstall" href="{{ link('styles/themehouse/upgrade', null, { 'product_id': $style.id, 'style_id': $style.installed.style_id }) }}">{{ phrase('th_force_reinstall_uix') }}</xf:cell>
+								</xf:if>
+								<xf:else />
+								<xf:cell class="dataList-cel--min uix_dataList-cell"></xf:cell>
+								<xf:cell class="dataList-cell--min uix_dataList-cel uix_dataList-cel--install" href="{{ link('styles/themehouse/install', null, { 'product_id': $style.id }) }}">{{ phrase('install') }}</xf:cell>
+							</xf:if>
+							<xf:cell class="dataList-cell--min uix_dataList-cel uix_dataList-cel--documentation" href="{$style.information_url}" target="_BLANK">{{ phrase('th_documentation_uix') }}</xf:cell>
+						</xf:datarow>
+					</xf:foreach>
+				</xf:datalist>
+			</div>
+			<div class="block-footer">
+				<span class="u-pullRight">{{ phrase('showing_x_of_y_items', {'count': count($styles), 'total': count($styles)}) }}</span>
+			</div>
+		</div>
+	</xf:form>
+	<xf:else />
+	<div class="blockMessage">{{ phrase('th_no_active_licenses_found_uix') }}</div>
+</xf:if>]]></template>
+  <template type="admin" title="th_style_list_uix.less" version_id="2000531" version_string="2.0.5 Beta 1"><![CDATA[.uix_dataList-cel--install {
+	background-color: #26A65B;
+}
+.uix_dataList-cel--upgrade {
+	background-color: #F89406;
+}
+.uix_dataList-cel--forceReinstall {
+	background-color: #F7CA18;
+}
+
+.uix_dataList-cel--documentation {
+	background-color: #4183D7;
+}
+
+.uix_dataList-cel--childStyles {
+	background-color: #3F51B5;
+}
+
+.uix_dataList-cel {
+	color: #FFF;
+	font-weight: bold;
+	a {
+		color: #FFF;
+	}
+}
+
+.uix_dataList-cell--thumbnail {
+	width: 100px !important;
+}]]></template>
+  <template type="admin" title="th_style_property_documentation_uix" version_id="2000670" version_string="2.0.6"><![CDATA[<a href="https://www.themehouse.com/help/documentation/uix2/{$groupKey}?v={$version}#{$propKey}" target="_BLANK">{{ phrase('th_view_documentation_uix') }}</a>]]></template>
+  <template type="admin" title="th_style_property_prefix_uix" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[<xf:css src="th_style_property_prefix_uix.less" />
+<img src="{{ base_url('styles/uix_addon/brandmark.png') }}" class="uix_dataList-styleProperty-mainRow-brandmark">&nbsp;
+]]></template>
+  <template type="admin" title="th_style_property_prefix_uix.less" version_id="2000010" version_string="2.0.0 Alpha"><![CDATA[.uix_dataList-styleProperty-mainRow-brandmark {
+    max-width: 20px;
+    vertical-align: middle;
+}
+
+.formRow dt .uix_dataList-styleProperty-mainRow-brandmark {
+    float: left;
+}]]></template>
+  <template type="admin" title="th_uix_sp_image_upload" version_id="2010231" version_string="2.1.2 Beta 1"><![CDATA[<xf:title>
+	{{ phrase('th_uix_upload_style_property_image') }}
+</xf:title>
+
+<xf:form action="{{ link('uix-sp-image-upload/upload', $styleProperty) }}"
+		 class="block" upload="true" ajax="true"
+		 data-xf-init="uix-image-upload">
+	<div class="block-container">
+		<div class="block-body">
+			<xf:uploadrow name="file" accept=".gif,.jpeg,.jpg,.jpe,.png"
+						  explain="{{ phrase('th_uix_sp_upload_allowed_file_types') }}"
+						  label="{{ phrase('image') }}"/>
+			
+			<xf:checkboxrow>
+				<xf:option value="1" name="custom_disk_path"
+						   explain="{{ phrase('th_uix_customize_upload_path_explain') }}"
+						   label="{{ phrase('th_uix_customize_upload_path:') }}">
+					<xf:textbox name="path" value="{$defaultPath}"></xf:textbox>
+				</xf:option>
+				<xf:option value="1" name="rename_file"
+						   explain="{{ phrase('th_uix_customize_file_name_explain') }}"
+						   label="{{ phrase('th_uix_customize_file_name:') }}">
+					<xf:textbox name="name" value="{$defaultName}"></xf:textbox>
+				</xf:option>
+			</xf:checkboxrow>
+		</div>
+		<xf:submitrow icon="upload" />
+	</div>
+</xf:form>]]></template>
+  <template type="admin" title="th_uix_uploadable_background_property" version_id="2010231" version_string="2.1.2 Beta 1"><![CDATA[<xf:comment>
+	<xf:textbox
+				name="{$formBaseKey}[background-image]"
+				value="{{ $property.getCssPropertyValue('background-image') }}"
+				class="input--cssProp input--colorWidthMatched" dir="ltr" />
+</xf:comment>
+
+<xf:js src="themehouse/uix/style-property-upload.js" addon="ThemeHouse/UIX" />
+<xf:css src="th_uix_uploadable_style_property.less" />
+
+<div class="inputGroup inputGroup--joined inputGroup--uixFileUpload">
+	<xf:textbox name="{$formBaseKey}[background-image]"
+				value="{{ $property.getCssPropertyValue('background-image') }}"
+				data-style-property-id="{$property.property_id}"
+				class="input--cssProp input--colorWidthMatched" dir="ltr" />
+
+	<xf:button class="button--link"
+			   data-xf-click="overlay"
+			   href="{{ link('uix-sp-image-upload', $property) }}"
+			   value="{$property.property_name}">
+		{{ phrase('upload') }}
+	</xf:button>
+</div>]]></template>
+  <template type="admin" title="th_uix_uploadable_style_property" version_id="2010231" version_string="2.1.2 Beta 1"><![CDATA[<xf:comment>
+	<xf:textboxrow name="{$formBaseKey}"
+				   value="{$property.property_value}"
+				   type="{$valueOptions.type}"
+				   class="{$valueOptions.class}"
+				   code="{$valueOptions.code}"
+				   rowclass="{$rowClass}"
+				   label="{$titleHtml}"
+				   hint="{$hintHtml}"
+				   explain="{$property.description}"
+				   dir="auto" />
+</xf:comment>
+
+<xf:formrow class="{$valueOptions.class}"
+			code="{$valueOptions.code}"
+			rowclass="{$rowClass}"
+			label="{$titleHtml}"
+			hint="{$hintHtml}"
+			explain="{$property.description}">
+	<xf:js src="themehouse/uix/style-property-upload.js" addon="ThemeHouse/UIX" />
+	<xf:css src="th_uix_uploadable_style_property.less" />
+	
+	<div class="inputGroup inputGroup--joined inputGroup--uixFileUpload">
+		<xf:textbox name="{$formBaseKey}"
+					type="{$valueOptions.type}"
+					dir="auto"
+					data-style-property-id="{$property.property_id}"
+					value="{$property.property_value}" />
+
+		<xf:button class="button--link"
+				   data-xf-click="overlay"
+				   href="{{ link('uix-sp-image-upload', $property) }}"
+				   value="{$property.property_name}">
+			{{ phrase('upload') }}
+		</xf:button>
+	</div>
+</xf:formrow>]]></template>
+  <template type="admin" title="th_uix_uploadable_style_property.less" version_id="2010231" version_string="2.1.2 Beta 1"><![CDATA[.inputGroup--uixFileUpload {
+	.button {
+		border-top-left-radius: 0;
+		border-bottom-left-radius: 0;
+	}
+}]]></template>
+  <template type="admin" title="thuix_options" version_id="2000731" version_string="2.0.7 Beta 1"><![CDATA[<xf:macro name="option_form_block" arg-group="" arg-options="!" arg-containerBeforeHtml="">
+	<xf:if is="$options is not empty">
+		<xf:form action="{{ link('options/update') }}" ajax="true" class="block">
+			{$containerBeforeHtml|raw}
+			<div class="block-container">
+				<h2 class="block-tabHeader tabs" data-xf-init="tabs" role="tablist">
+					<a class="tabs-tab is-active"
+					   role="tab"
+					   tabindex="0"
+					   aria-controls="uixGeneralOptions">
+						{{ phrase('general_options') }}
+					</a>
+					<a class="tabs-tab"
+					   role="tab"
+					   tabindex="0"
+					   aria-controls="uixSocialMedia">
+						{{ phrase('thuix_social_media') }}
+					</a>
+				</h2>
+				<ul class="tabPanes">
+					<li class="is-active" role="tabpanel" id="uixGeneralOptions">
+						<div class="block-body">
+							<xf:foreach loop="$options" value="$option">
+								<xf:if is="{$option.Relations.{$group.group_id}.display_order} < 2000">
+
+									<xf:if is="$group">
+										<xf:set var="$curHundred"
+												value="{{ floor($option.Relations.{$group.group_id}.display_order / 100) }}" />
+										<xf:if is="{{ $curHundred > $hundred }}">
+											<xf:set var="$hundred" value="{$curHundred}" />
+											<hr class="formRowSep" />
+										</xf:if>
+									</xf:if>
+
+									<xf:macro template="option_macros"
+											  name="option_row"
+											  arg-group="{$group}"
+											  arg-option="{$option}" />
+								</xf:if>
+							</xf:foreach>
+						</div>
+					</li>
+					<li role="tabpanel" id="uixSocialMedia">
+						<div class="block-body">
+							<xf:foreach loop="$options" value="$option">
+								<xf:if is="{$option.Relations.{$group.group_id}.display_order} >= 2000 AND {$option.Relations.{$group.group_id}.display_order} < 3000">
+
+									<xf:if is="$group">
+										<xf:set var="$curHundred"
+												value="{{ floor($option.Relations.{$group.group_id}.display_order / 100) }}" />
+										<xf:if is="{{ $curHundred > $hundred }}">
+											<xf:set var="$hundred"
+													value="{$curHundred}" />
+											<hr class="formRowSep" />
+										</xf:if>
+									</xf:if>
+
+									<xf:macro template="option_macros"
+											  name="option_row"
+											  arg-group="{$group}"
+											  arg-option="{$option}" />
+								</xf:if>
+							</xf:foreach>
+						</div>
+					</li>
+				</ul>
+				<xf:submitrow sticky="true" icon="save" />
+			</div>
+		</xf:form>
+	</xf:if>
+</xf:macro>]]></template>
+  <template type="admin" title="widget_def_options_th_post_thread_uix" version_id="2000191" version_string="2.0.1 Patch Level 1"><![CDATA[<hr class="formRowSep" />
+
+<xf:textarearow label="{{ phrase('description') }}" name="options[description]" value="{$options.description}" rows="5" />]]></template>
+  <template type="admin" title="widget_def_options_th_widget_login_uix" version_id="2000053" version_string="2.0.0 Release Candidate 3"><![CDATA[]]></template>
+  <template type="admin" title="widget_def_options_thuix_socialMedia" version_id="2000670" version_string="2.0.6"><![CDATA[<hr class="formRowSep" />
+
+<xf:selectrow label="{{ phrase('thuix_platform') }}" name="options[platform]" value="{$options.platform}">
+	<xf:option value=""></xf:option>
+	<xf:option value="facebook">Facebook</xf:option>
+	<xf:option value="twitter">Twitter</xf:option>
+</xf:selectrow>
+
+<xf:textboxrow label="{{ phrase('name') }}" name="options[name]" value="{$options.name}" />]]></template>
+  <template type="public" title="th_uix_staffPost.less" version_id="2010131" version_string="2.1.1 Beta 1"><![CDATA[.message-staffPost {
+	.xf-th_uix_staffMessageBlock();
+
+	.message-cell
+	{
+		&.message-cell--user,
+		&.message-cell--action
+		{
+			position: relative;
+			.xf-th_uix_staffMessageUserBlock;
+			min-width: 0;
+		}
+	}
+
+	.message-newIndicator
+	{
+		.xf-th_uix_staffMessageNewIndicator();
+	}
+
+	.message-signature
+	{
+		.xf-th_uix_staffMessageSignature();
+	}
+}]]></template>
+  <template type="public" title="th_uix_threadStarterPost.less" version_id="2010131" version_string="2.1.1 Beta 1"><![CDATA[.message-threadStarterPost {
+	.xf-th_uix_threadStarterMessageBlock();
+
+	.message-cell
+	{
+		&.message-cell--user,
+		&.message-cell--action
+		{
+			position: relative;
+			.xf-th_uix_threadStarterMessageUserBlock;
+			min-width: 0;
+		}
+	}
+
+	.message-newIndicator
+	{
+		.xf-th_uix_threadStarterMessageNewIndicator();
+	}
+
+	.message-signature
+	{
+		.xf-th_uix_threadStarterMessageSignature();
+	}
+}]]></template>
+  <template type="public" title="th_widget_login_uix" version_id="2010231" version_string="2.1.2 Beta 1"><![CDATA[<xf:if is="!{$xf.visitor.user_id}">
+	<xf:form action="{{ link('login/login') }}" class="block" attributes="{{ widget_data($widget, true) }}">
+		<div class="block-container">
+			<h3 class="block-minorHeader">{{ phrase('log_in') }}</h3>
+			<div class="block-body">
+				<div class="block-row">
+					<label for="ctrl_loginWidget_login">{{ phrase('your_name_or_email_address') }}</label>
+					<div class="u-inputSpacer">
+						<input name="login" id="ctrl_loginWidget_login" class="input" />
+					</div>
+				</div>
+
+				<div class="block-row">
+					<label for="ctrl_loginWidget_password">{{ phrase('password') }}</label>
+					<div class="u-inputSpacer">
+						<input name="password" id="ctrl_loginWidget_password" type="password" class="input" />
+						<a href="{{ link('lost-password') }}" data-xf-click="overlay">{{ phrase('forgot_your_password') }}</a>
+					</div>
+				</div>
+
+				<div class="block-row">
+					<label>
+						<input type="checkbox" name="remember" value="1" checked="checked"> {{ phrase('stay_logged_in') }}
+					</label>
+				</div>
+
+				<xf:submitrow icon="login" rowtype="simple" />
+			</div>
+		</div>
+	</xf:form>
+</xf:if>]]></template>
+  <template type="public" title="th_widget_post_thread_uix" version_id="2010070" version_string="2.1.0"><![CDATA[<xf:if is="$xf.visitor.canCreateThread()">
+	<div class="block" {{ widget_data($widget) }}>
+		<div class="block-container">
+			<div class="block-body uix_postThreadWidget block-row">
+					<i class="mdi mdi-forum"></i>
+				<h3 class="uix_postThreadWidget__title">{$title}</h3>
+				<div class="uix_postThreadWidget__description">{$options.description|raw}</div>
+				<xf:button href="{{ link('forums/create-thread') }}" class="button--cta" icon="write" overlay="true">
+					{{ phrase('post_thread') }}
+				</xf:button>
+			</div>
+		</div>
+	</div>
+</xf:if>
+
+<xf:css src="th_widget_post_thread_uix.less" />]]></template>
+  <template type="public" title="th_widget_post_thread_uix.less" version_id="2000791" version_string="2.0.7 Patch Level 1"><![CDATA[.uix_postThreadWidget__title {
+	margin: @xf-paddingMedium 0;
+}]]></template>
+  <template type="public" title="thuix_account_preferences_style_options" version_id="2010232" version_string="2.1.2 Beta 2"><![CDATA[<xf:if is="$xf.options.thuix_enableStyleOptions">
+	<xf:checkboxrow label="{{ phrase('thuix_style_options') }}">
+		<xf:if is="$xf.visitor.hasPermission('th_uix', 'collapseSidebar')">
+			<xf:if is="in_array($xf.options.th_sidebarCollapseDefault_uix, {0: 'registered', 1: 'all'})">
+				<xf:option name="option[thuix_collapse_sidebar]" checked="{{ $xf.visitor.Option.thuix_collapse_sidebar ? false : true }}"
+					label="{{ phrase('thuix_show_sidebar_by_default') }}" hint="{{ phrase('thuix_show_sidebar_by_default_hint') }}" />
+			<xf:else />
+				<xf:option name="option[thuix_collapse_sidebar]" checked="{{ $xf.visitor.Option.thuix_collapse_sidebar ? true : false }}"
+					label="{{ phrase('thuix_collapse_sidebar_by_default') }}" hint="{{ phrase('thuix_collapse_sidebar_by_default_hint') }}" />
+			</xf:if>
+		</xf:if>
+		<xf:if is="in_array($xf.options.th_sidebarNavCollapseDefault_uix, {0: 'registered', 1: 'all'})">
+			<xf:option name="option[thuix_collapse_sidebar_nav]" checked="{{ $xf.visitor.Option.thuix_collapse_sidebar_nav ? false : true }}"
+				label="{{ phrase('thuix_show_side_navigation_by_default') }}" hint="{{ phrase('thuix_show_side_navigation_by_default_hint') }}" />
+		<xf:else />
+			<xf:option name="option[thuix_collapse_sidebar_nav]" checked="{{ $xf.visitor.Option.thuix_collapse_sidebar_nav ? true : false }}"
+				label="{{ phrase('thuix_collapse_side_navigation_by_default') }}" hint="{{ phrase('thuix_collapse_side_navigation_by_default_hint') }}" />
+		</xf:if>
+		<xf:if is="in_array($xf.options.th_postbitCollapseDefault_uix, {0: 'registered', 1: 'all'})">
+			<xf:option name="option[thuix_collapse_postbit]" checked="{{ $xf.visitor.Option.thuix_collapse_postbit ? false : true }}"
+				label="{{ phrase('thuix_show_postbit_by_default') }}" hint="{{ phrase('thuix_show_postbit_by_default_hint') }}" />
+		<xf:else />
+			<xf:option name="option[thuix_collapse_postbit]" checked="{{ $xf.visitor.Option.thuix_collapse_postbit ? true : false }}"
+				label="{{ phrase('thuix_collapse_postbit_by_default') }}" hint="{{ phrase('thuix_collapse_postbit_by_default_hint') }}" />
+		</xf:if>
+	</xf:checkboxrow>
+</xf:if>
+
+<xf:if is="$xf.versionId >= 2010010">
+	<xf:selectrow label="{{ phrase('thuix_font_size') }}" name="option[thuix_font_size]"
+			value="{$xf.visitor.Option.thuix_font_size}">
+		<xf:option value="-1">{{ phrase('thuix_small') }}</xf:option>
+		<xf:option value="0">{{ phrase('thuix_medium_recommended') }}</xf:option>
+		<xf:option value="1">{{ phrase('thuix_large') }}</xf:option>
+		<xf:option value="2">{{ phrase('thuix_extra_large') }}</xf:option>
+	</xf:selectrow>
+</xf:if>]]></template>
+  <template type="public" title="thuix_widget_social_media_feed" version_id="2000670" version_string="2.0.6"><![CDATA[<div class="block" {{ widget_data($widget) }}>
+	<div class="block-container">
+		<h3 class="block-minorHeader">{$title}</h3>
+		<div class="block-body">
+			<div class="block-row">
+				<xf:if is="$options.platform == 'facebook'">
+					<div class="fb-page" data-href="https://www.facebook.com/{$options.name}/" data-tabs="timeline" data-height="130px" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/{$options.name}/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/{$options.name}/">{$options.name}</a></blockquote></div>
+
+
+					<div id="fb-root"></div>
+					<xf:js>(function(d, s, id) {
+                        var js, fjs = d.getElementsByTagName(s)[0];
+                        if (d.getElementById(id)) return;
+                        js = d.createElement(s); js.id = id;
+                        js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.12&appId=152215748776501&autoLogAppEvents=1';
+                        fjs.parentNode.insertBefore(js, fjs);
+                    }(document, 'script', 'facebook-jssdk'));</xf:js>
+					<xf:else />
+					<a class="twitter-timeline" href="https://twitter.com/{$options.name}?ref_src=twsrc%5Etfw">Tweets by @{$options.name}</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+				</xf:if>
+			</div>
+		</div>
+	</div>
+</div>]]></template>
+  <template type="public" title="uix_socialMedia" version_id="2010093" version_string="2.1.0 Patch Level 3"><![CDATA[<xf:css src="uix_socialMedia.less"  />
+<ul class="uix_socialMedia">
+	<xf:if is="$xf.options.th_facebookUrl_uix">
+		<li><a data-xf-init="tooltip" title="{{ phrase('facebook') }}" target="_blank" href="{$xf.options.th_facebookUrl_uix}">
+				<i class="mdi mdi-facebook" aria-hidden="true"></i>
+			</a></li>
+	</xf:if>
+
+	<xf:if is="$xf.options.th_deviantArtUrl_uix">
+		<li><a data-xf-init="tooltip" title="{{ phrase('uix_deviantArt') }}" target="_blank" href="{$xf.options.th_deviantArtUrl_uix}">
+				<i class="mdi mdi-deviantart"></i>
+			</a></li>
+	</xf:if>
+
+	<xf:if is="$xf.options.th_discordUrl_uix">
+		<li><a data-xf-init="tooltip" title="{{ phrase('option.th_discordUrl_uix') }}" target="_blank" href="{$xf.options.th_discordUrl_uix}">
+				<i class="mdi mdi-discord"></i>
+			</a></li>
+	</xf:if>
+
+	<xf:if is="$xf.options.th_flickrUrl_uix">
+		<li><a data-xf-init="tooltip" title="{{ phrase('option.uix_flickr') }}" target="_blank" href="{$xf.options.th_flickrUrl_uix}">
+				<i class="mdi mdi-flickr"></i>
+			</a></li>
+	</xf:if>
+
+	<xf:if is="$xf.options.th_gitHubUrl_uix">
+		<li><a data-xf-init="tooltip" title="{{ phrase('uix_github') }}" target="_blank" href="{$xf.options.th_gitHubUrl_uix}">
+				<i class="mdi mdi-github-face"></i>
+			</a></li>
+	</xf:if>
+
+	<xf:if is="$xf.versionId >= 2010010 && $xf.options.th_googlePlus_uix">
+		<li><a data-xf-init="tooltip" title="{{ phrase('google_plus') }}" target="_blank" href="{$xf.options.th_googlePlus_uix}">
+				<i class="mdi mdi-google-plus"></i>
+		</a></li>
+	</xf:if>
+
+	<xf:if is="$xf.options.th_instagramUrl_uix">
+		<li><a data-xf-init="tooltip" title="{{ phrase('uix_instagram') }}" target="_blank" href="{$xf.options.th_instagramUrl_uix}">
+				<i class="mdi mdi-instagram"></i>
+			</a></li>
+	</xf:if>
+
+	<xf:if is="$xf.options.th_linkedInUrl_uix">
+		<li><a data-xf-init="tooltip" title="{{ phrase('uix_linkedin') }}" target="_blank" href="{$xf.options.th_linkedInUrl_uix}">
+				<i class="mdi mdi-linkedin"></i>
+			</a></li>
+	</xf:if>
+
+	<xf:if is="$xf.options.th_pinterestUrl_uix">
+		<li><a data-xf-init="tooltip" title="{{ phrase('pinterest') }}" target="_blank" href="{$xf.options.th_pinterestUrl_uix}">
+				<i class="mdi mdi-pinterest"></i>
+			</a></li>
+	</xf:if>
+
+	<xf:if is="$xf.options.th_redditUrl_uix">
+		<li><a data-xf-init="tooltip" title="{{ phrase('reddit') }}" target="_blank" href="{$xf.options.th_redditUrl_uix}">
+				<i class="mdi mdi-reddit"></i>
+			</a></li>
+	</xf:if>
+
+	<xf:if is="$xf.options.th_steamUrl_uix">
+		<li><a data-xf-init="tooltip" title="{{ phrase('uix_steam') }}" target="_blank" href="{$xf.options.th_steamUrl_uix}">
+				<i class="mdi mdi-steam"></i>
+			</a></li>
+	</xf:if>
+
+	<xf:if is="$xf.options.th_tumblrUrl_uix">
+		<li><a data-xf-init="tooltip" title="{{ phrase('tumblr') }}" target="_blank" href="{$xf.options.th_tumblrUrl_uix}">
+				<i class="mdi mdi-tumblr"></i>
+			</a></li>
+	</xf:if>
+
+	<xf:if is="$xf.options.th_twitchUrl_uix">
+		<li><a data-xf-init="tooltip" title="{{ phrase('uix_twitch') }}" target="_blank" href="{$xf.options.th_twitchUrl_uix}">
+				<i class="mdi mdi-twitch"></i>
+			</a></li>
+	</xf:if>
+
+	<xf:if is="$xf.options.th_twitterUrl_uix">
+		<li><a data-xf-init="tooltip" title="{{ phrase('twitter') }}" target="_blank" href="{$xf.options.th_twitterUrl_uix}">
+				<i class="mdi mdi-twitter"></i>
+			</a></li>
+	</xf:if>
+
+	<xf:if is="$xf.options.th_youtubeUrl_uix">
+		<li><a data-xf-init="tooltip" title="{{ phrase('uix_youtube') }}" target="_blank" href="{$xf.options.th_youtubeUrl_uix}">
+				<i class="mdi mdi-youtube-play"></i>
+			</a></li>
+	</xf:if>
+</ul>]]></template>
+  <template type="public" title="uix_socialMedia.less" version_id="2010093" version_string="2.1.0 Patch Level 3"><![CDATA[[data-widget-definition="thuix_socialMedia"] .block-row {
+       max-height: 200px;
+       overflow-y: auto;
+}]]></template>
+</templates>

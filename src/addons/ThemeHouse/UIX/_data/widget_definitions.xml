@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget_definitions>
+  <widget_definition definition_id="th_post_thread_uix" definition_class="ThemeHouse\UIX\Widget\PostThread"/>
+  <widget_definition definition_id="th_widget_login_uix" definition_class="ThemeHouse\UIX\Widget\LoginForm"/>
+  <widget_definition definition_id="thuix_socialMedia" definition_class="ThemeHouse\UIX\Widget\SocialMediaFeed"/>
+</widget_definitions>

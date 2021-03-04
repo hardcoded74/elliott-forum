@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<admin_permission>
+  <admin_permission admin_permission_id="th_manageNodeLayout_nodes" display_order="115"/>
+</admin_permission>

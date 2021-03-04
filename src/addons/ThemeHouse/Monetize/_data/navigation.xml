@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation>
+  <navigation_entry navigation_id="thMonetize_accountUpgrades" parent_navigation_id="_default" display_order="50" navigation_type_id="basic" enabled="1"><![CDATA[{"link":"{{ link('account\/upgrades') }}","display_condition":"{$xf.app.userUpgradeCount} && ({$xf.visitor.user_id} || {$xf.options.thmonetize_allowGuestsToViewUserUpgrades})","extra_attributes":[]}]]></navigation_entry>
+</navigation>

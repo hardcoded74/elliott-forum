@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template_modifications>
+  <modification type="public" template="PAGE_CONTAINER" modification_key="thmonetize_footer_copyright" description="Add copyright information." execution_order="10" enabled="1" action="callback">
+    <find><![CDATA[/{{ phrase\('extra_copyright'\) }}/]]></find>
+    <replace><![CDATA[ThemeHouse\Core\Branding::renderAddonBranding]]></replace>
+  </modification>
+  <modification type="public" template="PAGE_CONTAINER" modification_key="thmonetize_page_container_extraOutput" description="Adds extra output to top of page body." execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<!--XF:EXTRA_OUTPUT-->]]></find>
+    <replace><![CDATA[$0
+
+		<xf:include template="thmonetize_page_container_extra_output" />]]></replace>
+  </modification>
+  <modification type="public" template="PAGE_CONTAINER" modification_key="thmonetize_page_container_footerLinks" description="Add footer links." execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/<div class="p-footer-row-opposite">\s*<ul class="p-footer-linkList">/s]]></find>
+    <replace><![CDATA[$0
+					<xf:if is="$xf.options.thmonetize_enableSponsorsDirectory">
+						<li><a href="{{ link('sponsors') }}">{{ phrase('thmonetize_sponsors') }}</a></li>
+					</xf:if>]]></replace>
+  </modification>
+  <modification type="public" template="account_upgrades" modification_key="thmonetize_account_upgrades_addUpgradeStyling" description="Add classes for upgrade styling to user upgrades page." execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/<xf:foreach loop="\$(?:available|purchased)" value="\$upgrade">\s*<li/]]></find>
+    <replace><![CDATA[$0 class="thmonetize_upgrade thmonetize_upgrade--{$upgrade.user_upgrade_id}{{ $upgrade.thmonetize_style_properties.color ? ' thmonetize_upgrade--hasColor' : '' }}{{ $upgrade.thmonetize_style_properties.shape ? ' thmonetize_upgrade--hasShape thmonetize_upgrade--' . $upgrade.thmonetize_style_properties.shape : '' }}"]]></replace>
+  </modification>
+  <modification type="public" template="account_upgrades" modification_key="thmonetize_account_upgrades_removeAccountWrapper" description="Optionally remove account wrapper on upgrades page." execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<xf:wrap template="account_wrapper" />]]></find>
+    <replace><![CDATA[<xf:if is="!$removeAccountWrapper">
+	$0
+</xf:if>]]></replace>
+  </modification>
+  <modification type="admin" template="category_edit" modification_key="thmonetize_category_edit" description="Add extra fields to category editor." execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/<\/div>\s*<xf:submitrow/s]]></find>
+    <replace><![CDATA[<xf:macro template="thmonetize_node_edit_macros" name="sponsor" arg-node="{$node}" arg-sponsors="{$availableSponsors}" />
+		$0]]></replace>
+  </modification>
+  <modification type="admin" template="forum_edit" modification_key="thmonetize_forum_edit" description="Add extra fields to forum editor." execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/<\/div>\s*<xf:submitrow/s]]></find>
+    <replace><![CDATA[<xf:macro template="thmonetize_node_edit_macros" name="sponsor" arg-node="{$node}" arg-sponsors="{$availableSponsors}" />
+		$0]]></replace>
+  </modification>
+  <modification type="admin" template="helper_criteria" modification_key="thmonetize_helper_criteria_userUpgrades" description="Add user upgrades criteria." execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<!--[XF:user:after_groups]-->]]></find>
+    <replace><![CDATA[$0
+			<xf:macro template="thmonetize_helper_criteria" name="after_groups" arg-criteria="{$criteria}" />]]></replace>
+  </modification>
+  <modification type="admin" template="helper_user_search_criteria" modification_key="thmonetize_helper_user_search_criteria" description="Add user states." execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/<xf:checkboxrow name="criteria\[user_state\]".*?<xf:option value="valid".*?<\/xf:option>/s]]></find>
+    <replace><![CDATA[$0
+	<xf:option value="thmonetize_upgrade" selected="in_array('thmonetize_upgrade', $criteria.user_state)">{{ phrase('thmonetize_awaiting_user_upgrade_purchase') }}</xf:option>]]></replace>
+  </modification>
+  <modification type="public" template="node_list_category" modification_key="thmonetize_node_list_category_sponsor_below" description="Add sponsor to category in node list." execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/(<xf:macro name="depth2".*)(<\/div>.*?<\/xf:macro>)/s]]></find>
+    <replace><![CDATA[$1	<xf:macro template="thmonetize_node_list_macros" name="sponsor_below" arg-node="{$node}" />
+	$2]]></replace>
+  </modification>
+  <modification type="public" template="node_list_category" modification_key="thmonetize_node_list_category_sponsor_image" description="Add sponsor to category in node list." execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<div class="node-main js-nodeMain">]]></find>
+    <replace><![CDATA[$0
+				<xf:macro template="thmonetize_node_list_macros" name="sponsor_image" arg-node="{$node}" />]]></replace>
+  </modification>
+  <modification type="public" template="node_list_forum" modification_key="thmonetize_node_list_forum_sponsor_below" description="Add sponsor to forum in node list." execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/(<xf:macro name="forum".*)(<\/div>.*?<\/xf:macro>)/s]]></find>
+    <replace><![CDATA[$1	<xf:macro template="thmonetize_node_list_macros" name="sponsor_below" arg-node="{$node}" />
+	$2]]></replace>
+  </modification>
+  <modification type="public" template="node_list_forum" modification_key="thmonetize_node_list_forum_sponsor_image" description="Add sponsor to forum in node list." execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<div class="node-main js-nodeMain">]]></find>
+    <replace><![CDATA[$0
+				<xf:macro template="thmonetize_node_list_macros" name="sponsor_image" arg-node="{$node}" />]]></replace>
+  </modification>
+  <modification type="public" template="post_macros" modification_key="thmonetize_post_macros" description="Replace post message with snippet if required." execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[{{ bb_code($post.message, 'post', $post) }}]]></find>
+    <replace><![CDATA[<xf:if is="$xf.visitor.hasNodePermission($post.Thread.node_id, 'thMonetize_viewPost')">
+								<xf:if is="$post.thmonetize_post_snippet_length > 0">
+								{{ snippet($post.message, $post.thmonetize_post_snippet_length, {'stripBbCode': true}) }}
+								<xf:if is="$xf.options.thmonetize_linkToUpgradesIfContentRestricted">
+									<div class="messageNotice messageNotice--warning">
+										{{ phrase('thmonetize_an_account_upgrade_is_required_to_view_more_of_this_post', { 'link': link('account/upgrades') }) }}
+									</div>
+								</xf:if>
+								<xf:else />
+								$0
+								</xf:if>
+								<xf:elseif is="$xf.options.thmonetize_linkToUpgradesIfContentRestricted" />
+									<div class="messageNotice messageNotice--warning">
+										{{ phrase('thmonetize_an_account_upgrade_is_required_to_view_this_post', { 'link': link('account/upgrades') }) }}
+									</div>
+								</xf:if>]]></replace>
+  </modification>
+  <modification type="public" template="post_macros" modification_key="thmonetize_post_macros_maxPosts" description="Hide posts if maximum reached." execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/(<xf:macro name="post".*?>)(.*?)(<\/xf:macro>)/s]]></find>
+    <replace><![CDATA[$1
+	<xf:if is="$post.thmonetize_max_posts <= 0 || $post.position < $post.thmonetize_max_posts">
+$2
+	<xf:else />
+	<xf:css src="message.less" />
+	</xf:if>
+$3]]></replace>
+  </modification>
+  <modification type="public" template="register_form" modification_key="thmonetize_register_form_aboveUsername" description="Add to registration form above username." execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<xf:textboxrow name="username"]]></find>
+    <replace><![CDATA[<xf:include template="thmonetize_register_form_above_username" />
+			$0]]></replace>
+  </modification>
+  <modification type="public" template="thread_view" modification_key="thmonetize_thread_view_maxPosts" description="Add link to account upgrades if max posts restriction enforced" execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<!--[XF:content_top]-->]]></find>
+    <replace><![CDATA[$0
+<xf:set var="$maxPosts" value="{$xf.visitor.hasNodePermission($thread.node_id, 'thMonetize_maxPosts')}" />
+<xf:set var="$lastPost" value="{$posts|last}" />
+<xf:if is="$xf.options.thmonetize_linkToUpgradesIfContentRestricted && $maxPosts > 0 && $lastPost.position >= $maxPosts">
+	<div class="blockMessage blockMessage--error blockMessage--iconic">
+		{{ phrase('thmonetize_an_account_upgrade_is_required_to_view_more_posts', { 'link': link('account/upgrades') }) }}
+	</div>
+</xf:if>]]></replace>
+  </modification>
+  <modification type="admin" template="user_edit" modification_key="thmonetize_user_edit_userState" description="Add user states." execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/<xf:selectrow name="user\[user_state\]".*?<xf:option value="valid">.*?<\/xf:option>/s]]></find>
+    <replace><![CDATA[$0
+						<xf:option value="thmonetize_upgrade">{{ phrase('thmonetize_awaiting_user_upgrade_purchase') }}</xf:option>]]></replace>
+  </modification>
+  <modification type="admin" template="user_upgrade_edit" modification_key="thmonetize_user_upgrade_edit_afterCanPurchase" description="Add macro after can purchase checkbox on user upgrade edit form." execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/<xf:checkboxrow>\s*<xf:option name="can_purchase".*?<\/xf:checkboxrow>/s]]></find>
+    <replace><![CDATA[$0
+			<xf:macro template="thmonetize_user_upgrade_edit_macros" name="after_can_purchase" arg-upgrade="{$upgrade}" />]]></replace>
+  </modification>
+  <modification type="admin" template="user_upgrade_edit" modification_key="thmonetize_user_upgrade_edit_afterCost" description="Add macro after cost on user upgrade edit form." execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/<xf:formrow rowtype="input"\s*label="{{ phrase\('cost'\) }}">.*?<\/xf:formrow>/s]]></find>
+    <replace><![CDATA[$0
+			<xf:macro template="thmonetize_user_upgrade_edit_macros" name="after_cost" arg-upgrade="{$upgrade}" />]]></replace>
+  </modification>
+  <modification type="admin" template="user_upgrade_edit" modification_key="thmonetize_user_upgrade_edit_formBottom" description="Add macro to bottom of user upgrade edit form." execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/<\/div>\s*<xf:submitrow icon="save" sticky="true" \/>/s]]></find>
+    <replace><![CDATA[	<xf:macro template="thmonetize_user_upgrade_edit_macros" name="form_bottom" arg-upgrade="{$upgrade}" arg-upgradePageRelations="{$upgradePageRelations}" arg-upgradePages="{$upgradePages}" />
+		$0]]></replace>
+  </modification>
+  <modification type="admin" template="user_upgrade_list" modification_key="thmonetize_user_upgrade_list" description="Add macro to bottom of user upgrade actions menu." execution_order="10" enabled="1" action="preg_replace">
+    <find><![CDATA[/(<div class="menu-content">.*?)(<\/div>)/s]]></find>
+    <replace><![CDATA[$1	<xf:macro template="thmonetize_user_upgrade_list_macros" name="actions_bottom" arg-upgrade="{$upgrade}" />
+									$2]]></replace>
+  </modification>
+</template_modifications>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget_positions>
+  <widget_position position_id="th_footer_uix" active="1"/>
+  <widget_position position_id="th_sidebarNavigation_uix" active="1"/>
+  <widget_position position_id="thuix_index_page" active="1"/>
+</widget_positions>

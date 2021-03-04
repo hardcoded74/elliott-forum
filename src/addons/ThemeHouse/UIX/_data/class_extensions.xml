@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<class_extensions>
+  <extension from_class="XF\Admin\Controller\Index" to_class="ThemeHouse\UIX\XF\Admin\Controller\Index" execute_order="10" active="1"/>
+  <extension from_class="XF\Admin\Controller\Notice" to_class="ThemeHouse\UIX\XF\Admin\Controller\Notice" execute_order="10" active="1"/>
+  <extension from_class="XF\Admin\Controller\Style" to_class="ThemeHouse\UIX\XF\Admin\Controller\Style" execute_order="10" active="1"/>
+  <extension from_class="XF\Entity\Node" to_class="ThemeHouse\UIX\XF\Entity\Node" execute_order="10" active="1"/>
+  <extension from_class="XF\Entity\Style" to_class="ThemeHouse\UIX\XF\Entity\Style" execute_order="10" active="1"/>
+  <extension from_class="XF\Pub\Controller\Account" to_class="ThemeHouse\UIX\XF\Pub\Controller\Account" execute_order="10" active="1"/>
+  <extension from_class="XF\Repository\Style" to_class="ThemeHouse\UIX\XF\Repository\Style" execute_order="10" active="1"/>
+  <extension from_class="XF\Template\Templater" to_class="ThemeHouse\UIX\XF\Template\Templater" execute_order="10" active="1"/>
+</class_extensions>

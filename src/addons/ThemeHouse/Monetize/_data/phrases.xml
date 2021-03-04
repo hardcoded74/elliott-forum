@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<phrases>
+  <phrase title="admin_navigation.thMonetize" version_id="1000013" version_string="1.0.0 Alpha 3"><![CDATA[Monetize]]></phrase>
+  <phrase title="admin_navigation.thMonetize_affLinksKeywords_group" version_id="1000035" version_string="1.0.0 Beta 5"><![CDATA[Affiliate links and keywords]]></phrase>
+  <phrase title="admin_navigation.thMonetize_affiliateLinks" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[Manage affiliate links]]></phrase>
+  <phrase title="admin_navigation.thMonetize_alertLog" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[Alert log]]></phrase>
+  <phrase title="admin_navigation.thMonetize_alerts" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[Manage alerts]]></phrase>
+  <phrase title="admin_navigation.thMonetize_communication_group" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[Communication]]></phrase>
+  <phrase title="admin_navigation.thMonetize_emailLog" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[Email log]]></phrase>
+  <phrase title="admin_navigation.thMonetize_emails" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[Manage emails]]></phrase>
+  <phrase title="admin_navigation.thMonetize_keywords" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[Manage keywords]]></phrase>
+  <phrase title="admin_navigation.thMonetize_logsCommunication" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[Communication]]></phrase>
+  <phrase title="admin_navigation.thMonetize_messageLog" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[Message log]]></phrase>
+  <phrase title="admin_navigation.thMonetize_messages" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[Manage messages]]></phrase>
+  <phrase title="admin_navigation.thMonetize_nodes" version_id="1000035" version_string="1.0.0 Beta 5"><![CDATA[Nodes]]></phrase>
+  <phrase title="admin_navigation.thMonetize_options" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[Options]]></phrase>
+  <phrase title="admin_navigation.thMonetize_sponsors" version_id="1000012" version_string="1.0.0 Alpha 2"><![CDATA[Manage sponsors]]></phrase>
+  <phrase title="admin_navigation.thMonetize_sponsors_group" version_id="1000012" version_string="1.0.0 Alpha 2"><![CDATA[Sponsors]]></phrase>
+  <phrase title="admin_navigation.thMonetize_upgradePages" version_id="1000032" version_string="1.0.0 Beta 2"><![CDATA[Manage upgrade pages]]></phrase>
+  <phrase title="admin_navigation.thMonetize_userUpgrades" version_id="1000035" version_string="1.0.0 Beta 5"><![CDATA[User upgrades]]></phrase>
+  <phrase title="admin_navigation.thMonetize_userUpgrades_group" version_id="1000035" version_string="1.0.0 Beta 5"><![CDATA[User upgrades]]></phrase>
+  <phrase title="admin_permission.thMonetize_affiliateLinks" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[Manage [TH] Monetize affiliate links]]></phrase>
+  <phrase title="admin_permission.thMonetize_communication" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[Manage [TH] Monetize communication]]></phrase>
+  <phrase title="admin_permission.thMonetize_keywords" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[Manage [TH] Monetize keywords]]></phrase>
+  <phrase title="admin_permission.thMonetize_sponsors" version_id="1000012" version_string="1.0.0 Alpha 2"><![CDATA[Manage [TH] Monetize sponsors]]></phrase>
+  <phrase title="admin_permission.thMonetize_upgradePages" version_id="1000032" version_string="1.0.0 Beta 2"><![CDATA[Manage [TH] Monetize upgrade pages]]></phrase>
+  <phrase title="cron_entry.thmonetize_cleanUpDaily" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[[TH] Monetize: Daily clean up]]></phrase>
+  <phrase title="cron_entry.thmonetize_communication" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[[TH] Monetize: Send communication]]></phrase>
+  <phrase title="nav.thMonetize_accountUpgrades" version_id="1000034" version_string="1.0.0 Beta 4"><![CDATA[Account upgrades]]></phrase>
+  <phrase title="option.thmonetize_alertLogLength" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[Alert log length]]></phrase>
+  <phrase title="option.thmonetize_allowGuestsToViewUserUpgrades" version_id="1000034" version_string="1.0.0 Beta 4"><![CDATA[Allow guests to view user upgrades]]></phrase>
+  <phrase title="option.thmonetize_emailLogLength" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[Email log length]]></phrase>
+  <phrase title="option.thmonetize_enableSponsorsDirectory" version_id="1000035" version_string="1.0.0 Beta 5"><![CDATA[Enable sponsors directory]]></phrase>
+  <phrase title="option.thmonetize_excludeSuggestUpgradeContent" version_id="1000034" version_string="1.0.0 Beta 4"><![CDATA[Exclude suggest upgrade for content types]]></phrase>
+  <phrase title="option.thmonetize_excludeSuggestUpgradeGlobal" version_id="1000034" version_string="1.0.0 Beta 4"><![CDATA[Exclude suggest upgrade for global permissions]]></phrase>
+  <phrase title="option.thmonetize_keywordsLimitPerPage" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[Keyword replace limit per page]]></phrase>
+  <phrase title="option.thmonetize_keywordsLimitPerWord" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[Keyword replace limit per word/phrase]]></phrase>
+  <phrase title="option.thmonetize_linkToUpgradesIfContentRestricted" version_id="1000132" version_string="1.0.1 Beta 2"><![CDATA[Link to account upgrades where content is restricted by permissions]]></phrase>
+  <phrase title="option.thmonetize_maxAlertsPerUser" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[Alert per user limit]]></phrase>
+  <phrase title="option.thmonetize_maxEmailsPerUser" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[Email per user limit]]></phrase>
+  <phrase title="option.thmonetize_maxMessagesPerUser" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[Message per user limit]]></phrase>
+  <phrase title="option.thmonetize_maxTotalAlertsPerUser" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[Total alerts per user limit]]></phrase>
+  <phrase title="option.thmonetize_maxTotalEmailsPerUser" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[Total emails per user limit]]></phrase>
+  <phrase title="option.thmonetize_maxTotalMessagesPerUser" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[Total messages per user limit]]></phrase>
+  <phrase title="option.thmonetize_messageActiveCutoff" version_id="1000241" version_string="1.0.2 Beta 11"><![CDATA[Limit messages to users who have been online in the last X days]]></phrase>
+  <phrase title="option.thmonetize_messageActiveOnly" version_id="1000241" version_string="1.0.2 Beta 11"><![CDATA[Limit messages to valid user accounts]]></phrase>
+  <phrase title="option.thmonetize_messageLogLength" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[Message log length]]></phrase>
+  <phrase title="option.thmonetize_requireUserUpgradeOnRegistration" version_id="1000013" version_string="1.0.0 Alpha 3"><![CDATA[Require user upgrade on registration]]></phrase>
+  <phrase title="option.thmonetize_suggestUpgradeOnNoPermissionError" version_id="1000034" version_string="1.0.0 Beta 4"><![CDATA[Suggest user upgrades on no permission error]]></phrase>
+  <phrase title="option_explain.thmonetize_alertLogLength" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[The number of days that alert log records will be kept for. Use 0 to keep the records permanently.]]></phrase>
+  <phrase title="option_explain.thmonetize_allowGuestsToViewUserUpgrades" version_id="1000034" version_string="1.0.0 Beta 4"><![CDATA[This will allow guests to view the account upgrades page. Clicking on purchase links will redirect the user to the registration page.]]></phrase>
+  <phrase title="option_explain.thmonetize_emailLogLength" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[The number of days that email log records will be kept for. Use 0 to keep the records permanently.]]></phrase>
+  <phrase title="option_explain.thmonetize_enableSponsorsDirectory" version_id="1000035" version_string="1.0.0 Beta 5"><![CDATA[This will enable a page, linked to in the footer, which will show a list of all sponsors marked with "Show in directory".]]></phrase>
+  <phrase title="option_explain.thmonetize_excludeSuggestUpgradeContent" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[The "Suggest user upgrades on no permission error" option will be ignored if the content type that triggered the no permission error is one of these content types. This is helpful if there is a specific content type that you know users are going to see no permission errors for which it is not possible to purchase a user upgrade to bypass.]]></phrase>
+  <phrase title="option_explain.thmonetize_excludeSuggestUpgradeGlobal" version_id="1000037" version_string="1.0.0 Beta 7"><![CDATA[The "Suggest user upgrades on no permission error" option will be ignored if the global permission that triggered the no permission error is one of these permissions. This is helpful if there is a specific permission that you know users are going to see no permission errors for, for which it is not possible to purchase a user upgrade to bypass.<br />
+<b>Note:</b> This option will not work for content permissions (for example, viewing a thread in a forum).]]></phrase>
+  <phrase title="option_explain.thmonetize_keywordsLimitPerPage" version_id="1000039" version_string="1.0.0 Beta 9"><![CDATA[This sets the per page maximum number of total keyword replacements to make for all active keyword replacements. Set it to 0 for unlimited keyword replacements.]]></phrase>
+  <phrase title="option_explain.thmonetize_keywordsLimitPerWord" version_id="1000039" version_string="1.0.0 Beta 9"><![CDATA[This sets the per word maximum number of keyword replacements to make per page. Set it to 0 for unlimited keyword replacements. If there is a limit set on a specific keyword, this value is ignored.]]></phrase>
+  <phrase title="option_explain.thmonetize_linkToUpgradesIfContentRestricted" version_id="1000132" version_string="1.0.1 Beta 2"><![CDATA[If a user doesn't have the 'View post content' permission or the 'Post snippet length' is set (i.e. not unlimited), and it results in content being restricted, then enabling this option will show a link to the account upgrades page below the restricted content.]]></phrase>
+  <phrase title="option_explain.thmonetize_maxAlertsPerUser" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[This controls the maximum number of each alert that can be sent to a user during a specified period. The length of the period should not exceed the log retention period or the total alerts per user limit. Set to 0 to allow unlimited alerts.]]></phrase>
+  <phrase title="option_explain.thmonetize_maxEmailsPerUser" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[This controls the maximum number of each email that can be sent to a user during a specified period. The length of the period should not exceed the log retention period or the total emails per user limit. Set to 0 to allow unlimited emails.]]></phrase>
+  <phrase title="option_explain.thmonetize_maxMessagesPerUser" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[This controls the maximum number of each message that can be sent to a user during a specified period. The length of the period should not exceed the log retention period or the total messages per user limit. Set to 0 to allow unlimited messages.]]></phrase>
+  <phrase title="option_explain.thmonetize_maxTotalAlertsPerUser" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[This controls the maximum number of total alerts that can be sent to a user during a specified period. The length of the period should not exceed the log retention period. Set to 0 to allow unlimited alerts.]]></phrase>
+  <phrase title="option_explain.thmonetize_maxTotalEmailsPerUser" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[This controls the maximum number of total emails that can be sent to a user during a specified period. The length of the period should not exceed the log retention period. Set to 0 to allow unlimited emails.]]></phrase>
+  <phrase title="option_explain.thmonetize_maxTotalMessagesPerUser" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[This controls the maximum number of total messages that can be sent to a user during a specified period. The length of the period should not exceed the log retention period. Set to 0 to allow unlimited messages.]]></phrase>
+  <phrase title="option_explain.thmonetize_messageActiveCutoff" version_id="1000241" version_string="1.0.2 Beta 11"><![CDATA[Communications are only sent to users who have been online within the time frame specified here. This avoids traversing the entire user list on each message cron for performance reasons. You may set this to 0 to disable this limit.]]></phrase>
+  <phrase title="option_explain.thmonetize_messageActiveOnly" version_id="1000241" version_string="1.0.2 Beta 11"><![CDATA[If enabled, the communication crons will skip all users that do not have the <em>valid</em> user state.]]></phrase>
+  <phrase title="option_explain.thmonetize_messageLogLength" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[The number of days that message log records will be kept for. Use 0 to keep the records permanently.]]></phrase>
+  <phrase title="option_explain.thmonetize_requireUserUpgradeOnRegistration" version_id="1000037" version_string="1.0.0 Beta 7"><![CDATA[Enabling this option will require users to purchase a user upgrade or to select a free user upgrade in order to complete their registration.<br/>
+<b>Note:</b> Make sure that at least one user upgrade is available.]]></phrase>
+  <phrase title="option_explain.thmonetize_suggestUpgradeOnNoPermissionError" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Instead of receiving a no permission error, a user will be shown an upgrade page or a link to view available upgrades.]]></phrase>
+  <phrase title="option_group.thmonetize" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[[TH] Monetize]]></phrase>
+  <phrase title="option_group_description.thmonetize" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[Options for the [TH] Monetize add-on.]]></phrase>
+  <phrase title="permission.forum_thMonetize_maxPosts" version_id="1000132" version_string="1.0.1 Beta 2"><![CDATA[Maximum viewable posts (requires view thread content)]]></phrase>
+  <phrase title="permission.forum_thMonetize_postSnippet" version_id="1000037" version_string="1.0.0 Beta 7"><![CDATA[Post snippet length (requires view post content)]]></phrase>
+  <phrase title="permission.forum_thMonetize_viewPost" version_id="1000132" version_string="1.0.1 Beta 2"><![CDATA[View post content (requires view thread content)]]></phrase>
+  <phrase title="permission_interface.thMonetizePermissions" version_id="1000037" version_string="1.0.0 Beta 7"><![CDATA[[TH] Monetize permissions]]></phrase>
+  <phrase title="style_prop.thmonetize_userUpgradeCurrency" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[User upgrade currency]]></phrase>
+  <phrase title="style_prop.thmonetize_userUpgradeLength" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[User upgrade length]]></phrase>
+  <phrase title="style_prop.thmonetize_userUpgradeOccurrence" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[User upgrade occurrence]]></phrase>
+  <phrase title="style_prop.thmonetize_userUpgradePrice" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[User upgrade price]]></phrase>
+  <phrase title="style_prop.thmonetize_userUpgradeShapeBorderWidth" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[User upgrade shape border width]]></phrase>
+  <phrase title="style_prop.thmonetize_userUpgradeShapeWidth" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[User upgrade shape width]]></phrase>
+  <phrase title="style_prop_desc.thmonetize_userUpgradeCurrency" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[For user upgrades displaying on an upgrade page.]]></phrase>
+  <phrase title="style_prop_desc.thmonetize_userUpgradeLength" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[For user upgrades displaying on an upgrade page.]]></phrase>
+  <phrase title="style_prop_desc.thmonetize_userUpgradeOccurrence" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[For user upgrades displaying on an upgrade page.]]></phrase>
+  <phrase title="style_prop_desc.thmonetize_userUpgradePrice" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[For user upgrades displaying on an upgrade page.]]></phrase>
+  <phrase title="style_prop_desc.thmonetize_userUpgradeShapeBorderWidth" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[For user upgrades with a shape selected displaying on an upgrade page.]]></phrase>
+  <phrase title="style_prop_desc.thmonetize_userUpgradeShapeWidth" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[For user upgrades with a shape selected displaying on an upgrade page.]]></phrase>
+  <phrase title="style_prop_group.thmonetizeUserUpgrades" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[[TH] Monetize: User upgrades]]></phrase>
+  <phrase title="style_prop_group_desc.thmonetizeUserUpgrades" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Styling for user upgrades and upgrade pages.]]></phrase>
+  <phrase title="th_monetize_match_case_insensitize" version_id="1000240" version_string="1.0.2 Beta 10"><![CDATA[Match case insensitive]]></phrase>
+  <phrase title="th_monetize_match_case_insensitize_hint" version_id="1000240" version_string="1.0.2 Beta 10"><![CDATA[If checked, the keyword will be matched case insenstive.]]></phrase>
+  <phrase title="thmonetize_account_upgrade" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Account upgrade]]></phrase>
+  <phrase title="thmonetize_active" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[Active]]></phrase>
+  <phrase title="thmonetize_add_affiliate_link" version_id="1000013" version_string="1.0.0 Alpha 3"><![CDATA[Add affiliate link]]></phrase>
+  <phrase title="thmonetize_add_alert" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[Add alert]]></phrase>
+  <phrase title="thmonetize_add_email" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[Add email]]></phrase>
+  <phrase title="thmonetize_add_keyword" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[Add keyword]]></phrase>
+  <phrase title="thmonetize_add_message" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[Add message]]></phrase>
+  <phrase title="thmonetize_add_sponsor" version_id="1000012" version_string="1.0.0 Alpha 2"><![CDATA[Add sponsor]]></phrase>
+  <phrase title="thmonetize_add_upgrade_page" version_id="1000032" version_string="1.0.0 Beta 2"><![CDATA[Add upgrade page]]></phrase>
+  <phrase title="thmonetize_advanced_options" version_id="1000037" version_string="1.0.0 Beta 7"><![CDATA[Advanced options]]></phrase>
+  <phrase title="thmonetize_affiliate_links" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[Affiliate Links]]></phrase>
+  <phrase title="thmonetize_affiliate_links_and_keywords" version_id="1000037" version_string="1.0.0 Beta 7"><![CDATA[Affiliate links and keywords]]></phrase>
+  <phrase title="thmonetize_alert" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[Alert]]></phrase>
+  <phrase title="thmonetize_alert_log" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[Alert log]]></phrase>
+  <phrase title="thmonetize_alert_log_entry" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[Alert log entry]]></phrase>
+  <phrase title="thmonetize_alert_per_user_limit_explain" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[This controls the maximum number of this alert that can be sent to a user during a specified period. The length of the period should not exceed the log retention period or the global/total alerts per user limit. Set to 0 to allow unlimited alerts.]]></phrase>
+  <phrase title="thmonetize_alert_sent_successfully" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[Alert was sent successfully.]]></phrase>
+  <phrase title="thmonetize_alert_title_is_not_visible_to_the_user" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[The alert title is not visible to the user.]]></phrase>
+  <phrase title="thmonetize_alerts" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[Alerts]]></phrase>
+  <phrase title="thmonetize_allow_custom_amount" version_id="1000131" version_string="1.0.1 Beta 1"><![CDATA[Allow custom amount]]></phrase>
+  <phrase title="thmonetize_allow_custom_amount_hint" version_id="1000131" version_string="1.0.1 Beta 1"><![CDATA[This will allow users to override the above cost amount when they are purchasing the upgrade.<br/><br/>
+<b>Note:</b> If you later uninstall [TH] Monetize, recurring upgrades purchased with a custom amount may be rejected.]]></phrase>
+  <phrase title="thmonetize_already_have_account_question" version_id="1000034" version_string="1.0.0 Beta 4"><![CDATA[Already have an account?]]></phrase>
+  <phrase title="thmonetize_already_purchased" version_id="1000034" version_string="1.0.0 Beta 4"><![CDATA[Already purchased]]></phrase>
+  <phrase title="thmonetize_alternative_url_for_x" version_id="1000133" version_string="1.0.1 Beta 3"><![CDATA[Alternative URL for {upgrade}.]]></phrase>
+  <phrase title="thmonetize_amount_must_be_greater_than_x" version_id="1000133" version_string="1.0.1 Beta 3"><![CDATA[The custom amount must be no less than {cost}.]]></phrase>
+  <phrase title="thmonetize_an_account_upgrade_is_required_to_continue" version_id="1000270" version_string="1.0.2"><![CDATA[An&nbsp;<a href="{link}">account upgrade</a>&nbsp;is required to continue.]]></phrase>
+  <phrase title="thmonetize_an_account_upgrade_is_required_to_view_more_of_this_post" version_id="1000132" version_string="1.0.1 Beta 2"><![CDATA[An <a href="{link}">account upgrade</a> is required to view more of this post.]]></phrase>
+  <phrase title="thmonetize_an_account_upgrade_is_required_to_view_more_posts" version_id="1000132" version_string="1.0.1 Beta 2"><![CDATA[An <a href="{link}">account upgrade</a> is required to view more posts.]]></phrase>
+  <phrase title="thmonetize_an_account_upgrade_is_required_to_view_this_post" version_id="1000132" version_string="1.0.1 Beta 2"><![CDATA[An <a href="{link}">account upgrade</a> is required to view this post.]]></phrase>
+  <phrase title="thmonetize_an_account_upgrade_purchase_is_required_to_complete_your_registration" version_id="1000013" version_string="1.0.0 Alpha 3"><![CDATA[An account upgrade purchase is required to complete your registration.]]></phrase>
+  <phrase title="thmonetize_apply_page_criteria_to_overlays_only" version_id="1000037" version_string="1.0.0 Beta 7"><![CDATA[Apply page criteria to overlays only]]></phrase>
+  <phrase title="thmonetize_apply_page_criteria_to_overlays_only_hint" version_id="1000037" version_string="1.0.0 Beta 7"><![CDATA[Most of the page criteria are not applicable or will not work correctly when applied to the account upgrades page or in place of no permission errors. If you know what you are doing and you would like to apply page criteria in all situations, uncheck this checkbox. Otherwise, we recommend leaving this checkbox as checked.]]></phrase>
+  <phrase title="thmonetize_awaiting_user_upgrade_purchase" version_id="1000013" version_string="1.0.0 Alpha 3"><![CDATA[Awaiting user upgrade purchase]]></phrase>
+  <phrase title="thmonetize_background_color" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Background color]]></phrase>
+  <phrase title="thmonetize_can_be_purchased_multiple_times" version_id="1000231" version_string="1.0.2 Beta 1"><![CDATA[Can be purchased multiple times]]></phrase>
+  <phrase title="thmonetize_can_be_purchased_multiple_times_hint" version_id="1000231" version_string="1.0.2 Beta 1"><![CDATA[This will allow an upgrade to be purchased again by the same user, even if their existing upgrade purchase has not yet expired.]]></phrase>
+  <phrase title="thmonetize_certificate" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Certificate]]></phrase>
+  <phrase title="thmonetize_circle" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Circle]]></phrase>
+  <phrase title="thmonetize_cloud" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Cloud]]></phrase>
+  <phrase title="thmonetize_comment" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Comment]]></phrase>
+  <phrase title="thmonetize_communication" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[Communication]]></phrase>
+  <phrase title="thmonetize_component" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Component]]></phrase>
+  <phrase title="thmonetize_cost_options" version_id="1000131" version_string="1.0.1 Beta 1"><![CDATA[Cost options]]></phrase>
+  <phrase title="thmonetize_custom_amount" version_id="1000131" version_string="1.0.1 Beta 1"><![CDATA[Custom amount]]></phrase>
+  <phrase title="thmonetize_display_as_featured" version_id="1000035" version_string="1.0.0 Beta 5"><![CDATA[Display as featured]]></phrase>
+  <phrase title="thmonetize_domain_does_not_match" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[Domain does not match]]></phrase>
+  <phrase title="thmonetize_domain_does_not_match_explain" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Any full part of the domain which must not appear.]]></phrase>
+  <phrase title="thmonetize_domain_extension_does_not_match" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[Domain extension does not match]]></phrase>
+  <phrase title="thmonetize_domain_extension_does_not_match_explain" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[The very last full part of the domain which must not appear]]></phrase>
+  <phrase title="thmonetize_domain_extension_matches" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[Domain extension matches]]></phrase>
+  <phrase title="thmonetize_domain_extension_matches_explain" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[The very last full part of the domain which must appear]]></phrase>
+  <phrase title="thmonetize_domain_matches" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[Domain matches]]></phrase>
+  <phrase title="thmonetize_domain_matches_explain" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Any full part of the domain which must appear.]]></phrase>
+  <phrase title="thmonetize_edit_affiliate_link" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[Edit affiliate link]]></phrase>
+  <phrase title="thmonetize_edit_alert" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[Edit alert]]></phrase>
+  <phrase title="thmonetize_edit_email" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[Edit email]]></phrase>
+  <phrase title="thmonetize_edit_keyword" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[Edit keyword]]></phrase>
+  <phrase title="thmonetize_edit_message" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[Edit message]]></phrase>
+  <phrase title="thmonetize_edit_sponsor" version_id="1000012" version_string="1.0.0 Alpha 2"><![CDATA[Edit sponsor]]></phrase>
+  <phrase title="thmonetize_edit_upgrade_page" version_id="1000032" version_string="1.0.0 Beta 2"><![CDATA[Edit upgrade page]]></phrase>
+  <phrase title="thmonetize_edit_user_upgrade_features" version_id="1000033" version_string="1.0.0 Beta 3"><![CDATA[Edit user upgrade features]]></phrase>
+  <phrase title="thmonetize_email" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[Email]]></phrase>
+  <phrase title="thmonetize_email_log" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[Email log]]></phrase>
+  <phrase title="thmonetize_email_log_entry" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[Email log entry]]></phrase>
+  <phrase title="thmonetize_email_per_user_limit_explain" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[This controls the maximum number of this email that can be sent to a user during a specified period. The length of the period should not exceed the log retention period or the global/total emails per user limit. Set to 0 to allow unlimited emails.]]></phrase>
+  <phrase title="thmonetize_email_sent_successfully" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[Email was sent successfully.]]></phrase>
+  <phrase title="thmonetize_emails" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[Emails]]></phrase>
+  <phrase title="thmonetize_feature_list_icon_class" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Feature list icon class]]></phrase>
+  <phrase title="thmonetize_features" version_id="1000033" version_string="1.0.0 Beta 3"><![CDATA[Features]]></phrase>
+  <phrase title="thmonetize_features_explain" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[Features will be shown as a bullet point list underneath the upgrade description. The bullet point icon styling can be set in style properties above.]]></phrase>
+  <phrase title="thmonetize_find" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Find]]></phrase>
+  <phrase title="thmonetize_folder" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Folder]]></phrase>
+  <phrase title="thmonetize_following_payment_providers_do_not_support_zero_cost_payments" version_id="1000037" version_string="1.0.0 Beta 7"><![CDATA[The following payment providers do not support zero cost payments: {invalidZeroCost}. Please ensure all payment profiles are valid.]]></phrase>
+  <phrase title="thmonetize_fragment" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Fragment]]></phrase>
+  <phrase title="thmonetize_free" version_id="1000037" version_string="1.0.0 Beta 7"><![CDATA[Free]]></phrase>
+  <phrase title="thmonetize_heart" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Heart]]></phrase>
+  <phrase title="thmonetize_hexagon" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Hexagon]]></phrase>
+  <phrase title="thmonetize_host" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Host]]></phrase>
+  <phrase title="thmonetize_invalid_replacement" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[Invalid replacement]]></phrase>
+  <phrase title="thmonetize_keyword_options" version_id="1000240" version_string="1.0.2 Beta 10"><![CDATA[Keyword match options]]></phrase>
+  <phrase title="thmonetize_keywords" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[Keywords]]></phrase>
+  <phrase title="thmonetize_length_short_day" version_id="1000033" version_string="1.0.0 Beta 3"><![CDATA[day]]></phrase>
+  <phrase title="thmonetize_length_short_month" version_id="1000033" version_string="1.0.0 Beta 3"><![CDATA[mo]]></phrase>
+  <phrase title="thmonetize_length_short_year" version_id="1000033" version_string="1.0.0 Beta 3"><![CDATA[yr]]></phrase>
+  <phrase title="thmonetize_limit" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[Limit]]></phrase>
+  <phrase title="thmonetize_link_criteria" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[Link criteria]]></phrase>
+  <phrase title="thmonetize_link_to_accounts_page" version_id="1000037" version_string="1.0.0 Beta 7"><![CDATA[Link to accounts page]]></phrase>
+  <phrase title="thmonetize_link_to_accounts_page_hint" version_id="1000037" version_string="1.0.0 Beta 7"><![CDATA[This will add a 'Show more upgrades' link to the default account upgrades page. This is recommended if you are not showing all available and purchased user upgrades.]]></phrase>
+  <phrase title="thmonetize_link_to_other_upgrade_pages" version_id="1000037" version_string="1.0.0 Beta 7"><![CDATA[Link to other upgrade pages]]></phrase>
+  <phrase title="thmonetize_link_to_other_upgrade_pages_hint" version_id="1000037" version_string="1.0.0 Beta 7"><![CDATA[This will add a link to the following upgrade pages if the user satisfies the user criteria.<br />
+<b>Note:</b> page criteria and availability of user upgrades will not be checked.]]></phrase>
+  <phrase title="thmonetize_links" version_id="1000037" version_string="1.0.0 Beta 7"><![CDATA[Links]]></phrase>
+  <phrase title="thmonetize_match_in_word" version_id="1000240" version_string="1.0.2 Beta 10"><![CDATA[Match in word]]></phrase>
+  <phrase title="thmonetize_match_in_word_hint" version_id="1000240" version_string="1.0.2 Beta 10"><![CDATA[If checked, the keyword will match, even when it is inside a word. For example both, <strong>key</strong> and <strong>keyword</strong> will match the keyword <strong>key</strong>.]]></phrase>
+  <phrase title="thmonetize_match_romanized" version_id="1000240" version_string="1.0.2 Beta 10"><![CDATA[Match accent insensitive]]></phrase>
+  <phrase title="thmonetize_match_romanized_hint" version_id="1000240" version_string="1.0.2 Beta 10"><![CDATA[If checked, accents will be ignored when searching for keyword matches. For example both, <strong>café</strong> and <strong>cafe</strong> will match the keyword <strong>cafe</strong>.]]></phrase>
+  <phrase title="thmonetize_message" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[Message]]></phrase>
+  <phrase title="thmonetize_message_log" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[Message log]]></phrase>
+  <phrase title="thmonetize_message_log_entry" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[Message log entry]]></phrase>
+  <phrase title="thmonetize_message_per_user_limit_explain" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[This controls the maximum number of this message that can be sent to a user during a specified period. The length of the period should not exceed the log retention period or the global/total messages per user limit. Set to 0 to allow unlimited messages.]]></phrase>
+  <phrase title="thmonetize_message_sent_successfully" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[Message was sent successfully.]]></phrase>
+  <phrase title="thmonetize_messages" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[Messages]]></phrase>
+  <phrase title="thmonetize_more" version_id="1000070" version_string="1.0.0"><![CDATA[More]]></phrase>
+  <phrase title="thmonetize_next_send" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[Next send]]></phrase>
+  <phrase title="thmonetize_one_time_payment" version_id="1000035" version_string="1.0.0 Beta 5"><![CDATA[One-time payment]]></phrase>
+  <phrase title="thmonetize_overlay_can_be_dismissed" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Overlay can be dismissed]]></phrase>
+  <phrase title="thmonetize_overlay_can_be_dismissed_hint" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[If this is unchecked, the overlay will not be able to be closed.]]></phrase>
+  <phrase title="thmonetize_password" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Password]]></phrase>
+  <phrase title="thmonetize_path" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Path]]></phrase>
+  <phrase title="thmonetize_payment_method" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Payment method]]></phrase>
+  <phrase title="thmonetize_per" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[per]]></phrase>
+  <phrase title="thmonetize_per_user_limit" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[Per user limit]]></phrase>
+  <phrase title="thmonetize_please_confirm_that_you_want_to_send_following_alert" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[Please confirm that you want to send the following alert]]></phrase>
+  <phrase title="thmonetize_please_confirm_that_you_want_to_send_following_email" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[Please confirm that you want to send the following email]]></phrase>
+  <phrase title="thmonetize_please_confirm_that_you_want_to_send_following_message" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[Please confirm that you want to send the following message]]></phrase>
+  <phrase title="thmonetize_please_enter_valid_user" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[Please enter a valid user.]]></phrase>
+  <phrase title="thmonetize_poop" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Poop]]></phrase>
+  <phrase title="thmonetize_port" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Port]]></phrase>
+  <phrase title="thmonetize_query" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Query]]></phrase>
+  <phrase title="thmonetize_reference_link_component_replace" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Reference link component replace]]></phrase>
+  <phrase title="thmonetize_reference_link_component_replace_explain" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Replace specific parts of the original link.]]></phrase>
+  <phrase title="thmonetize_reference_link_does_not_match" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[Reference link does not match]]></phrase>
+  <phrase title="thmonetize_reference_link_does_not_match_explain" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Any part of the reference link, including the domain, which must not appear]]></phrase>
+  <phrase title="thmonetize_reference_link_find_and_replace" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Reference link find and replace]]></phrase>
+  <phrase title="thmonetize_reference_link_find_and_replace_explain" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Replace any part of the original link.]]></phrase>
+  <phrase title="thmonetize_reference_link_matches" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[Reference link matches]]></phrase>
+  <phrase title="thmonetize_reference_link_matches_explain" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Any part of the reference link, including the domain, which must appear]]></phrase>
+  <phrase title="thmonetize_reference_link_prefix" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[Reference link prefix]]></phrase>
+  <phrase title="thmonetize_reference_link_prefix_explain" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[Inserts affiliate data at the beginning of original link, if the conditions set are met.]]></phrase>
+  <phrase title="thmonetize_reference_link_suffix" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[Reference link suffix]]></phrase>
+  <phrase title="thmonetize_reference_link_suffix_explain" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[Inserts affiliate data at the end of original link, if the conditions set below are met.]]></phrase>
+  <phrase title="thmonetize_replace" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Replace]]></phrase>
+  <phrase title="thmonetize_replace_with_link_to_url" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[Replace with link to URL]]></phrase>
+  <phrase title="thmonetize_replace_with_text" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[Replace with text]]></phrase>
+  <phrase title="thmonetize_replacement" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[Replacement]]></phrase>
+  <phrase title="thmonetize_requested_upgrade_page_not_found" version_id="1000032" version_string="1.0.0 Beta 2"><![CDATA[The requested upgrade page could not be found.]]></phrase>
+  <phrase title="thmonetize_scheme" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Scheme]]></phrase>
+  <phrase title="thmonetize_send_at_hours" version_id="1000236" version_string="1.0.2 Beta 6"><![CDATA[Send at hour(s)]]></phrase>
+  <phrase title="thmonetize_send_at_minutes" version_id="1000236" version_string="1.0.2 Beta 6"><![CDATA[Send at minute(s)]]></phrase>
+  <phrase title="thmonetize_send_at_times" version_id="1000236" version_string="1.0.2 Beta 6"><![CDATA[Send at time(s)]]></phrase>
+  <phrase title="thmonetize_send_now" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[Send now]]></phrase>
+  <phrase title="thmonetize_send_on_days" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[Send on day(s)]]></phrase>
+  <phrase title="thmonetize_send_times_based_on_utc_time_zone" version_id="1000236" version_string="1.0.2 Beta 6"><![CDATA[Send times are based on the UTC time zone.]]></phrase>
+  <phrase title="thmonetize_sending" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[Sending]]></phrase>
+  <phrase title="thmonetize_shape" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Shape]]></phrase>
+  <phrase title="thmonetize_share_upgrade_link" version_id="1000231" version_string="1.0.2 Beta 1"><![CDATA[Share upgrade link]]></phrase>
+  <phrase title="thmonetize_shield" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Shield]]></phrase>
+  <phrase title="thmonetize_show_all_available_upgrades" version_id="1000034" version_string="1.0.0 Beta 4"><![CDATA[Show all available upgrades]]></phrase>
+  <phrase title="thmonetize_show_all_user_upgrades" version_id="1000035" version_string="1.0.0 Beta 5"><![CDATA[Show all user upgrades]]></phrase>
+  <phrase title="thmonetize_show_all_user_upgrades_explain" version_id="1000035" version_string="1.0.0 Beta 5"><![CDATA[This will show all available and purchased user upgrades.]]></phrase>
+  <phrase title="thmonetize_show_as_accounts_page" version_id="1000037" version_string="1.0.0 Beta 7"><![CDATA[Show as accounts page]]></phrase>
+  <phrase title="thmonetize_show_as_accounts_page_hint" version_id="1000037" version_string="1.0.0 Beta 7"><![CDATA[This will allow the upgrade page to be shown instead of the default account upgrades page.]]></phrase>
+  <phrase title="thmonetize_show_as_error_message" version_id="1000037" version_string="1.0.0 Beta 7"><![CDATA[Show as error message]]></phrase>
+  <phrase title="thmonetize_show_as_error_message_hint" version_id="1000037" version_string="1.0.0 Beta 7"><![CDATA[This will allow the upgrade page to be shown instead of a no permission error.<br />
+<b>Note:</b> this requires the global <a href="admin.php?options/groups/thmonetize/">Suggest user upgrades on no permission error</a> option to be enabled.]]></phrase>
+  <phrase title="thmonetize_show_as_overlay" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Show as overlay]]></phrase>
+  <phrase title="thmonetize_show_as_overlay_hint" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[This will show the user upgrades page as an overlay on pages that match the pages criteria.]]></phrase>
+  <phrase title="thmonetize_show_in_directory" version_id="1000035" version_string="1.0.0 Beta 5"><![CDATA[Show in directory]]></phrase>
+  <phrase title="thmonetize_show_selected_user_upgrades" version_id="1000035" version_string="1.0.0 Beta 5"><![CDATA[Show selected user upgrades]]></phrase>
+  <phrase title="thmonetize_show_selected_user_upgrades_explain" version_id="1000035" version_string="1.0.0 Beta 5"><![CDATA[This will show only the below selected user upgrades, sorted by the display orders given.]]></phrase>
+  <phrase title="thmonetize_specific_user_upgrades" version_id="1000041" version_string="1.0.0 Beta 11"><![CDATA[Specific user upgrades]]></phrase>
+  <phrase title="thmonetize_sponsor" version_id="1000012" version_string="1.0.0 Alpha 2"><![CDATA[Sponsor]]></phrase>
+  <phrase title="thmonetize_sponsored_by" version_id="1000012" version_string="1.0.0 Alpha 2"><![CDATA[Sponsored by]]></phrase>
+  <phrase title="thmonetize_sponsors" version_id="1000012" version_string="1.0.0 Alpha 2"><![CDATA[Sponsors]]></phrase>
+  <phrase title="thmonetize_square" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Square]]></phrase>
+  <phrase title="thmonetize_star" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Star]]></phrase>
+  <phrase title="thmonetize_style_properties" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Style properties]]></phrase>
+  <phrase title="thmonetize_upgrade_complete" version_id="1000037" version_string="1.0.0 Beta 7"><![CDATA[Upgrade complete]]></phrase>
+  <phrase title="thmonetize_upgrade_page_display_order_explain" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Users will see the first upgrade page, sorted by display order, for which they satisfy the given user criteria and page criteria (if any).]]></phrase>
+  <phrase title="thmonetize_upgrade_pages" version_id="1000032" version_string="1.0.0 Beta 2"><![CDATA[Upgrade pages]]></phrase>
+  <phrase title="thmonetize_upgrade_pages_must_have_at_least_one_user_upgrade" version_id="1000033" version_string="1.0.0 Beta 3"><![CDATA[Upgrade pages must have at least one user upgrade.]]></phrase>
+  <phrase title="thmonetize_upgrade_required" version_id="1000034" version_string="1.0.0 Beta 4"><![CDATA[Upgrade required]]></phrase>
+  <phrase title="thmonetize_url_cloaking" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[URL cloaking]]></phrase>
+  <phrase title="thmonetize_url_cloaking_hint" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[Hide the reference links and process them through a gateway. Please note that cloaking can severely penalize your Google rankings.]]></phrase>
+  <phrase title="thmonetize_url_encoding" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[URL encoding]]></phrase>
+  <phrase title="thmonetize_url_encoding_hint" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[Encode the reference links in order to meet any affiliate link provider requirements.]]></phrase>
+  <phrase title="thmonetize_user_has_at_least_x_active_upgrades" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[User has at least X active upgrades]]></phrase>
+  <phrase title="thmonetize_user_has_no_more_than_x_active_upgrades" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[User has no more than X active upgrades]]></phrase>
+  <phrase title="thmonetize_user_has_upgrades_expiring_in_no_more_than_x_days" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[User has upgrades expiring in no more than X days]]></phrase>
+  <phrase title="thmonetize_user_upgrade_criteria" version_id="1000041" version_string="1.0.0 Beta 11"><![CDATA[User upgrade criteria]]></phrase>
+  <phrase title="thmonetize_user_upgrade_details" version_id="1000041" version_string="1.0.0 Beta 11"><![CDATA[User upgrade details]]></phrase>
+  <phrase title="thmonetize_user_upgrade_end_date" version_id="1000237" version_string="1.0.2 Beta 7"><![CDATA[User upgrade end date]]></phrase>
+  <phrase title="thmonetize_user_upgrade_end_date_is_not_within_x_days" version_id="1000041" version_string="1.0.0 Beta 11"><![CDATA[User upgrade end date is NOT within X days]]></phrase>
+  <phrase title="thmonetize_user_upgrade_end_date_is_within_x_days" version_id="1000041" version_string="1.0.0 Beta 11"><![CDATA[User upgrade end date is within X days]]></phrase>
+  <phrase title="thmonetize_user_upgrade_features" version_id="1000033" version_string="1.0.0 Beta 3"><![CDATA[User upgrade features]]></phrase>
+  <phrase title="thmonetize_user_upgrade_is_active" version_id="1000041" version_string="1.0.0 Beta 11"><![CDATA[User upgrade is active]]></phrase>
+  <phrase title="thmonetize_user_upgrade_is_expired" version_id="1000041" version_string="1.0.0 Beta 11"><![CDATA[User upgrade is expired]]></phrase>
+  <phrase title="thmonetize_user_upgrade_is_not_active" version_id="1000041" version_string="1.0.0 Beta 11"><![CDATA[User upgrade is NOT active]]></phrase>
+  <phrase title="thmonetize_user_upgrade_is_not_expired" version_id="1000041" version_string="1.0.0 Beta 11"><![CDATA[User upgrade is NOT expired]]></phrase>
+  <phrase title="thmonetize_user_upgrade_is_not_one_of_the_selected_upgrades" version_id="1000041" version_string="1.0.0 Beta 11"><![CDATA[User upgrade is NOT one of the selected upgrades]]></phrase>
+  <phrase title="thmonetize_user_upgrade_is_not_recurring" version_id="1000041" version_string="1.0.0 Beta 11"><![CDATA[User upgrade is NOT recurring]]></phrase>
+  <phrase title="thmonetize_user_upgrade_is_one_of_the_selected_upgrades" version_id="1000041" version_string="1.0.0 Beta 11"><![CDATA[User upgrade is one of the selected upgrades]]></phrase>
+  <phrase title="thmonetize_user_upgrade_is_recurring" version_id="1000041" version_string="1.0.0 Beta 11"><![CDATA[User upgrade is recurring]]></phrase>
+  <phrase title="thmonetize_user_upgrade_last_updated" version_id="1000237" version_string="1.0.2 Beta 7"><![CDATA[User upgrade last updated]]></phrase>
+  <phrase title="thmonetize_user_upgrade_last_updated_is_not_within_x_days" version_id="1000237" version_string="1.0.2 Beta 7"><![CDATA[User upgrade last updated is NOT within X days]]></phrase>
+  <phrase title="thmonetize_user_upgrade_last_updated_is_within_x_days" version_id="1000237" version_string="1.0.2 Beta 7"><![CDATA[User upgrade last updated is within X days]]></phrase>
+  <phrase title="thmonetize_user_upgrade_start_date" version_id="1000237" version_string="1.0.2 Beta 7"><![CDATA[User upgrade start date]]></phrase>
+  <phrase title="thmonetize_user_upgrade_start_date_is_not_within_x_days" version_id="1000041" version_string="1.0.0 Beta 11"><![CDATA[User upgrade start date is NOT within X days]]></phrase>
+  <phrase title="thmonetize_user_upgrade_start_date_is_within_x_days" version_id="1000041" version_string="1.0.0 Beta 11"><![CDATA[User upgrade start date is within X days]]></phrase>
+  <phrase title="thmonetize_user_upgrade_status" version_id="1000041" version_string="1.0.0 Beta 11"><![CDATA[User upgrade status]]></phrase>
+  <phrase title="thmonetize_user_upgrades" version_id="1000037" version_string="1.0.0 Beta 7"><![CDATA[User upgrades]]></phrase>
+  <phrase title="thmonetize_username" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Username]]></phrase>
+  <phrase title="thmonetize_weight" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[Weight]]></phrase>
+  <phrase title="thmonetize_word_or_phrase" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[Word or phrase]]></phrase>
+  <phrase title="thmonetize_you_may_enter_any_amount_for_this_upgrade" version_id="1000131" version_string="1.0.1 Beta 1"><![CDATA[You may enter any amount for this upgrade.]]></phrase>
+  <phrase title="thmonetize_you_may_use_html_here" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[You may use HTML here.]]></phrase>
+  <phrase title="thmonetize_your_account_has_been_upgraded" version_id="1000037" version_string="1.0.0 Beta 7"><![CDATA[Your account has been upgraded.]]></phrase>
+</phrases>

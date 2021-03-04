@@ -1,0 +1,2561 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+  <template type="admin" title="payment_profile_thmonetize_free" version_id="1000037" version_string="1.0.0 Beta 7"><![CDATA[]]></template>
+  <template type="admin" title="payment_profile_thmonetize_other" version_id="1000133" version_string="1.0.1 Beta 3"><![CDATA[<xf:foreach loop="$userUpgrades" key="$upgradeId" value="$upgrade">
+	<xf:set var="$optionName" value="alt_url.{$upgradeId}" />
+	<xf:textboxrow name="options[{$optionName}]" value="{$profile.options.{$optionName}}"
+		label="{$upgrade.title}"
+		explain="{{ phrase('thmonetize_alternative_url_for_x', { 'upgrade': $upgrade.title }) }}" />
+</xf:foreach>]]></template>
+  <template type="admin" title="thmonetize_affiliate_link_delete" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[<xf:title>{{ phrase('confirm_action') }}</xf:title>
+
+<xf:form action="{{ link('affiliate-links/delete', $affiliateLink) }}" ajax="true" class="block">
+	<div class="block-container">
+		<div class="block-body">
+			<xf:inforow rowtype="confirm">
+				{{ phrase('please_confirm_that_you_want_to_delete_following:') }}
+				<strong><a href="{{ link('affiliate-links/edit', $affiliateLink) }}">{$affiliateLink.title}</a></strong>
+			</xf:inforow>
+		</div>
+		<xf:submitrow rowtype="simple" icon="delete" />
+	</div>
+</xf:form>]]></template>
+  <template type="admin" title="thmonetize_affiliate_link_edit" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[<xf:if is="$affiliateLink.isInsert()">
+	<xf:title>{{ phrase('thmonetize_add_affiliate_link') }}</xf:title>
+<xf:else />
+	<xf:title>{{ phrase('thmonetize_edit_affiliate_link:') }} {$affiliateLink.title}</xf:title>
+</xf:if>
+
+<xf:pageaction if="$affiliateLink.isUpdate()">
+	<xf:button href="{{ link('affiliate-links/delete', $affiliateLink) }}" icon="delete" overlay="true" />
+</xf:pageaction>
+
+<xf:form action="{{ link('affiliate-links/save', $affiliateLink) }}" ajax="true" class="block">
+	<div class="block-container">
+		<h2 class="block-tabHeader tabs hScroller" data-xf-init="tabs h-scroller" role="tablist">
+			<span class="hScroller-scroll">
+				<a class="tabs-tab is-active" role="tab" tabindex="0" aria-controls="general-options">{{ phrase('general_options') }}</a>
+				<a class="tabs-tab" role="tab" tabindex="1" aria-controls="link-criteria">{{ phrase('thmonetize_link_criteria') }}</a>
+				<xf:macro template="helper_criteria" name="user_tabs" />
+			</span>
+		</h2>
+
+		<ul class="tabPanes block-body">
+			<li class="is-active" role="tabpanel" id="general-options">
+				<xf:textboxrow name="title" value="{$affiliateLink.title}" maxlength="{{ max_length($affiliateLink, 'title') }}"
+					label="{{ phrase('title') }}" />
+				
+				<xf:textboxrow name="reference_link_prefix" value="{$affiliateLink.reference_link_prefix}" maxlength="{{ max_length($affiliateLink, 'reference_link_prefix') }}"
+					label="{{ phrase('thmonetize_reference_link_prefix') }}"
+					explain="{{ phrase('thmonetize_reference_link_prefix_explain') }}" />
+				
+				<xf:textboxrow name="reference_link_suffix" value="{$affiliateLink.reference_link_suffix}" maxlength="{{ max_length($affiliateLink, 'reference_link_suffix') }}"
+					label="{{ phrase('thmonetize_reference_link_suffix') }}"
+					explain="{{ phrase('thmonetize_reference_link_suffix_explain') }}" />
+
+				<xf:formrow rowtype="input"
+					label="{{ phrase('thmonetize_reference_link_find_and_replace') }}"
+					explain="{{ phrase('thmonetize_reference_link_find_and_replace_explain') }}">
+					
+					<ul class="listPlain inputPair-container">
+						<xf:foreach loop="$affiliateLink.reference_link_parser" value="$linkParser">
+							<xf:if is="$linkParser.type === 'replace'">
+								<li class="inputPair">
+									<xf:textbox name="reference_link_parser_param_one[]" value="{$linkParser.param_one}"
+										placeholder="{{ phrase('thmonetize_find') }}" size="20" />
+									<xf:textbox name="reference_link_parser_param_two[]" value="{$linkParser.param_two}"
+										placeholder="{{ phrase('thmonetize_replace') }}" size="20" />
+									<xf:hiddenval name="reference_link_parser_type[]" value="replace" />
+								</li>
+							</xf:if>
+						</xf:foreach>
+						<li class="inputPair" data-xf-init="field-adder">
+							<xf:textbox name="reference_link_parser_param_one[]"
+								placeholder="{{ phrase('thmonetize_find') }}" size="20" data-i="0" />
+							<xf:textbox name="reference_link_parser_param_two[]"
+								placeholder="{{ phrase('thmonetize_replace') }}" size="20" data-i="0" />
+							<xf:hiddenval name="reference_link_parser_type[]" value="replace" />
+						</li>
+					</ul>
+				</xf:formrow>
+				
+				<xf:formrow rowtype="input"
+					label="{{ phrase('thmonetize_reference_link_component_replace') }}"
+					explain="{{ phrase('thmonetize_reference_link_component_replace_explain') }}">
+					
+					<ul class="listPlain inputPair-container">
+						<xf:foreach loop="$affiliateLink.reference_link_parser" value="$linkParser">
+							<xf:if is="$linkParser.type === 'parse'">
+								<li class="inputPair">
+									<xf:select name="reference_link_parser_param_one[]" value="{$linkParser.param_one}">
+										<xf:option value="">{{ phrase('(thmonetize_component)') }}</xf:option>
+										<xf:option value="scheme">{{ phrase('thmonetize_scheme') }}</xf:option>
+										<xf:option value="host">{{ phrase('thmonetize_host') }}</xf:option>
+										<xf:option value="port">{{ phrase('thmonetize_port') }}</xf:option>
+										<xf:option value="user">{{ phrase('thmonetize_username') }}</xf:option>
+										<xf:option value="pass">{{ phrase('thmonetize_password') }}</xf:option>
+										<xf:option value="path">{{ phrase('thmonetize_path') }}</xf:option>
+										<xf:option value="query">{{ phrase('thmonetize_query') }}</xf:option>
+										<xf:option value="fragment">{{ phrase('thmonetize_fragment') }}</xf:option>
+									</xf:select>
+									<xf:textbox name="reference_link_parser_param_two[]" value="{$linkParser.param_two}"
+										placeholder="{{ phrase('thmonetize_replace') }}" size="20" />
+									<xf:hiddenval name="reference_link_parser_type[]" value="parse" />
+								</li>
+							</xf:if>
+						</xf:foreach>
+						<li class="inputPair" data-xf-init="field-adder">
+							<xf:select name="reference_link_parser_param_one[]" data-i="0">
+								<xf:option value="">{{ phrase('(thmonetize_component)') }}</xf:option>
+								<xf:option value="scheme">{{ phrase('thmonetize_scheme') }}</xf:option>
+								<xf:option value="host">{{ phrase('thmonetize_host') }}</xf:option>
+								<xf:option value="port">{{ phrase('thmonetize_port') }}</xf:option>
+								<xf:option value="user">{{ phrase('thmonetize_username') }}</xf:option>
+								<xf:option value="pass">{{ phrase('thmonetize_password') }}</xf:option>
+								<xf:option value="path">{{ phrase('thmonetize_path') }}</xf:option>
+								<xf:option value="query">{{ phrase('thmonetize_query') }}</xf:option>
+								<xf:option value="fragment">{{ phrase('thmonetize_fragment') }}</xf:option>
+							</xf:select>
+							<xf:textbox name="reference_link_parser_param_two[]"
+								placeholder="{{ phrase('thmonetize_replace') }}" size="20" data-i="0" />
+							<xf:hiddenval name="reference_link_parser_type[]" value="parse" />
+						</li>
+					</ul>
+				</xf:formrow>
+				
+				<hr class="formRowSep" />
+
+				<xf:checkboxrow label="{{ phrase('options') }}">
+					<xf:option name="active" selected="$affiliateLink.active"
+						label="{{ phrase('thmonetize_active') }}" />
+					<xf:option name="url_cloaking" selected="$affiliateLink.url_cloaking"
+						label="{{ phrase('thmonetize_url_cloaking') }}"
+						hint="{{ phrase('thmonetize_url_cloaking_hint') }}" />
+					<xf:option name="url_encoding" selected="$affiliateLink.url_encoding"
+						label="{{ phrase('thmonetize_url_encoding') }}"
+						hint="{{ phrase('thmonetize_url_encoding_hint') }}" />
+				</xf:checkboxrow>
+			</li>
+			
+			<li role="tabpanel" id="link-criteria">
+				<xf:textboxrow name="link_criteria[domain_match]" value="{$affiliateLink.link_criteria.domain_match}"
+					label="{{ phrase('thmonetize_domain_matches') }}"
+					explain="{{ phrase('thmonetize_domain_matches_explain') }}" />
+				
+				<xf:textboxrow name="link_criteria[domain_no_match]" value="{$affiliateLink.link_criteria.domain_no_match}"
+					label="{{ phrase('thmonetize_domain_does_not_match') }}"
+					explain="{{ phrase('thmonetize_domain_does_not_match_explain') }}" />
+
+				<xf:textboxrow name="link_criteria[domain_extension_match]" value="{$affiliateLink.link_criteria.domain_extension_match}"
+					label="{{ phrase('thmonetize_domain_extension_matches') }}"
+					explain="{{ phrase('thmonetize_domain_extension_matches_explain') }}" />
+
+				<xf:textboxrow name="link_criteria[domain_extension_no_match]" value="{$affiliateLink.link_criteria.domain_extension_no_match}"
+					label="{{ phrase('thmonetize_domain_extension_does_not_match') }}"
+					explain="{{ phrase('thmonetize_domain_extension_does_not_match_explain') }}" />
+
+				<xf:textboxrow name="link_criteria[ref_link_match]" value="{$affiliateLink.link_criteria.ref_link_match}"
+					label="{{ phrase('thmonetize_reference_link_matches') }}"
+					explain="{{ phrase('thmonetize_reference_link_matches_explain') }}" />
+
+				<xf:textboxrow name="link_criteria[ref_link_no_match]" value="{$affiliateLink.link_criteria.ref_link_no_match}"
+					label="{{ phrase('thmonetize_reference_link_does_not_match') }}"
+					explain="{{ phrase('thmonetize_reference_link_does_not_match_explain') }}" />
+			</li>
+
+			<xf:macro template="helper_criteria" name="user_panes"
+				arg-criteria="{{ $userCriteria.getCriteriaForTemplate() }}"
+				arg-data="{{ $userCriteria.getExtraTemplateData() }}" />
+
+		</ul>
+
+		<xf:submitrow sticky="true" icon="save" />
+	</div>
+</xf:form>]]></template>
+  <template type="admin" title="thmonetize_affiliate_link_list" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[<xf:title>{{ phrase('thmonetize_affiliate_links') }}</xf:title>
+
+<xf:pageaction>
+	<xf:button href="{{ link('affiliate-links/add') }}" icon="add">{{ phrase('thmonetize_add_affiliate_link') }}</xf:button>
+</xf:pageaction>
+
+<xf:if is="$affiliateLinks is not empty">
+	<xf:form action="{{ link('affiliate-links/toggle') }}" class="block" ajax="true">
+		<div class="block-outer">
+			<xf:macro template="filter_macros" name="quick_filter" arg-key="affiliate-links" arg-class="block-outer-opposite" />
+		</div>
+		<div class="block-container">
+			<div class="block-body">
+				<xf:datalist>
+					<xf:foreach loop="{$affiliateLinks}" value="$affiliateLink">
+						<xf:datarow
+									label="{$affiliateLink.title}"
+									href="{{ link('affiliate-links/edit', $affiliateLink) }}"
+									delete="{{ link('affiliate-links/delete', $affiliateLink) }}">
+							<xf:toggle name="active[{$affiliateLink.affiliate_link_id}]" selected="$affiliateLink.active"
+									   class="dataList-cell--separated" submit="true"
+									   tooltip="{{ phrase('enable_disable_x', {'title': $affiliateLink.title}) }}" />
+						</xf:datarow>
+					</xf:foreach>
+				</xf:datalist>
+				<div class="block-footer">
+					<span class="block-footer-counter">{{ display_totals($totalAffiliateLinks) }}</span>
+				</div>
+			</div>
+		</div>
+	</xf:form>
+<xf:else />
+	<div class="blockMessage">{{ phrase('no_items_have_been_created_yet') }}</div>
+</xf:if>
+
+<xf:macro template="option_macros" name="option_form_block" arg-options="{$options}" />]]></template>
+  <template type="admin" title="thmonetize_alert_delete" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[<xf:title>{{ phrase('confirm_action') }}</xf:title>
+
+<xf:form action="{{ link('monetize-alerts/delete', $alert) }}" ajax="true" class="block">
+	<div class="block-container">
+		<div class="block-body">
+			<xf:inforow rowtype="confirm">
+				{{ phrase('please_confirm_that_you_want_to_delete_following:') }}
+				<strong><a href="{{ link('monetize-alerts/edit', $alert) }}">{$alert.title}</a></strong>
+			</xf:inforow>
+		</div>
+		<xf:submitrow rowtype="simple" icon="delete" />
+	</div>
+</xf:form>]]></template>
+  <template type="admin" title="thmonetize_alert_edit" version_id="1000240" version_string="1.0.2 Beta 10"><![CDATA[<xf:if is="$alert.isInsert()">
+	<xf:title>{{ phrase('thmonetize_add_alert') }}</xf:title>
+	<xf:else />
+	<xf:title>{{ phrase('thmonetize_edit_alert:') }} {$alert.title}</xf:title>
+</xf:if>
+
+<xf:pageaction if="$alert.isUpdate()">
+	<xf:button href="{{ link('monetize-alerts/delete', $alert) }}" icon="delete" overlay="true" />
+</xf:pageaction>
+
+<xf:form action="{{ link('monetize-alerts/save', $alert) }}" ajax="true" class="block">
+	<div class="block-container">
+		<h2 class="block-tabHeader tabs hScroller" data-xf-init="tabs h-scroller" role="tablist">
+			<span class="hScroller-scroll">
+				<a class="tabs-tab is-active" role="tab" tabindex="0" aria-controls="general-options">{{ phrase('general_options') }}</a>
+				<xf:macro template="thmonetize_helper_criteria" name="user_upgrade_tabs" />
+				<xf:macro template="helper_criteria" name="user_tabs" />
+			</span>
+		</h2>
+
+		<ul class="tabPanes block-body">
+			<li class="is-active" role="tabpanel" id="general-options">
+				
+				<xf:macro template="thmonetize_communication_edit_macros"
+						  name="time" arg-sendRules="{$alert.send_rules}" />
+				
+				<hr class="formRowSep" />
+
+				<xf:formrow rowtype="input"	label="{{ phrase('thmonetize_per_user_limit')}}"
+							explain="{{ phrase('thmonetize_alert_per_user_limit_explain')}}">
+					<div class="inputGroup inputGroup--numbers">
+						<xf:numberbox name="limit_alerts" value="{$alert.limit_alerts}" placeholder="{{ phrase('thmonetize_alerts') }}" min="0" />
+						<span class="inputGroup-text">{{ phrase('thmonetize_per') }}</span>
+						<xf:numberbox name="limit_days" value="{$alert.limit_days}" placeholder="{{ phrase('units_days') }}" min="0" max="{{ $xf.options.thmonetize_alertLogLength ?: '' }}" />
+						<span class="inputGroup-text">{{ phrase('units_days') }}</span>
+					</div>
+				</xf:formrow>
+
+				<hr class="formRowSep" />
+
+				<xf:textboxrow name="title" value="{$alert.title}" maxlength="{{ max_length($alert, 'title') }}"
+							   label="{{ phrase('title') }}" required="true"
+							   explain="{{ phrase('thmonetize_alert_title_is_not_visible_to_the_user') }}" />
+
+				<hr class="formRowSep" />
+
+				<xf:textboxrow name="username" value="{{ $alert.User ? $alert.User.username : $xf.visitor.username }}" ac="single"
+							   label="{{ phrase('from_user') }}"
+							   explain="{{ phrase('from_user_explain') }}" />
+
+				<hr class="formRowSep" />
+
+				<xf:textboxrow name="link_url" type="url" value="{$alert.link_url}"
+							   label="{{ phrase('link_url') }}"
+							   dir="ltr" />
+
+				<xf:textboxrow name="link_title" value="{$alert.link_title}"
+							   label="{{ phrase('link_title') }}"
+							   explain="{{ phrase('link_title_explain') }}" />
+
+				<xf:codeeditorrow name="body" value="{$alert.body}"
+								  mode="html" data-line-wrapping="true"
+								  class="codeEditor--autoSize codeEditor--proportional"
+								  label="{{ phrase('alert_body') }}"
+								  hint="{{ phrase('you_may_use_html') }}"
+								  explain="{{ phrase('following_placeholders_will_be_replaced_in_message') }} {{ phrase('you_may_also_use_phrase_title_which_will_be_replaced') }}" />
+
+				<hr class="formRowSep" />
+
+				<xf:checkboxrow label="{{ phrase('options') }}">
+					<xf:option name="active" selected="$alert.active"
+							   label="{{ phrase('thmonetize_active') }}" />
+				</xf:checkboxrow>
+			</li>
+
+			<xf:macro template="thmonetize_helper_criteria" name="user_upgrade_panes"
+					  arg-criteria="{{ $userUpgradeCriteria.getCriteriaForTemplate() }}"
+					  arg-data="{{ $userUpgradeCriteria.getExtraTemplateData() }}" />
+
+			<xf:macro template="helper_criteria" name="user_panes"
+					  arg-criteria="{{ $userCriteria.getCriteriaForTemplate() }}"
+					  arg-data="{{ $userCriteria.getExtraTemplateData() }}" />
+
+		</ul>
+
+		<xf:submitrow sticky="true" icon="save" />
+	</div>
+</xf:form>]]></template>
+  <template type="admin" title="thmonetize_alert_list" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[<xf:title>{{ phrase('thmonetize_alerts') }}</xf:title>
+
+<xf:pageaction>
+	<xf:button href="{{ link('monetize-alerts/add') }}" icon="add">{{ phrase('thmonetize_add_alert') }}</xf:button>
+</xf:pageaction>
+
+<xf:if is="$alerts is not empty">
+	<xf:form action="{{ link('monetize-alerts/toggle') }}" class="block" ajax="true">
+		<div class="block-outer">
+			<xf:macro template="filter_macros" name="quick_filter" arg-key="monetize-alerts" arg-class="block-outer-opposite" />
+		</div>
+		<div class="block-container">
+			<div class="block-body">
+				<xf:datalist>
+					<xf:foreach loop="{$alerts}" value="$alert">
+						<xf:datarow
+								label="{$alert.title}"
+								href="{{ link('monetize-alerts/edit', $alert) }}"
+								delete="{{ link('monetize-alerts/delete', $alert) }}">
+							<xf:explain>
+								<xf:if is="{$alert.active}">
+									{{ phrase('thmonetize_next_send') . ': ' . date_time($alert.next_send)  }}
+								</xf:if>
+							</xf:explain>
+							<xf:toggle name="active[{$alert.alert_id}]" selected="$alert.active"
+								class="dataList-cell--separated" submit="true"
+								tooltip="{{ phrase('enable_disable_x', {'title': $alert.title}) }}" />
+							<xf:action href="{{ link('monetize-alerts/send', $alert) }}" overlay="true"
+									data-xf-init="tooltip" title="{{ phrase('thmonetize_send_now') }}"
+									class="dataList-cell--iconic">
+								<xf:fa icon="fa-envelope" />
+							</xf:action>
+						</xf:datarow>
+					</xf:foreach>
+				</xf:datalist>
+				<div class="block-footer">
+					<span class="block-footer-counter">{{ display_totals($totalAlerts) }}</span>
+				</div>
+			</div>
+		</div>
+	</xf:form>
+<xf:else />
+	<div class="blockMessage">{{ phrase('no_items_have_been_created_yet') }}</div>
+</xf:if>]]></template>
+  <template type="admin" title="thmonetize_alert_send" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[<xf:title>{{ phrase('confirm_action') }}</xf:title>
+
+<xf:form action="{{ link('monetize-alerts/send', $alert) }}" class="block">
+	<div class="block-container">
+		<div class="block-body">
+			<xf:inforow rowtype="confirm">
+				{{ phrase('thmonetize_please_confirm_that_you_want_to_send_following_alert:') }}
+				<strong><a href="{{ link('monetize-alerts/edit', $message) }}">{$alert.title}</a></strong>
+			</xf:inforow>
+		</div>
+		<xf:submitrow submit="{{ phrase('thmonetize_send_now') }}" rowtype="simple" />
+	</div>
+</xf:form>]]></template>
+  <template type="admin" title="thmonetize_communication_edit_macros" version_id="1000240" version_string="1.0.2 Beta 10"><![CDATA[<xf:macro name="time" arg-sendRules="!">
+	<xf:radiorow name="send_rules[day_type]" value="{$sendRules.day_type}"
+				 label="{{ phrase('thmonetize_send_on_days') }}">
+
+		<xf:option value="dom" label="{{ phrase('day_of_month:') }}">
+			<xf:select name="send_rules[dom]"
+					   value="{{ $sendRules.dom ?: [-1] |raw }}"
+					   multiple="true" size="8" style="width: 200px">
+
+				<xf:option value="-1">{{ phrase('any') }}</xf:option>
+				<xf:option value="1">1</xf:option>
+				<xf:option value="2">2</xf:option>
+				<xf:option value="3">3</xf:option>
+				<xf:option value="4">4</xf:option>
+				<xf:option value="5">5</xf:option>
+				<xf:option value="6">6</xf:option>
+				<xf:option value="7">7</xf:option>
+				<xf:option value="8">8</xf:option>
+				<xf:option value="9">9</xf:option>
+				<xf:option value="10">10</xf:option>
+				<xf:option value="11">11</xf:option>
+				<xf:option value="12">12</xf:option>
+				<xf:option value="13">13</xf:option>
+				<xf:option value="14">14</xf:option>
+				<xf:option value="15">15</xf:option>
+				<xf:option value="16">16</xf:option>
+				<xf:option value="17">17</xf:option>
+				<xf:option value="18">18</xf:option>
+				<xf:option value="19">19</xf:option>
+				<xf:option value="20">20</xf:option>
+				<xf:option value="21">21</xf:option>
+				<xf:option value="22">22</xf:option>
+				<xf:option value="23">23</xf:option>
+				<xf:option value="24">24</xf:option>
+				<xf:option value="25">25</xf:option>
+				<xf:option value="26">26</xf:option>
+				<xf:option value="27">27</xf:option>
+				<xf:option value="28">28</xf:option>
+				<xf:option value="29">29</xf:option>
+				<xf:option value="30">30</xf:option>
+				<xf:option value="31">31</xf:option>
+			</xf:select>
+		</xf:option>
+		<xf:option value="dow" label="{{ phrase('day_of_week:') }}">
+			<xf:select name="send_rules[dow]"
+					   value="{{ $sendRules.dow ?: [-1] |raw }}"
+					   multiple="true" size="8" style="width: 200px">
+
+				<xf:option value="-1">{{ phrase('any') }}</xf:option>
+				<xf:option value="0">{{ phrase('day_sunday') }}</xf:option>
+				<xf:option value="1">{{ phrase('day_monday') }}</xf:option>
+				<xf:option value="2">{{ phrase('day_tuesday') }}</xf:option>
+				<xf:option value="3">{{ phrase('day_wednesday') }}</xf:option>
+				<xf:option value="4">{{ phrase('day_thursday') }}</xf:option>
+				<xf:option value="5">{{ phrase('day_friday') }}</xf:option>
+				<xf:option value="6">{{ phrase('day_saturday') }}</xf:option>
+			</xf:select>
+		</xf:option>
+	</xf:radiorow>
+
+	<xf:selectrow  name="send_rules[hours]"
+				  label="{{ phrase('thmonetize_send_at_hours') }}"
+				  value="{{ $sendRules.hours ?: [-1] |raw }}"
+				  multiple="true" size="8" style="width: 200px">
+
+		<xf:option value="-1">{{ phrase('any') }}</xf:option>
+		<xf:option value="0">0 {{ phrase('(midnight)') }}</xf:option>
+		<xf:option value="1">1</xf:option>
+		<xf:option value="2">2</xf:option>
+		<xf:option value="3">3</xf:option>
+		<xf:option value="4">4</xf:option>
+		<xf:option value="5">5</xf:option>
+		<xf:option value="6">6</xf:option>
+		<xf:option value="7">7</xf:option>
+		<xf:option value="8">8</xf:option>
+		<xf:option value="9">9</xf:option>
+		<xf:option value="10">10</xf:option>
+		<xf:option value="11">11</xf:option>
+		<xf:option value="12">12 {{ phrase('(noon)') }}</xf:option>
+		<xf:option value="13">13</xf:option>
+		<xf:option value="14">14</xf:option>
+		<xf:option value="15">15</xf:option>
+		<xf:option value="16">16</xf:option>
+		<xf:option value="17">17</xf:option>
+		<xf:option value="18">18</xf:option>
+		<xf:option value="19">19</xf:option>
+		<xf:option value="20">20</xf:option>
+		<xf:option value="21">21</xf:option>
+		<xf:option value="22">22</xf:option>
+		<xf:option value="23">23</xf:option>
+
+		<xf:explain>{{ phrase('thmonetize_send_times_based_on_utc_time_zone') }}</xf:explain>
+	</xf:selectrow>
+
+	<xf:selectrow name="send_rules[minutes]"
+				  label="{{ phrase('thmonetize_send_at_minutes') }}"
+				  value="{{ $sendRules.minutes ?: [-1] |raw }}"
+				  multiple="true" size="8" style="width: 200px">
+
+		<xf:option value="-1">{{ phrase('any') }}</xf:option>
+		<xf:option value="0">0</xf:option>
+		<xf:option value="1">1</xf:option>
+		<xf:option value="2">2</xf:option>
+		<xf:option value="3">3</xf:option>
+		<xf:option value="4">4</xf:option>
+		<xf:option value="5">5</xf:option>
+		<xf:option value="6">6</xf:option>
+		<xf:option value="7">7</xf:option>
+		<xf:option value="8">8</xf:option>
+		<xf:option value="9">9</xf:option>
+		<xf:option value="10">10</xf:option>
+		<xf:option value="11">11</xf:option>
+		<xf:option value="12">12</xf:option>
+		<xf:option value="13">13</xf:option>
+		<xf:option value="14">14</xf:option>
+		<xf:option value="15">15</xf:option>
+		<xf:option value="16">16</xf:option>
+		<xf:option value="17">17</xf:option>
+		<xf:option value="18">18</xf:option>
+		<xf:option value="19">19</xf:option>
+		<xf:option value="20">20</xf:option>
+		<xf:option value="21">21</xf:option>
+		<xf:option value="22">22</xf:option>
+		<xf:option value="23">23</xf:option>
+		<xf:option value="24">24</xf:option>
+		<xf:option value="25">25</xf:option>
+		<xf:option value="26">26</xf:option>
+		<xf:option value="27">27</xf:option>
+		<xf:option value="28">28</xf:option>
+		<xf:option value="29">29</xf:option>
+		<xf:option value="30">30</xf:option>
+		<xf:option value="31">31</xf:option>
+		<xf:option value="32">32</xf:option>
+		<xf:option value="33">33</xf:option>
+		<xf:option value="34">34</xf:option>
+		<xf:option value="35">35</xf:option>
+		<xf:option value="36">36</xf:option>
+		<xf:option value="37">37</xf:option>
+		<xf:option value="38">38</xf:option>
+		<xf:option value="39">39</xf:option>
+		<xf:option value="40">40</xf:option>
+		<xf:option value="41">41</xf:option>
+		<xf:option value="42">42</xf:option>
+		<xf:option value="43">43</xf:option>
+		<xf:option value="44">44</xf:option>
+		<xf:option value="45">45</xf:option>
+		<xf:option value="46">46</xf:option>
+		<xf:option value="47">47</xf:option>
+		<xf:option value="48">48</xf:option>
+		<xf:option value="49">49</xf:option>
+		<xf:option value="50">50</xf:option>
+		<xf:option value="51">51</xf:option>
+		<xf:option value="52">52</xf:option>
+		<xf:option value="53">53</xf:option>
+		<xf:option value="54">54</xf:option>
+		<xf:option value="55">55</xf:option>
+		<xf:option value="56">56</xf:option>
+		<xf:option value="57">57</xf:option>
+		<xf:option value="58">58</xf:option>
+		<xf:option value="59">59</xf:option>
+	</xf:selectrow>
+</xf:macro>]]></template>
+  <template type="admin" title="thmonetize_email_delete" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[<xf:title>{{ phrase('confirm_action') }}</xf:title>
+
+<xf:form action="{{ link('monetize-emails/delete', $email) }}" ajax="true" class="block">
+	<div class="block-container">
+		<div class="block-body">
+			<xf:inforow rowtype="confirm">
+				{{ phrase('please_confirm_that_you_want_to_delete_following:') }}
+				<strong><a href="{{ link('monetize-emails/edit', $email) }}">{$email.title}</a></strong>
+			</xf:inforow>
+		</div>
+		<xf:submitrow rowtype="simple" icon="delete" />
+	</div>
+</xf:form>]]></template>
+  <template type="admin" title="thmonetize_email_edit" version_id="1000240" version_string="1.0.2 Beta 10"><![CDATA[<xf:if is="$email.isInsert()">
+	<xf:title>{{ phrase('thmonetize_add_email') }}</xf:title>
+<xf:else />
+	<xf:title>{{ phrase('thmonetize_edit_email:') }} {$email.title}</xf:title>
+</xf:if>
+
+<xf:pageaction if="$email.isUpdate()">
+	<xf:button href="{{ link('monetize-emails/delete', $email) }}" icon="delete" overlay="true" />
+</xf:pageaction>
+
+<xf:form action="{{ link('monetize-emails/save', $email) }}" ajax="true" class="block">
+	<div class="block-container">
+		<h2 class="block-tabHeader tabs hScroller" data-xf-init="tabs h-scroller" role="tablist">
+			<span class="hScroller-scroll">
+				<a class="tabs-tab is-active" role="tab" tabindex="0" aria-controls="general-options">{{ phrase('general_options') }}</a>
+				<xf:macro template="thmonetize_helper_criteria" name="user_upgrade_tabs" />
+				<xf:macro template="helper_criteria" name="user_tabs" />
+			</span>
+		</h2>
+
+		<ul class="tabPanes block-body">
+			<li class="is-active" role="tabpanel" id="general-options">
+				
+				<xf:macro template="thmonetize_communication_edit_macros"
+						  name="time" arg-sendRules="{$email.send_rules}" />
+
+				<hr class="formRowSep" />
+
+				<xf:formrow rowtype="input"	label="{{ phrase('thmonetize_per_user_limit')}}"
+						explain="{{ phrase('thmonetize_email_per_user_limit_explain')}}">
+					<div class="inputGroup inputGroup--numbers">
+						<xf:numberbox name="limit_emails" value="{$email.limit_emails}" placeholder="{{ phrase('thmonetize_emails') }}" min="0" />
+						<span class="inputGroup-text">{{ phrase('thmonetize_per') }}</span>
+						<xf:numberbox name="limit_days" value="{$email.limit_days}" placeholder="{{ phrase('units_days') }}" min="0" max="{{ $xf.options.thmonetize_emailLogLength ?: '' }}" />
+						<span class="inputGroup-text">{{ phrase('units_days') }}</span>
+					</div>
+				</xf:formrow>
+
+				<hr class="formRowSep" />
+
+				<xf:textboxrow name="from_name" value="{{ $email.from_name ?: $xf.options.emailSenderName ?: $xf.options.boardTitle }}"
+				label="{{ phrase('from_name') }}" />
+
+				<xf:textboxrow name="from_email" value="{{ $email.from_email ?: $xf.options.defaultEmailAddress }}" type="email"
+					label="{{ phrase('from_email') }}"/>
+
+				<hr class="formRowSep" />
+
+				<xf:textboxrow name="title" value="{$email.title}" maxlength="{{ max_length($email, 'title') }}"
+					label="{{ phrase('email_title') }}" required="true" />
+
+				<xf:radiorow name="format" value="{$email.format}"
+					label="{{ phrase('email_format') }}">
+
+					<xf:option value=""
+						label="{{ phrase('plain_text') }}" />
+					<xf:option value="html"
+						label="HTML"
+						hint="{{ phrase('note_that_email_clients_handle_html_in_widely_varying_ways') }}" />
+				</xf:radiorow>
+
+				<xf:codeeditorrow name="body" value="{$email.body}"
+					mode="html" data-line-wrapping="true"
+					class="codeEditor--autoSize codeEditor--proportional"
+					label="{{ phrase('email_body') }}"
+					explain=" {{ phrase('following_placeholders_will_be_replaced_in_email_for_email') }} {{ phrase('you_may_also_use_phrase_title_which_will_be_replaced') }}" />
+
+				<xf:checkboxrow label="{{ phrase('options') }}">
+					<xf:option name="active" selected="$email.active"
+						label="{{ phrase('thmonetize_active') }}" />
+					<xf:option name="wrapped" selected="$email.wrapped"
+						label="{{ phrase('include_default_email_wrapper') }}"
+						hint="{{ phrase('include_default_email_wrapper_explain') }}" />
+					<xf:option name="unsub" selected="$email.unsub"
+						label="{{ phrase('automatically_include_unsubscribe_link') }}"
+						hint="{{ phrase('automatically_include_unsubscribe_link_desc') }}" />
+					<xf:option name="receive_admin_email_only" selected="$email.receive_admin_email_only">
+						{{ phrase('only_send_to_users_opting_to_receive_emails_from_admin') }}
+					</xf:option>
+				</xf:checkboxrow>
+			</li>
+
+			<xf:macro template="thmonetize_helper_criteria" name="user_upgrade_panes"
+				arg-criteria="{{ $userUpgradeCriteria.getCriteriaForTemplate() }}"
+				arg-data="{{ $userUpgradeCriteria.getExtraTemplateData() }}" />
+
+			<xf:macro template="helper_criteria" name="user_panes"
+				arg-criteria="{{ $userCriteria.getCriteriaForTemplate() }}"
+				arg-data="{{ $userCriteria.getExtraTemplateData() }}" />
+		</ul>
+
+		<xf:submitrow sticky="true" icon="save" />
+	</div>
+</xf:form>]]></template>
+  <template type="admin" title="thmonetize_email_list" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[<xf:title>{{ phrase('thmonetize_emails') }}</xf:title>
+
+<xf:pageaction>
+	<xf:button href="{{ link('monetize-emails/add') }}" icon="add">{{ phrase('thmonetize_add_email') }}</xf:button>
+</xf:pageaction>
+
+<xf:if is="$emails is not empty">
+	<xf:form action="{{ link('monetize-emails/toggle') }}" class="block" ajax="true">
+		<div class="block-outer">
+			<xf:macro template="filter_macros" name="quick_filter" arg-key="monetize-emails" arg-class="block-outer-opposite" />
+		</div>
+		<div class="block-container">
+			<div class="block-body">
+				<xf:datalist>
+					<xf:foreach loop="{$emails}" value="$email">
+						<xf:datarow
+								label="{$email.title}"
+								href="{{ link('monetize-emails/edit', $email) }}"
+								delete="{{ link('monetize-emails/delete', $email) }}">
+							<xf:explain>
+								<xf:if is="{$email.active}">
+									{{ phrase('thmonetize_next_send') . ': ' . date_time($email.next_send)  }}
+								</xf:if>
+							</xf:explain>
+							<xf:toggle name="active[{$email.email_id}]" selected="$email.active"
+								class="dataList-cell--separated" submit="true"
+								tooltip="{{ phrase('enable_disable_x', {'title': $email.title}) }}" />
+							<xf:action href="{{ link('monetize-emails/send', $email) }}" overlay="true"
+									data-xf-init="tooltip" title="{{ phrase('thmonetize_send_now') }}"
+									class="dataList-cell--iconic">
+								<xf:fa icon="fa-envelope" />
+							</xf:action>
+						</xf:datarow>
+					</xf:foreach>
+				</xf:datalist>
+				<div class="block-footer">
+					<span class="block-footer-counter">{{ display_totals($totalEmails) }}</span>
+				</div>
+			</div>
+		</div>
+	</xf:form>
+<xf:else />
+	<div class="blockMessage">{{ phrase('no_items_have_been_created_yet') }}</div>
+</xf:if>]]></template>
+  <template type="admin" title="thmonetize_email_send" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[<xf:title>{{ phrase('confirm_action') }}</xf:title>
+
+<xf:form action="{{ link('monetize-emails/send', $email) }}" class="block">
+	<div class="block-container">
+		<div class="block-body">
+			<xf:inforow rowtype="confirm">
+				{{ phrase('thmonetize_please_confirm_that_you_want_to_send_following_email:') }}
+				<strong><a href="{{ link('monetize-emails/edit', $message) }}">{$email.title}</a></strong>
+			</xf:inforow>
+		</div>
+		<xf:submitrow submit="{{ phrase('thmonetize_send_now') }}" rowtype="simple" />
+	</div>
+</xf:form>]]></template>
+  <template type="admin" title="thmonetize_helper_criteria" version_id="1000237" version_string="1.0.2 Beta 7"><![CDATA[<xf:macro name="after_groups" arg-criteria="!">
+	<xf:checkboxrow label="{{ phrase('thmonetize_user_upgrades') }}">
+
+		<xf:option name="user_criteria[thmonetize_active_upgrades_count][rule]" value="thmonetize_active_upgrades_count" selected="{$criteria.thmonetize_active_upgrades_count}"
+				label="{{ phrase('thmonetize_user_has_at_least_x_active_upgrades:') }}">
+			<xf:numberbox name="user_criteria[thmonetize_active_upgrades_count][data][upgrades]" value="{$criteria.thmonetize_active_upgrades_count.upgrades}"
+				size="5" min="0" step="1" />
+		</xf:option>
+
+		<xf:option name="user_criteria[thmonetize_active_upgrades_maximum][rule]" value="thmonetize_active_upgrades_maximum" selected="{$criteria.thmonetize_active_upgrades_maximum}"
+				label="{{ phrase('thmonetize_user_has_no_more_than_x_active_upgrades:') }}">
+			<xf:numberbox name="user_criteria[thmonetize_active_upgrades_maximum][data][upgrades]" value="{$criteria.thmonetize_active_upgrades_maximum.upgrades}"
+				size="5" min="0" step="1" />
+		</xf:option>
+
+		<xf:option name="user_criteria[thmonetize_active_upgrades_expiry][rule]" value="thmonetize_active_upgrades_expiry" selected="{$criteria.thmonetize_active_upgrades_expiry}"
+				label="{{ phrase('thmonetize_user_has_upgrades_expiring_in_no_more_than_x_days:') }}">
+			<xf:numberbox name="user_criteria[thmonetize_active_upgrades_expiry][data][days]" value="{$criteria.thmonetize_active_upgrades_expiry.days}"
+				size="5" min="0" step="1" />
+		</xf:option>
+	</xf:checkboxrow>
+
+	<hr class="formRowSep" />
+</xf:macro>
+
+<xf:macro name="user_upgrade_tabs" arg-container="" arg-userUpgradeTabTitle="" arg-active="">
+	<xf:set var="$tabs">
+		<a class="tabs-tab{{ $active == 'user_upgrade' ? ' is-active' : '' }}"
+			role="tab" tabindex="0" aria-controls="{{ unique_id('criteriaUserUpgrade') }}">
+			{{ $userUpgradeTabTitle ? $userUpgradeTabTitle : phrase('thmonetize_user_upgrade_criteria') }}</a>
+	</xf:set>
+	<xf:if is="$container">
+		<div class="tabs" role="tablist">
+			{$tabs|raw}
+		</div>
+	<xf:else />
+		{$tabs|raw}
+	</xf:if>
+</xf:macro>
+
+<xf:macro name="user_upgrade_panes" arg-container="" arg-active="" arg-criteria="!" arg-data="!">
+
+	<xf:set var="$panes">
+		<li class="{{ $active == 'user_upgrade' ? ' is-active' : '' }}" role="tabpanel" id="{{ unique_id('criteriaUserUpgrade') }}">
+			<xf:checkboxrow label="{{ phrase('thmonetize_user_upgrade_status') }}">
+				<xf:option name="user_upgrade_criteria[is_active][rule]" value="is_active" selected="{$criteria.is_active}"
+					label="{{ phrase('thmonetize_user_upgrade_is_active') }}" />
+				<xf:option name="user_upgrade_criteria[is_not_active][rule]" value="is_not_active" selected="{$criteria.is_not_active}"
+					label="{{ phrase('thmonetize_user_upgrade_is_not_active') }}" />
+				<xf:option name="user_upgrade_criteria[is_expired][rule]" value="is_expired" selected="{$criteria.is_expired}"
+					label="{{ phrase('thmonetize_user_upgrade_is_expired') }}" />
+				<xf:option name="user_upgrade_criteria[is_not_expired][rule]" value="is_not_expired" selected="{$criteria.is_not_expired}"
+					label="{{ phrase('thmonetize_user_upgrade_is_not_expired') }}" />
+			</xf:checkboxrow>
+
+			<xf:checkboxrow label="{{ phrase('thmonetize_user_upgrade_details') }}">
+				<xf:option name="user_upgrade_criteria[is_recurring][rule]" value="is_recurring" selected="{$criteria.is_recurring}"
+					label="{{ phrase('thmonetize_user_upgrade_is_recurring') }}" />
+				<xf:option name="user_upgrade_criteria[is_not_recurring][rule]" value="is_not_recurring" selected="{$criteria.is_not_recurring}"
+					label="{{ phrase('thmonetize_user_upgrade_is_not_recurring') }}" />
+			</xf:checkboxrow>
+
+			<xf:checkboxrow label="{{ phrase('thmonetize_user_upgrade_start_date') }}">
+				<xf:option name="user_upgrade_criteria[start_date_within][rule]" value="start_date_within" selected="{$criteria.start_date_within}"
+					label="{{ phrase('thmonetize_user_upgrade_start_date_is_within_x_days:') }}">
+					<xf:numberbox name="user_upgrade_criteria[start_date_within][data][days]" value="{$criteria.start_date_within.days}"
+						size="5" min="0" step="1" />
+				</xf:option>
+				<xf:option name="user_upgrade_criteria[start_date_not_within][rule]" value="start_date_not_within" selected="{$criteria.start_date_not_within}"
+					label="{{ phrase('thmonetize_user_upgrade_start_date_is_not_within_x_days:') }}">
+					<xf:numberbox name="user_upgrade_criteria[start_date_not_within][data][days]" value="{$criteria.start_date_not_within.days}"
+						size="5" min="0" step="1" />
+				</xf:option>
+			</xf:checkboxrow>
+
+			<xf:checkboxrow label="{{ phrase('thmonetize_user_upgrade_end_date') }}">
+				<xf:option name="user_upgrade_criteria[end_date_within][rule]" value="end_date_within" selected="{$criteria.end_date_within}"
+					label="{{ phrase('thmonetize_user_upgrade_end_date_is_within_x_days:') }}">
+					<xf:numberbox name="user_upgrade_criteria[end_date_within][data][days]" value="{$criteria.end_date_within.days}"
+						size="5" min="0" step="1" />
+				</xf:option>
+				<xf:option name="user_upgrade_criteria[end_date_not_within][rule]" value="end_date_not_within" selected="{$criteria.end_date_not_within}"
+					label="{{ phrase('thmonetize_user_upgrade_end_date_is_not_within_x_days:') }}">
+					<xf:numberbox name="user_upgrade_criteria[end_date_not_within][data][days]" value="{$criteria.end_date_not_within.days}"
+						size="5" min="0" step="1" />
+				</xf:option>
+			</xf:checkboxrow>
+
+			<xf:checkboxrow label="{{ phrase('thmonetize_user_upgrade_last_updated') }}">
+				<xf:option name="user_upgrade_criteria[updated_within][rule]" value="updated_within" selected="{$criteria.updated_within}"
+					label="{{ phrase('thmonetize_user_upgrade_last_updated_is_within_x_days:') }}">
+					<xf:numberbox name="user_upgrade_criteria[updated_within][data][days]" value="{$criteria.updated_within.days}"
+						size="5" min="0" step="1" />
+				</xf:option>
+				<xf:option name="user_upgrade_criteria[updated_not_within][rule]" value="updated_not_within" selected="{$criteria.updated_not_within}"
+					label="{{ phrase('thmonetize_user_upgrade_last_updated_is_not_within_x_days:') }}">
+					<xf:numberbox name="user_upgrade_criteria[updated_not_within][data][days]" value="{$criteria.updated_not_within.days}"
+						size="5" min="0" step="1" />
+				</xf:option>
+			</xf:checkboxrow>
+
+			<xf:checkboxrow label="{{ phrase('thmonetize_specific_user_upgrades') }}">
+				<xf:option name="user_upgrade_criteria[user_upgrades][rule]" value="user_upgrades" selected="{$criteria.user_upgrades}"
+					label="{{ phrase('thmonetize_user_upgrade_is_one_of_the_selected_upgrades:') }}">
+					<xf:select name="user_upgrade_criteria[user_upgrades][data][user_upgrade_ids]" size="4" multiple="true" value="{$criteria.user_upgrades.user_upgrade_ids}">
+						<xf:foreach loop="$data.userUpgrades" key="$userUpgradeId" value="$userUpgradeTitle">
+							<xf:option value="{$userUpgradeId}">{$userUpgradeTitle}</xf:option>
+						</xf:foreach>
+					</xf:select>
+				</xf:option>
+				<xf:option name="user_upgrade_criteria[not_user_upgrades][rule]" value="not_user_upgrades" selected="{$criteria.not_user_upgrades}"
+					label="{{ phrase('thmonetize_user_upgrade_is_not_one_of_the_selected_upgrades:') }}">
+					<xf:select name="user_upgrade_criteria[not_user_upgrades][data][user_upgrade_ids]" size="4" multiple="true" value="{$criteria.not_user_upgrades.user_upgrade_ids}">
+						<xf:foreach loop="$data.userUpgrades" key="$userUpgradeId" value="$userUpgradeTitle">
+							<xf:option value="{$userUpgradeId}">{$userUpgradeTitle}</xf:option>
+						</xf:foreach>
+					</xf:select>
+				</xf:option>
+			</xf:checkboxrow>
+		</li>
+	</xf:set>
+
+	<xf:if is="$container">
+		<ul class="tabPanes">
+			{$panes|raw}
+		</ul>
+	<xf:else />
+		{$panes|raw}
+	</xf:if>
+</xf:macro>]]></template>
+  <template type="admin" title="thmonetize_keyword_delete" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[<xf:title>{{ phrase('confirm_action') }}</xf:title>
+
+<xf:form action="{{ link('keywords/delete', $keyword) }}" ajax="true" class="block">
+	<div class="block-container">
+		<div class="block-body">
+			<xf:inforow rowtype="confirm">
+				{{ phrase('please_confirm_that_you_want_to_delete_following:') }}
+				<strong><a href="{{ link('keywords/edit', $keyword) }}">{$keyword.title}</a></strong>
+			</xf:inforow>
+		</div>
+		<xf:submitrow rowtype="simple" icon="delete" />
+	</div>
+</xf:form>]]></template>
+  <template type="admin" title="thmonetize_keyword_edit" version_id="1000240" version_string="1.0.2 Beta 10"><![CDATA[<xf:if is="$keyword.isInsert()">
+	<xf:title>{{ phrase('thmonetize_add_keyword') }}</xf:title>
+<xf:else />
+	<xf:title>{{ phrase('thmonetize_edit_keyword:') }} {$keyword.title}</xf:title>
+</xf:if>
+
+<xf:pageaction if="$keyword.isUpdate()">
+	<xf:button href="{{ link('keywords/delete', $keyword) }}" icon="delete" overlay="true" />
+</xf:pageaction>
+
+<xf:form action="{{ link('keywords/save', $keyword) }}" ajax="true" class="block">
+	<div class="block-container">
+		<h2 class="block-tabHeader tabs hScroller" data-xf-init="tabs h-scroller" role="tablist">
+			<span class="hScroller-scroll">
+				<a class="tabs-tab is-active" role="tab" tabindex="0" aria-controls="general-options">{{ phrase('general_options') }}</a>
+				<xf:macro template="helper_criteria" name="user_tabs" />
+			</span>
+		</h2>
+
+		<ul class="tabPanes block-body">
+			<li class="is-active" role="tabpanel" id="general-options">
+				<xf:textboxrow name="title" value="{$keyword.title}" maxlength="{{ max_length($keyword, 'title') }}"
+					label="{{ phrase('title') }}" />
+				
+				<hr class="formRowSep" />
+
+				<xf:textboxrow name="keyword" value="{$keyword.keyword}" maxlength="{{ max_length($keyword, 'keyword') }}"
+					label="{{ phrase('thmonetize_word_or_phrase') }}" />
+				
+				<xf:checkboxrow label="{{ phrase('thmonetize_keyword_options') }}">
+					<xf:option checked="{$keyword.replace_case_insensitive}"
+							   name="keyword_options[case_insensitive]" value="1"
+							   hint="{{ phrase('th_monetize_match_case_insensitize_hint') }}">
+						{{ phrase('th_monetize_match_case_insensitize') }}
+					</xf:option>
+					<xf:option checked="{$keyword.replace_romanized}"
+							   name="keyword_options[romanized]" value="1"
+							   hint="{{ phrase('thmonetize_match_romanized_hint') }}">
+						{{ phrase('thmonetize_match_romanized') }}
+					</xf:option>
+					<xf:option checked="{$keyword.replace_in_word}"
+							   name="keyword_options[in_word]" value="1"
+							   hint="{{ phrase('thmonetize_match_in_word_hint') }}">
+						{{ phrase('thmonetize_match_in_word') }}
+					</xf:option>
+				</xf:checkboxrow>
+
+				<xf:formrow label="{{ phrase('thmonetize_replacement') }}">
+					<xf:radio name="replace_type" value="{$keyword.replace_type}">
+						<xf:option value="url" label="{{ phrase('thmonetize_replace_with_link_to_url:') }}">
+							<xf:textbox name="replacement" value="{{ $keyword.replace_type === 'url' ? $keyword.replacement : '' }}" />
+						</xf:option>
+						<xf:option value="html" label="{{ phrase('thmonetize_replace_with_text:') }}"
+								hint="{{ phrase('thmonetize_you_may_use_html_here') }}">
+							<xf:textarea name="replacement" rows="2" value="{{ $keyword.replace_type === 'html' ? $keyword.replacement : '' }}" />
+						</xf:option>
+					</xf:radio>
+				</xf:formrow>
+
+				<hr class="formRowSep" />
+
+				<xf:numberboxrow label="{{ phrase('thmonetize_limit') }}" name="limit" min="0" value="{$keyword.limit}" />
+
+				<xf:checkboxrow label="{{ phrase('options') }}">
+					<xf:option name="active" selected="$keyword.active"
+						label="{{ phrase('thmonetize_active') }}" />
+				</xf:checkboxrow>
+			</li>
+
+			<xf:macro template="helper_criteria" name="user_panes"
+				arg-criteria="{{ $userCriteria.getCriteriaForTemplate() }}"
+				arg-data="{{ $userCriteria.getExtraTemplateData() }}" />
+
+		</ul>
+
+		<xf:submitrow sticky="true" icon="save" />
+	</div>
+</xf:form>]]></template>
+  <template type="admin" title="thmonetize_keyword_list" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[<xf:title>{{ phrase('thmonetize_keywords') }}</xf:title>
+
+<xf:pageaction>
+	<xf:button href="{{ link('keywords/add') }}" icon="add">{{ phrase('thmonetize_add_keyword') }}</xf:button>
+</xf:pageaction>
+
+<xf:if is="$keywords is not empty">
+	<xf:form action="{{ link('keywords/toggle') }}" class="block" ajax="true">
+		<div class="block-outer">
+			<xf:macro template="filter_macros" name="quick_filter" arg-key="keywords" arg-class="block-outer-opposite" />
+		</div>
+		<div class="block-container">
+			<div class="block-body">
+				<xf:datalist>
+					<xf:foreach loop="{$keywords}" value="$keyword">
+						<xf:datarow
+									label="{$keyword.title}"
+									href="{{ link('keywords/edit', $keyword) }}"
+									delete="{{ link('keywords/delete', $keyword) }}">
+							<xf:toggle name="active[{$keyword.keyword_id}]" selected="$keyword.active"
+									   class="dataList-cell--separated" submit="true"
+									   tooltip="{{ phrase('enable_disable_x', {'title': $keyword.title}) }}" />
+						</xf:datarow>
+					</xf:foreach>
+				</xf:datalist>
+				<div class="block-footer">
+					<span class="block-footer-counter">{{ display_totals($totalKeywords) }}</span>
+				</div>
+			</div>
+		</div>
+	</xf:form>
+<xf:else />
+	<div class="blockMessage">{{ phrase('no_items_have_been_created_yet') }}</div>
+</xf:if>
+
+<xf:macro template="option_macros" name="option_form_block" arg-options="{$options}" />]]></template>
+  <template type="admin" title="thmonetize_log_alert_list" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[<xf:title>{{ phrase('thmonetize_alert_log') }}</xf:title>
+
+<xf:form action="{{ link('logs/monetize-alert') }}" class="block">
+	<div class="block-container">
+		<div class="block-body block-row">
+			<span>
+				{{ phrase('filter_by_user:') }}
+				<xf:select name="user_id" value="{$userId}" class="input--inline">
+					<xf:option value="0">{{ phrase('any') }}</xf:option>
+					<xf:options source="$logUsers" />
+				</xf:select>
+			</span>
+
+			<xf:button type="submit">{{ phrase('filter') }}</xf:button>
+		</div>
+	</div>
+</xf:form>
+
+<xf:if is="$entries is not empty">
+	<div class="block">
+		<div class="block-container">
+			<div class="block-body">
+				<xf:datalist data-xf-init="responsive-data-list">
+					<xf:datarow rowtype="header">
+						<xf:cell>{{ phrase('date') }}</xf:cell>
+						<xf:cell>{{ phrase('user') }}</xf:cell>
+						<xf:cell>{{ phrase('thmonetize_alert') }}</xf:cell>
+					</xf:datarow>
+					<xf:foreach loop="$entries" value="$entry">
+						<xf:datarow>
+							<xf:cell>
+								<a href="{{ link('logs/monetize-alert', $entry) }}" data-xf-click="overlay">
+									<xf:date time="{$entry.log_date}" />
+								</a>
+							</xf:cell>
+							<xf:cell><xf:username user="$entry.User" href="{{ link('users/edit', $entry.User) }}" /></xf:cell>
+							<xf:cell>
+								<a href="{{ link('monetize-alerts', $entry.Alert) }}">{$entry.Alert.title}</a>
+							</xf:cell>
+						</xf:datarow>
+					</xf:foreach>
+				</xf:datalist>
+			</div>
+			<div class="block-footer">
+				<span class="block-footer-counter">{{ display_totals($entries, $total) }}</span>
+			</div>
+		</div>
+		<xf:pagenav page="{$page}" perpage="{$perPage}" total="{$total}"
+			link="logs/monetize-alert" params="{$linkFilters}"
+			wrapperclass="block-outer block-outer--after" />
+	</div>
+<xf:else />
+	<div class="blockMessage">{{ phrase('no_entries_have_been_logged') }}</div>
+</xf:if>]]></template>
+  <template type="admin" title="thmonetize_log_alert_view" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[<xf:title>{{ phrase('thmonetize_alert_log_entry') }}</xf:title>
+
+<div class="block">
+	<div class="block-container">
+		<div class="block-body">
+			<xf:formrow label="{{ phrase('user') }}">
+				<a href="{{ link('users/edit', $entry.User) }}">{$entry.User.username}</a>
+			</xf:formrow>
+			<xf:formrow label="{{ phrase('date') }}">
+				<xf:date time="{$entry.log_date}" />
+			</xf:formrow>
+			<xf:formrow label="{{ phrase('thmonetize_alert') }}">
+				<a href="{{ link('monetize-alerts', $entry.Alert) }}">{$entry.Alert.title}</a>
+			</xf:formrow>
+		</div>
+	</div>
+</div>]]></template>
+  <template type="admin" title="thmonetize_log_email_list" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[<xf:title>{{ phrase('thmonetize_email_log') }}</xf:title>
+
+<xf:form action="{{ link('logs/monetize-email') }}" class="block">
+	<div class="block-container">
+		<div class="block-body block-row">
+			<span>
+				{{ phrase('filter_by_user:') }}
+				<xf:select name="user_id" value="{$userId}" class="input--inline">
+					<xf:option value="0">{{ phrase('any') }}</xf:option>
+					<xf:options source="$logUsers" />
+				</xf:select>
+			</span>
+
+			<xf:button type="submit">{{ phrase('filter') }}</xf:button>
+		</div>
+	</div>
+</xf:form>
+
+<xf:if is="$entries is not empty">
+	<div class="block">
+		<div class="block-container">
+			<div class="block-body">
+				<xf:datalist data-xf-init="responsive-data-list">
+					<xf:datarow rowtype="header">
+						<xf:cell>{{ phrase('date') }}</xf:cell>
+						<xf:cell>{{ phrase('user') }}</xf:cell>
+						<xf:cell>{{ phrase('thmonetize_email') }}</xf:cell>
+					</xf:datarow>
+					<xf:foreach loop="$entries" value="$entry">
+						<xf:datarow>
+							<xf:cell>
+								<a href="{{ link('logs/monetize-email', $entry) }}" data-xf-click="overlay">
+									<xf:date time="{$entry.log_date}" />
+								</a>
+							</xf:cell>
+							<xf:cell><xf:username user="$entry.User" href="{{ link('users/edit', $entry.User) }}" /></xf:cell>
+							<xf:cell>
+								<a href="{{ link('monetize-emails', $entry.Email) }}">{$entry.Email.title}</a>
+							</xf:cell>
+						</xf:datarow>
+					</xf:foreach>
+				</xf:datalist>
+			</div>
+			<div class="block-footer">
+				<span class="block-footer-counter">{{ display_totals($entries, $total) }}</span>
+			</div>
+		</div>
+		<xf:pagenav page="{$page}" perpage="{$perPage}" total="{$total}"
+			link="logs/monetize-email" params="{$linkFilters}"
+			wrapperclass="block-outer block-outer--after" />
+	</div>
+<xf:else />
+	<div class="blockMessage">{{ phrase('no_entries_have_been_logged') }}</div>
+</xf:if>]]></template>
+  <template type="admin" title="thmonetize_log_email_view" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[<xf:title>{{ phrase('thmonetize_email_log_entry') }}</xf:title>
+
+<div class="block">
+	<div class="block-container">
+		<div class="block-body">
+			<xf:formrow label="{{ phrase('user') }}">
+				<a href="{{ link('users/edit', $entry.User) }}">{$entry.User.username}</a>
+			</xf:formrow>
+			<xf:formrow label="{{ phrase('date') }}">
+				<xf:date time="{$entry.log_date}" />
+			</xf:formrow>
+			<xf:formrow label="{{ phrase('thmonetize_email') }}">
+				<a href="{{ link('monetize-emails', $entry.Email) }}">{$entry.Email.title}</a>
+			</xf:formrow>
+		</div>
+	</div>
+</div>]]></template>
+  <template type="admin" title="thmonetize_log_message_list" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[<xf:title>{{ phrase('thmonetize_message_log') }}</xf:title>
+
+<xf:form action="{{ link('logs/monetize-message') }}" class="block">
+	<div class="block-container">
+		<div class="block-body block-row">
+			<span>
+				{{ phrase('filter_by_user:') }}
+				<xf:select name="user_id" value="{$userId}" class="input--inline">
+					<xf:option value="0">{{ phrase('any') }}</xf:option>
+					<xf:options source="$logUsers" />
+				</xf:select>
+			</span>
+
+			<xf:button type="submit">{{ phrase('filter') }}</xf:button>
+		</div>
+	</div>
+</xf:form>
+
+<xf:if is="$entries is not empty">
+	<div class="block">
+		<div class="block-container">
+			<div class="block-body">
+				<xf:datalist data-xf-init="responsive-data-list">
+					<xf:datarow rowtype="header">
+						<xf:cell>{{ phrase('date') }}</xf:cell>
+						<xf:cell>{{ phrase('user') }}</xf:cell>
+						<xf:cell>{{ phrase('thmonetize_message') }}</xf:cell>
+					</xf:datarow>
+					<xf:foreach loop="$entries" value="$entry">
+						<xf:datarow>
+							<xf:cell>
+								<a href="{{ link('logs/monetize-message', $entry) }}" data-xf-click="overlay">
+									<xf:date time="{$entry.log_date}" />
+								</a>
+							</xf:cell>
+							<xf:cell><xf:username user="$entry.User" href="{{ link('users/edit', $entry.User) }}" /></xf:cell>
+							<xf:cell>
+								<a href="{{ link('monetize-messages', $entry.Message) }}">{$entry.Message.title}</a>
+							</xf:cell>
+						</xf:datarow>
+					</xf:foreach>
+				</xf:datalist>
+			</div>
+			<div class="block-footer">
+				<span class="block-footer-counter">{{ display_totals($entries, $total) }}</span>
+			</div>
+		</div>
+		<xf:pagenav page="{$page}" perpage="{$perPage}" total="{$total}"
+			link="logs/monetize-message" params="{$linkFilters}"
+			wrapperclass="block-outer block-outer--after" />
+	</div>
+<xf:else />
+	<div class="blockMessage">{{ phrase('no_entries_have_been_logged') }}</div>
+</xf:if>]]></template>
+  <template type="admin" title="thmonetize_log_message_view" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[<xf:title>{{ phrase('thmonetize_message_log_entry') }}</xf:title>
+
+<div class="block">
+	<div class="block-container">
+		<div class="block-body">
+			<xf:formrow label="{{ phrase('user') }}">
+				<a href="{{ link('users/edit', $entry.User) }}">{$entry.User.username}</a>
+			</xf:formrow>
+			<xf:formrow label="{{ phrase('date') }}">
+				<xf:date time="{$entry.log_date}" />
+			</xf:formrow>
+			<xf:formrow label="{{ phrase('thmonetize_message') }}">
+				<a href="{{ link('monetize-messages', $entry.Message) }}">{$entry.Message.title}</a>
+			</xf:formrow>
+		</div>
+	</div>
+</div>]]></template>
+  <template type="admin" title="thmonetize_message_delete" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[<xf:title>{{ phrase('confirm_action') }}</xf:title>
+
+<xf:form action="{{ link('monetize-messages/delete', $message) }}" ajax="true" class="block">
+	<div class="block-container">
+		<div class="block-body">
+			<xf:inforow rowtype="confirm">
+				{{ phrase('please_confirm_that_you_want_to_delete_following:') }}
+				<strong><a href="{{ link('monetize-messages/edit', $message) }}">{$message.title}</a></strong>
+			</xf:inforow>
+		</div>
+		<xf:submitrow rowtype="simple" icon="delete" />
+	</div>
+</xf:form>]]></template>
+  <template type="admin" title="thmonetize_message_edit" version_id="1000240" version_string="1.0.2 Beta 10"><![CDATA[<xf:if is="$message.isInsert()">
+	<xf:title>{{ phrase('thmonetize_add_message') }}</xf:title>
+<xf:else />
+	<xf:title>{{ phrase('thmonetize_edit_message:') }} {$message.title}</xf:title>
+</xf:if>
+
+<xf:pageaction if="$message.isUpdate()">
+	<xf:button href="{{ link('monetize-messages/delete', $message) }}" icon="delete" overlay="true" />
+</xf:pageaction>
+
+<xf:form action="{{ link('monetize-messages/save', $message) }}" ajax="true" class="block">
+	<div class="block-container">
+		<h2 class="block-tabHeader tabs hScroller" data-xf-init="tabs h-scroller" role="tablist">
+			<span class="hScroller-scroll">
+				<a class="tabs-tab is-active" role="tab" tabindex="0" aria-controls="general-options">{{ phrase('general_options') }}</a>
+				<xf:macro template="thmonetize_helper_criteria" name="user_upgrade_tabs" />
+				<xf:macro template="helper_criteria" name="user_tabs" />
+			</span>
+		</h2>
+
+		<ul class="tabPanes block-body">
+			<li class="is-active" role="tabpanel" id="general-options">
+				
+				<xf:macro template="thmonetize_communication_edit_macros"
+						  name="time" arg-sendRules="{$message.send_rules}" />
+
+				<hr class="formRowSep" />
+
+				<xf:formrow rowtype="input"	label="{{ phrase('thmonetize_per_user_limit')}}"
+						explain="{{ phrase('thmonetize_message_per_user_limit_explain')}}">
+					<div class="inputGroup inputGroup--numbers">
+						<xf:numberbox name="limit_messages" value="{$message.limit_messages}" placeholder="{{ phrase('thmonetize_messages') }}" min="0" />
+						<span class="inputGroup-text">{{ phrase('thmonetize_per') }}</span>
+						<xf:numberbox name="limit_days" value="{$message.limit_days}" placeholder="{{ phrase('units_days') }}" min="0" max="{{ $xf.options.thmonetize_messageLogLength ?: '' }}" />
+						<span class="inputGroup-text">{{ phrase('units_days') }}</span>
+					</div>
+				</xf:formrow>
+
+				<hr class="formRowSep" />
+
+				<xf:textboxrow name="username" value="{{ $message.User ? $message.User.username : $xf.visitor.username }}" ac="single"
+					label="{{ phrase('from_user') }}">
+					<xf:explain>
+						<p>{{ phrase('enter_name_of_existing_user_conversation_should_be_started_by') }}</p>
+						<p><b>{{ phrase('note:') }}</b> {{ phrase('you_cannot_start_conversation_with_yourself') }}</p>
+					</xf:explain>
+				</xf:textboxrow>
+
+				<hr class="formRowSep" />
+
+				<xf:textboxrow name="title" value="{$message.title}" maxlength="{{ max_length($message, 'title') }}"
+					label="{{ phrase('conversation_title') }}" required="true" />
+
+				<xf:textarearow name="body" rows="5" autosize="true" value="{$message.body}"
+					label="{{ phrase('conversation_message') }}"
+					required="true"
+					hint="{{ phrase('you_may_use_bb_code') }}"
+					explain="{{ phrase('following_placeholders_will_be_replaced_in_message_for_conversation') }} {{ phrase('you_may_also_use_phrase_title_which_will_be_replaced') }}" />
+
+				<hr class="formRowSep" />
+
+				<xf:checkboxrow label="{{ phrase('options') }}">
+					<xf:option name="active" selected="$message.active" label="{{ phrase('thmonetize_active') }}" />
+					<xf:option name="open_invite" selected="$message.open_invite">{{ phrase('allow_anyone_in_conversation_to_invite_others') }}</xf:option>
+					<xf:option name="conversation_locked" selected="$message.conversation_locked">{{ phrase('lock_conversation_no_responses_will_be_allowed') }}</xf:option>
+				</xf:checkboxrow>
+
+				<xf:radiorow name="delete_type" value="{$message.delete_type}"
+					label="{{ phrase('future_message_handling') }}">
+
+					<xf:option value=""
+						label="{{ phrase('do_not_leave_conversation') }}"
+						explain="{{ phrase('remain_in_inbox_and_notified_of_replies') }}" />
+					<xf:option value="deleted"
+						label="{{ phrase('leave_conversation_and_accept_future_messages') }}"
+						explain="{{ phrase('should_conversation_receive_responses_restored_to_inbox') }}" />
+					<xf:option value="deleted_ignored"
+						label="{{ phrase('leave_conversation_and_ignore_future_messages') }}"
+						explain="{{ phrase('not_notified_of_responses_conversation_remain_deleted') }}" />
+				</xf:radiorow>
+			</li>
+
+			<xf:macro template="thmonetize_helper_criteria" name="user_upgrade_panes"
+				arg-criteria="{{ $userUpgradeCriteria.getCriteriaForTemplate() }}"
+				arg-data="{{ $userUpgradeCriteria.getExtraTemplateData() }}" />
+
+			<xf:macro template="helper_criteria" name="user_panes"
+				arg-criteria="{{ $userCriteria.getCriteriaForTemplate() }}"
+				arg-data="{{ $userCriteria.getExtraTemplateData() }}" />
+
+		</ul>
+
+		<xf:submitrow sticky="true" icon="save" />
+	</div>
+</xf:form>]]></template>
+  <template type="admin" title="thmonetize_message_list" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[<xf:title>{{ phrase('thmonetize_messages') }}</xf:title>
+
+<xf:pageaction>
+	<xf:button href="{{ link('monetize-messages/add') }}" icon="add">{{ phrase('thmonetize_add_message') }}</xf:button>
+</xf:pageaction>
+
+<xf:if is="$messages is not empty">
+	<xf:form action="{{ link('monetize-messages/toggle') }}" class="block" ajax="true">
+		<div class="block-outer">
+			<xf:macro template="filter_macros" name="quick_filter" arg-key="monetize-messages" arg-class="block-outer-opposite" />
+		</div>
+		<div class="block-container">
+			<div class="block-body">
+				<xf:datalist>
+					<xf:foreach loop="{$messages}" value="$message">
+						<xf:datarow
+								label="{$message.title}"
+								href="{{ link('monetize-messages/edit', $message) }}"
+								delete="{{ link('monetize-messages/delete', $message) }}">
+							<xf:explain>
+								<xf:if is="{$message.active}">
+									{{ phrase('thmonetize_next_send') . ': ' . date_time($message.next_send)  }}
+								</xf:if>
+							</xf:explain>
+							<xf:toggle name="active[{$message.message_id}]" selected="$message.active"
+								class="dataList-cell--separated" submit="true"
+								tooltip="{{ phrase('enable_disable_x', {'title': $message.title}) }}" />
+							<xf:action href="{{ link('monetize-messages/send', $message) }}" overlay="true"
+									data-xf-init="tooltip" title="{{ phrase('thmonetize_send_now') }}"
+									class="dataList-cell--iconic">
+								<xf:fa icon="fa-envelope" />
+							</xf:action>
+						</xf:datarow>
+					</xf:foreach>
+				</xf:datalist>
+				<div class="block-footer">
+					<span class="block-footer-counter">{{ display_totals($totalMessages) }}</span>
+				</div>
+			</div>
+		</div>
+	</xf:form>
+<xf:else />
+	<div class="blockMessage">{{ phrase('no_items_have_been_created_yet') }}</div>
+</xf:if>]]></template>
+  <template type="admin" title="thmonetize_message_send" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[<xf:title>{{ phrase('confirm_action') }}</xf:title>
+
+<xf:form action="{{ link('monetize-messages/send', $message) }}" class="block">
+	<div class="block-container">
+		<div class="block-body">
+			<xf:inforow rowtype="confirm">
+				{{ phrase('thmonetize_please_confirm_that_you_want_to_send_following_message:') }}
+				<strong><a href="{{ link('monetize-messages/edit', $message) }}">{$message.title}</a></strong>
+			</xf:inforow>
+		</div>
+		<xf:submitrow submit="{{ phrase('thmonetize_send_now') }}" rowtype="simple" />
+	</div>
+</xf:form>]]></template>
+  <template type="admin" title="thmonetize_monetize" version_id="1000011" version_string="1.0.0 Alpha 1"><![CDATA[<xf:title>{{ phrase('admin_navigation.thMonetize') }}</xf:title>
+
+<xf:macro template="section_nav_macros" name="section_nav" arg-section="thMonetize" />]]></template>
+  <template type="admin" title="thmonetize_node_edit_macros" version_id="1000012" version_string="1.0.0 Alpha 2"><![CDATA[<xf:macro name="sponsor" arg-node="!" arg-sponsors="!">
+	<xf:if is="$sponsors is not empty">
+		<hr class="formRowSep" />
+		<xf:selectrow name="node[th_sponsor_id]" value="{$node.th_sponsor_id}"
+			label="{{ phrase('thmonetize_sponsor') }}">
+
+			<xf:option value="0">{{ phrase('none') }}</xf:option>
+			<xf:foreach loop="$sponsors" key="$sponsorId" value="$sponsorTitle">
+				<xf:option value="{$sponsorId}" >{$sponsorTitle}</xf:option>
+			</xf:foreach>
+		</xf:selectrow>
+	</xf:if>
+</xf:macro>]]></template>
+  <template type="admin" title="thmonetize_option_macros" version_id="1000133" version_string="1.0.1 Beta 3"><![CDATA[<xf:macro name="option_form_block" arg-group="" arg-options="!" arg-containerBeforeHtml="" arg-tabs="">
+	<xf:if is="$options is not empty">
+		<xf:form action="{{ link('options/update') }}" ajax="true" class="block">
+			<div class="block-container">
+				{$containerBeforeHtml|raw}
+				<h2 class="block-tabHeader tabs hScroller"
+					data-xf-init="tabs h-scroller"
+					role="tablist">
+					<span class="hScroller-scroll">
+						<xf:foreach loop="$tabs" key="$tabIndex" value="$title">
+							<a class="tabs-tab"
+							   role="tab"
+							   tabindex="{$tabIndex}"
+							   aria-controls="options{$tabIndex}">
+								{$title}
+							</a>
+						</xf:foreach>
+					</span>
+				</h2>
+				<ul class="tabPanes">
+					<xf:foreach loop="$tabs" key="$tabIndex" value="$title">
+						<li role="tabpanel" id="options{$tabIndex}">
+							<div class="block-body">
+								<xf:foreach loop="{$options.{$tabIndex}}" value="$option">
+
+									<xf:if is="$group">
+										<xf:set var="$curHundred" value="{{ floor($option.Relations.{$group.group_id}.display_order / 100) }}" />
+										<xf:if is="{{ $curHundred > $hundred }}">
+											<xf:set var="$hundred" value="{$curHundred}" />
+											<hr class="formRowSep" />
+										</xf:if>
+									</xf:if>
+
+									<xf:macro name="option_row" template="option_macros" arg-group="{$group}" arg-option="{$option}" />
+								</xf:foreach>
+							</div>
+						</li>
+					</xf:foreach>
+				</ul>
+				<xf:submitrow sticky="true" icon="save" />
+			</div>
+		</xf:form>
+	</xf:if>
+</xf:macro>]]></template>
+  <template type="admin" title="thmonetize_option_template_limit" version_id="1000040" version_string="1.0.0 Beta 10"><![CDATA[<xf:formrow rowtype="input"
+	label="{$option.title}"
+	hint="{$hintHtml}"
+	explain="{$explainHtml}"
+	html="{$listedHtml}">
+
+	<div class="inputGroup inputGroup--numbers">
+		<xf:numberbox name="{$inputName}[{$formatParams.entity}]" value="{$option.option_value.{$formatParams.entity}}" placeholder="{$formatParams.placeholder}" min="0" />
+		<span class="inputGroup-text">{{ phrase('thmonetize_per') }}</span>
+		<xf:numberbox name="{$inputName}[days]" value="{$option.option_value.days}" placeholder="{{ phrase('units_days') }}" min="0" max="{{ $formatParams.max ?: '' }}" />
+		<span class="inputGroup-text">{{ phrase('units_days') }}</span>
+	</div>
+</xf:formrow>]]></template>
+  <template type="admin" title="thmonetize_sponsor_delete" version_id="1000032" version_string="1.0.0 Beta 2"><![CDATA[<xf:title>{{ phrase('confirm_action') }}</xf:title>
+
+<xf:form action="{{ link('sponsors/delete', $sponsor) }}" ajax="true" class="block">
+	<div class="block-container">
+		<div class="block-body">
+			<xf:inforow rowtype="confirm">
+				{{ phrase('please_confirm_that_you_want_to_delete_following:') }}
+				<strong><a href="{{ link('sponsors/edit', $sponsor) }}">{$sponsor.title}</a></strong>
+			</xf:inforow>
+		</div>
+		<xf:submitrow rowtype="simple" icon="delete" />
+	</div>
+</xf:form>]]></template>
+  <template type="admin" title="thmonetize_sponsor_edit" version_id="1000035" version_string="1.0.0 Beta 5"><![CDATA[<xf:if is="$sponsor.isInsert()">
+	<xf:title>{{ phrase('thmonetize_add_sponsor') }}</xf:title>
+<xf:else />
+	<xf:title>{{ phrase('thmonetize_edit_sponsor:') }} {$sponsor.title}</xf:title>
+</xf:if>
+
+<xf:pageaction if="$sponsor.isUpdate()">
+	<xf:button href="{{ link('sponsors/delete', $sponsor) }}" icon="delete" overlay="true" />
+</xf:pageaction>
+
+<xf:form action="{{ link('sponsors/save', $sponsor) }}" ajax="true" class="block">
+	<div class="block-container">
+		<div class="block-body">
+			<xf:textboxrow name="title" value="{$sponsor.title}" maxlength="{{ max_length($sponsor, 'title') }}"
+				label="{{ phrase('title') }}" />
+
+			<hr class="formRowSep" />
+
+			<xf:textboxrow name="url" value="{$sponsor.url}" maxlength="{{ max_length($sponsor, 'url') }}"
+				label="{{ phrase('url') }}" />
+
+			<hr class="formRowSep" />
+
+			<xf:textboxrow name="image" value="{$sponsor.image}" maxlength="{{ max_length($sponsor, 'image') }}"
+				label="{{ phrase('image') }}" />
+
+			<xf:numberboxrow label="{{ phrase('width') }}" name="width" min="0" value="{$sponsor.width}" />
+
+			<xf:numberboxrow label="{{ phrase('height') }}" name="height" min="0" value="{$sponsor.height}" />
+
+			<hr class="formRowSep" />
+
+			<xf:checkboxrow label="{{ phrase('options') }}">
+				<xf:option name="active" selected="$sponsor.active"
+					label="{{ phrase('thmonetize_active') }}" />
+				<xf:option name="directory" selected="$sponsor.directory"
+					label="{{ phrase('thmonetize_show_in_directory') }}" />
+			</xf:checkboxrow>
+		</div>
+
+		<xf:submitrow sticky="true" icon="save" />
+	</div>
+</xf:form>]]></template>
+  <template type="admin" title="thmonetize_sponsor_list" version_id="1000012" version_string="1.0.0 Alpha 2"><![CDATA[<xf:title>{{ phrase('thmonetize_sponsors') }}</xf:title>
+
+<xf:pageaction>
+	<xf:button href="{{ link('sponsors/add') }}" icon="add">{{ phrase('thmonetize_add_sponsor') }}</xf:button>
+</xf:pageaction>
+
+<xf:if is="$sponsors is not empty">
+	<xf:form action="{{ link('sponsors/toggle') }}" class="block" ajax="true">
+		<div class="block-outer">
+			<xf:macro template="filter_macros" name="quick_filter" arg-key="sponsors" arg-class="block-outer-opposite" />
+		</div>
+		<div class="block-container">
+			<div class="block-body">
+				<xf:datalist>
+					<xf:foreach loop="{$sponsors}" value="$sponsor">
+						<xf:datarow
+									label="{$sponsor.title}"
+									href="{{ link('sponsors/edit', $sponsor) }}"
+									delete="{{ link('sponsors/delete', $sponsor) }}">
+							<xf:toggle name="active[{$sponsor.th_sponsor_id}]" selected="$sponsor.active"
+									   class="dataList-cell--separated" submit="true"
+									   tooltip="{{ phrase('enable_disable_x', {'title': $sponsor.title}) }}" />
+						</xf:datarow>
+					</xf:foreach>
+				</xf:datalist>
+				<div class="block-footer">
+					<span class="block-footer-counter">{{ display_totals($totalSponsors) }}</span>
+				</div>
+			</div>
+		</div>
+	</xf:form>
+<xf:else />
+	<div class="blockMessage">{{ phrase('no_items_have_been_created_yet') }}</div>
+</xf:if>
+
+<xf:macro template="option_macros" name="option_form_block" arg-options="{$options}" />]]></template>
+  <template type="admin" title="thmonetize_upgrade_page_delete" version_id="1000032" version_string="1.0.0 Beta 2"><![CDATA[<xf:title>{{ phrase('confirm_action') }}</xf:title>
+
+<xf:form action="{{ link('upgrade-pages/delete', $upgradePage) }}" ajax="true" class="block">
+	<div class="block-container">
+		<div class="block-body">
+			<xf:inforow rowtype="confirm">
+				{{ phrase('please_confirm_that_you_want_to_delete_following:') }}
+				<strong><a href="{{ link('upgrade-pages/edit', $upgradePage) }}">{$upgradePage.title}</a></strong>
+			</xf:inforow>
+		</div>
+		<xf:submitrow rowtype="simple" icon="delete" />
+	</div>
+</xf:form>]]></template>
+  <template type="admin" title="thmonetize_upgrade_page_edit" version_id="1000037" version_string="1.0.0 Beta 7"><![CDATA[<xf:if is="$upgradePage.isInsert()">
+	<xf:title>{{ phrase('thmonetize_add_upgrade_page') }}</xf:title>
+<xf:else />
+	<xf:title>{{ phrase('thmonetize_edit_upgrade_page:') }} {$upgradePage.title}</xf:title>
+</xf:if>
+
+<xf:pageaction if="$upgradePage.isUpdate()">
+	<xf:button href="{{ link('upgrade-pages/delete', $upgradePage) }}" icon="delete" overlay="true" />
+</xf:pageaction>
+
+<xf:form action="{{ link('upgrade-pages/save', $upgradePage) }}" ajax="true" class="block">
+	<div class="block-container">
+		<h2 class="block-tabHeader tabs hScroller" data-xf-init="tabs h-scroller" role="tablist">
+			<span class="hScroller-scroll">
+				<a class="tabs-tab is-active" role="tab" tabindex="0" aria-controls="general-options">{{ phrase('general_options') }}</a>
+				<xf:macro template="helper_criteria" name="user_tabs" />
+				<xf:macro template="helper_criteria" name="page_tabs" />
+			</span>
+		</h2>
+
+		<ul class="tabPanes block-body">
+			<li class="is-active" role="tabpanel" id="general-options">
+				<xf:textboxrow name="title" value="{$upgradePage.title}" maxlength="{{ max_length($upgradePage, 'title') }}"
+					label="{{ phrase('title') }}" />
+
+				<hr class="formRowSep" />
+
+				<xf:numberboxrow label="{{ phrase('display_order') }}"
+					name="display_order" min="0" value="{$upgradePage.display_order}"
+					explain="{{ phrase('thmonetize_upgrade_page_display_order_explain') }}" />
+
+				<hr class="formRowSep" />
+
+				<xf:checkboxrow label="{{ phrase('options') }}">
+					<xf:option name="active" selected="$upgradePage.active"
+						label="{{ phrase('thmonetize_active') }}" />
+					<xf:option name="accounts_page" selected="$upgradePage.accounts_page"
+						label="{{ phrase('thmonetize_show_as_accounts_page') }}"
+						hint="{{ phrase('thmonetize_show_as_accounts_page_hint') }}" />
+					<xf:option name="error_message" selected="$upgradePage.error_message"
+						label="{{ phrase('thmonetize_show_as_error_message') }}"
+						hint="{{ phrase('thmonetize_show_as_error_message_hint') }}" />
+					<xf:option name="overlay" selected="$upgradePage.overlay"
+						label="{{ phrase('thmonetize_show_as_overlay') }}"
+						hint="{{ phrase('thmonetize_show_as_overlay_hint') }}">
+						<xf:checkbox>
+							<xf:option name="overlay_dismissible" selected="$upgradePage.overlay_dismissible"
+								label="{{ phrase('thmonetize_overlay_can_be_dismissed') }}"
+								hint="{{ phrase('thmonetize_overlay_can_be_dismissed_hint') }}"/>
+						</xf:checkbox>
+					</xf:option>
+				</xf:checkboxrow>
+
+				<hr class="formRowSep" />
+
+				<xf:radiorow name="show_all" value="{$upgradePage.show_all}" label="{{ phrase('user_upgrades') }}">
+					<xf:option value="1"
+						label="{{ phrase('thmonetize_show_all_user_upgrades') }}"
+						hint="{{ phrase('thmonetize_show_all_user_upgrades_explain') }}" />
+					<xf:option value="0"
+						label="{{ phrase('thmonetize_show_selected_user_upgrades') }}"
+						hint="{{ phrase('thmonetize_show_selected_user_upgrades_explain') }}">
+						<xf:checkbox listclass="listColumns">
+							<xf:foreach loop="$upgrades" value="$userUpgrade">
+								<xf:option name="relations[{$userUpgrade.user_upgrade_id}][selected]" selected="{$relations.{$userUpgrade.user_upgrade_id}} !== null"
+									label="{$userUpgrade.title} ({$userUpgrade.cost_phrase})" data-hide="true">
+									<xf:macro template="display_order_macros" name="input"
+										arg-name="relations[{$userUpgrade.user_upgrade_id}][display_order]"
+										arg-value="{$relations.{$userUpgrade.user_upgrade_id}.display_order|default(1)}" />
+									<xf:checkbox>
+										<xf:option name="relations[{$userUpgrade.user_upgrade_id}][featured]" checked="{$relations.{$userUpgrade.user_upgrade_id}.featured}" label="{{ phrase('thmonetize_display_as_featured') }}" />
+									</xf:checkbox>
+								</xf:option>
+							</xf:foreach>
+						</xf:checkbox>
+					</xf:option>
+				</xf:radiorow>
+
+				<hr class="formRowSep" />
+
+				<xf:checkboxrow label="{{ phrase('thmonetize_links') }}">
+					<xf:option name="accounts_page_link" selected="$upgradePage.accounts_page_link"
+						label="{{ phrase('thmonetize_link_to_accounts_page') }}"
+						hint="{{ phrase('thmonetize_link_to_accounts_page_hint') }}" />
+					<xf:if is="$upgradePages is not empty">
+						<xf:option selected="$upgradePage.upgrade_page_links"
+								label="{{ phrase('thmonetize_link_to_other_upgrade_pages') }}"
+								hint="{{ phrase('thmonetize_link_to_other_upgrade_pages_hint') }}">
+							<xf:checkbox listclass="listColumns">
+								<xf:foreach loop="$upgradePages" key="$upgradePageId" value="$_upgradePage">
+									<xf:option name="upgrade_page_links[]" value="{$upgradePageId}"
+										selected="in_array($upgradePageId, $upgradePage.upgrade_page_links)"
+										label="{$_upgradePage.title}" />
+								</xf:foreach>
+							</xf:checkbox>
+						</xf:option>
+					</xf:if>
+				</xf:checkboxrow>
+
+				<hr class="formRowSep" />
+
+				<xf:checkboxrow label="{{ phrase('thmonetize_advanced_options') }}">
+					<xf:option name="page_criteria_overlay_only" selected="$upgradePage.page_criteria_overlay_only"
+						label="{{ phrase('thmonetize_apply_page_criteria_to_overlays_only') }}"
+						hint="{{ phrase('thmonetize_apply_page_criteria_to_overlays_only_hint') }}" />
+				</xf:checkboxrow>
+			</li>
+
+			<xf:macro template="helper_criteria" name="user_panes"
+				arg-criteria="{{ $userCriteria.getCriteriaForTemplate() }}"
+				arg-data="{{ $userCriteria.getExtraTemplateData() }}" />
+
+			<xf:macro template="helper_criteria" name="page_panes"
+				arg-criteria="{{ $pageCriteria.getCriteriaForTemplate() }}"
+				arg-data="{{ $pageCriteria.getExtraTemplateData() }}" />
+			
+		</ul>
+
+		<xf:submitrow sticky="true" icon="save" />
+	</div>
+</xf:form>]]></template>
+  <template type="admin" title="thmonetize_upgrade_page_list" version_id="1000035" version_string="1.0.0 Beta 5"><![CDATA[<xf:title>{{ phrase('thmonetize_upgrade_pages') }}</xf:title>
+
+<xf:pageaction>
+	<xf:button href="{{ link('upgrade-pages/add') }}" icon="add">{{ phrase('thmonetize_add_upgrade_page') }}</xf:button>
+</xf:pageaction>
+
+<xf:if is="$upgradePages is not empty">
+	<xf:form action="{{ link('upgrade-pages/toggle') }}" class="block" ajax="true">
+		<div class="block-outer">
+			<xf:macro template="filter_macros" name="quick_filter" arg-key="upgrade-pages" arg-class="block-outer-opposite" />
+		</div>
+		<div class="block-container">
+			<div class="block-body">
+				<xf:datalist>
+					<xf:foreach loop="{$upgradePages}" value="$upgradePage">
+						<xf:datarow
+									label="{$upgradePage.title}"
+									href="{{ link('upgrade-pages/edit', $upgradePage) }}"
+									delete="{{ link('upgrade-pages/delete', $upgradePage) }}">
+							<xf:toggle name="active[{$upgradePage.upgrade_page_id}]" selected="$upgradePage.active"
+									   class="dataList-cell--separated" submit="true"
+									   tooltip="{{ phrase('enable_disable_x', {'title': $upgradePage.title}) }}" />
+						</xf:datarow>
+					</xf:foreach>
+				</xf:datalist>
+				<div class="block-footer">
+					<span class="block-footer-counter">{{ display_totals($totalUpgradePages) }}</span>
+				</div>
+			</div>
+		</div>
+	</xf:form>
+<xf:else />
+	<div class="blockMessage">{{ phrase('no_items_have_been_created_yet') }}</div>
+</xf:if>
+
+<xf:macro template="option_macros" name="option_form_block" arg-options="{$options}" />]]></template>
+  <template type="admin" title="thmonetize_user_upgrade_edit_macros" version_id="1000231" version_string="1.0.2 Beta 1"><![CDATA[<xf:macro name="after_can_purchase" arg-upgrade="!">
+	<xf:checkboxrow label="">
+		<xf:option name="thmonetize_allow_multiple"
+				   selected="{$upgrade.thmonetize_allow_multiple}"
+				   label="{{ phrase('thmonetize_can_be_purchased_multiple_times') }}"
+				   hint="{{ phrase('thmonetize_can_be_purchased_multiple_times_hint') }}" />
+	</xf:checkboxrow>
+</xf:macro>
+
+<xf:macro name="after_cost" arg-upgrade="!">
+	<xf:checkboxrow label="{{ phrase('thmonetize_cost_options') }}">
+		<xf:option name="thmonetize_custom_amount"
+				   selected="{$upgrade.thmonetize_custom_amount}"
+				   label="{{ phrase('thmonetize_allow_custom_amount') }}"
+				   hint="{{ phrase('thmonetize_allow_custom_amount_hint') }}" />
+	</xf:checkboxrow>
+</xf:macro>
+
+<xf:macro name="form_bottom" arg-upgrade="!" arg-upgradePageRelations="!" arg-upgradePages="!">
+	<xf:js src="xf/sort.js, vendor/dragula/dragula.js"/>
+	<xf:css src="public:dragula.less"/>
+
+	<h3 class="block-formSectionHeader">
+		<span class="collapseTrigger collapseTrigger--block" data-xf-click="toggle" data-target="< :up:next">
+			<span class="block-formSectionHeader-aligner">{{ phrase('thmonetize_style_properties') }}</span>
+		</span>
+	</h3>
+	<div class="block-body block-body--collapsible{{ $upgrade.thmonetize_style_properties ? ' is-active' : '' }}">
+		<xf:checkboxrow label="{{ phrase('thmonetize_style_properties') }}">
+			<xf:option selected="{$upgrade.thmonetize_style_properties.color}"
+					label="{{ phrase('thmonetize_background_color:') }}" data-hide="true">
+				<xf:macro template="public:color_picker_macros" name="color_picker"
+						arg-name="thmonetize_style_properties[color]"
+						arg-value="{$upgrade.thmonetize_style_properties.color}"
+						arg-allowPalette="{{ true }}"
+						arg-row="{{ false }}" />
+			</xf:option>
+			<xf:option selected="{$upgrade.thmonetize_style_properties.shape}"
+					label="{{ phrase('thmonetize_shape:') }}" data-hide="true">
+				<xf:radio listclass="listColumns"
+						value="{{ $upgrade.thmonetize_style_properties.shape ?: 'circle' }}"
+						name="thmonetize_style_properties[shape]">
+					<xf:option value="circle" label="{{ phrase('thmonetize_circle') }}" />
+					<xf:option value="square" label="{{ phrase('thmonetize_square') }}" />
+					<xf:option value="star" label="{{ phrase('thmonetize_star') }}" />
+					<xf:option value="certificate" label="{{ phrase('thmonetize_certificate') }}" />
+					<xf:option value="cloud" label="{{ phrase('thmonetize_cloud') }}" />
+					<xf:option value="comment-alt" label="{{ phrase('thmonetize_comment') }}" />
+					<xf:option value="folder" label="{{ phrase('thmonetize_folder') }}" />
+					<xf:option value="heart" label="{{ phrase('thmonetize_heart') }}" />
+					<xf:option value="hexagon" label="{{ phrase('thmonetize_hexagon') }}" />
+					<xf:option value="poop" label="{{ phrase('thmonetize_poop') }}" />
+					<xf:option value="shield" label="{{ phrase('thmonetize_shield') }}" />
+					<xf:option value="weight-hanging" label="{{ phrase('thmonetize_weight') }}" />
+				</xf:radio>
+			</xf:option>
+			<xf:option selected="{$upgrade.thmonetize_style_properties.icon}"
+					label="{{ phrase('thmonetize_feature_list_icon_class:') }}" data-hide="true">
+				<xf:textbox name="thmonetize_style_properties[icon]"
+					value="{$upgrade.thmonetize_style_properties.icon}" />
+			</xf:option>
+		</xf:checkboxrow>
+	</div>
+
+	<h3 class="block-formSectionHeader">
+		<span class="collapseTrigger collapseTrigger--block" data-xf-click="toggle" data-target="< :up:next">
+			<span class="block-formSectionHeader-aligner">{{ phrase('thmonetize_features') }}</span>
+		</span>
+	</h3>
+	<div class="block-body block-body--collapsible{{ $upgrade.thmonetize_features ? ' is-active' : '' }}">
+		<xf:formrow rowtype="input"
+					label="{{ phrase('thmonetize_features') }}"
+					explain="{{ phrase('thmonetize_features_explain') }}">
+
+			<div class="inputGroup-container" data-xf-init="list-sorter" data-drag-handle=".dragHandle">
+				<xf:foreach loop="$upgrade.thmonetize_features" value="$text">
+					<div class="inputGroup">
+						<span class="inputGroup-text dragHandle"
+							  aria-label="{{ phrase('drag_handle')|for_attr }}"></span>
+						<xf:textbox name="thmonetize_features[]" value="{$text}"
+									placeholder="{{ phrase('text') }}" />
+					</div>
+				</xf:foreach>
+				<div class="inputGroup is-undraggable js-blockDragafter" data-xf-init="field-adder"
+					 data-remove-class="is-undraggable js-blockDragafter">
+					<span class="inputGroup-text dragHandle"
+						aria-label="{{ phrase('drag_handle')|for_attr }}"></span>
+					<xf:textbox name="thmonetize_features[]"
+						placeholder="{{ phrase('text') }}"
+						data-i="0" />
+				</div>
+			</div>
+		</xf:formrow>
+	</div>
+
+	<xf:if is="$upgradePages is not empty">
+		<h3 class="block-formSectionHeader">
+			<span class="collapseTrigger collapseTrigger--block" data-xf-click="toggle" data-target="< :up:next">
+				<span class="block-formSectionHeader-aligner">{{ phrase('thmonetize_upgrade_pages') }}</span>
+			</span>
+		</h3>
+		<div class="block-body block-body--collapsible{{ $upgradePageRelations ? ' is-active' : '' }}">
+			<xf:checkboxrow listclass="listColumns" label="{{ phrase('thmonetize_upgrade_pages') }}">
+				<xf:foreach loop="$upgradePages" value="$upgradePage">
+					<xf:option name="upgrade_page_relations[{$upgradePage.upgrade_page_id}][selected]" selected="{$upgradePageRelations.{$upgradePage.upgrade_page_id}} !== null"
+						label="{$upgradePage.title}" data-hide="true">
+						<xf:macro template="display_order_macros" name="input"
+							arg-name="upgrade_page_relations[{$upgradePage.upgrade_page_id}][display_order]"
+							arg-value="{$upgradePageRelations.{$upgradePage.upgrade_page_id}.display_order|default(1)}" />
+						<xf:checkbox>
+							<xf:option name="upgrade_page_relations[{$upgradePage.upgrade_page_id}][featured]" checked="{$upgradePageRelations.{$upgradePage.upgrade_page_id}.featured}" label="{{ phrase('thmonetize_display_as_featured') }}" />
+						</xf:checkbox>
+					</xf:option>
+				</xf:foreach>
+			</xf:checkboxrow>
+		</div>
+	</xf:if>
+</xf:macro>]]></template>
+  <template type="admin" title="thmonetize_user_upgrade_list_macros" version_id="1000231" version_string="1.0.2 Beta 1"><![CDATA[<xf:macro name="actions_bottom" arg-upgrade="!">
+	<a href="{{ link('user-upgrades/share', $upgrade) }}" data-xf-click="overlay" class="menu-linkRow">{{ phrase('thmonetize_share_upgrade_link') }}</a>
+</xf:macro>]]></template>
+  <template type="admin" title="thmonetize_user_upgrade_share" version_id="1000231" version_string="1.0.2 Beta 1"><![CDATA[<xf:title>{{ phrase('thmonetize_share_upgrade_link') }}</xf:title>
+
+<xf:if is="$profiles is not empty">
+	<div class="block">
+		<div class="block-container">
+			<xf:foreach loop="$upgrade.payment_profile_ids" value="$profileId">
+				<h3 class="block-header">
+					{$profiles.{$profileId}.title}
+				</h3>
+				<xf:if contentcheck="true">
+					<div class="block-body block-row block-row--separated block-row--separated--mergePrev">
+						<xf:contentcheck>
+							<xf:macro template="public:share_page_macros" name="buttons"
+								arg-iconic="{{ true }}"
+								arg-hideLink="{{ true }}"
+								arg-pageUrl="{$upgrade.getThMonetizeUpgradeCanonicalLink($profileId)}"
+								arg-pageTitle="{$upgrade.title}"
+								arg-pageDesc="{$upgrade.description}" />
+						</xf:contentcheck>
+					</div>
+				</xf:if>
+				<div class="block-body block-row block-row--separated">
+					<xf:macro template="public:share_page_macros" name="share_clipboard_input"
+						arg-label=""
+						arg-text="{$upgrade.getThMonetizeUpgradeCanonicalLink($profileId)}"
+						arg-successText="{{ phrase('link_copied_to_clipboard') }}" />
+				</div>
+			</xf:foreach>
+		</div>
+	</div>
+</xf:if>]]></template>
+  <template type="public" title="alert_user_thmonetize_alert" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[{$extra.alert_text|raw}]]></template>
+  <template type="public" title="push_user_thmonetize_alert" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[{$extra.alert_text|strip_tags}
+<xf:if is="$extra.link_url">
+	<push:url>{$extra.link_url}</push:url>
+</xf:if>]]></template>
+  <template type="public" title="thmonetize_account_upgrade_free" version_id="1000037" version_string="1.0.0 Beta 7"><![CDATA[<xf:title>{{ phrase('thmonetize_upgrade_complete') }}</xf:title>
+
+<xf:wrap template="account_wrapper" />
+
+<div class="blockMessage">{{ phrase('thmonetize_your_account_has_been_upgraded') }}</div>]]></template>
+  <template type="public" title="thmonetize_features" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[<xf:macro template="thmonetize_upgrade_page_macros" name="features"
+	arg-features="{$upgrade.thmonetize_features}"
+	arg-styleProperties="{$upgrade.thmonetize_style_properties}" />]]></template>
+  <template type="public" title="thmonetize_node_list_macros" version_id="1000039" version_string="1.0.0 Beta 9"><![CDATA[<xf:macro name="sponsor_below" arg-node="!">
+	<xf:if is="$node.Sponsor.active && $node.Sponsor.title">
+		<xf:css src="thmonetize_sponsor.less" />
+		<dl class="node-thMonetizeSponsorBlock pairs pairs--justified">
+			<dt>{{ phrase('thmonetize_sponsored_by')}}</dt>
+			<dd><a href="{$node.Sponsor.url}">{$node.Sponsor.title}</a></dd>
+		</dl>
+	</xf:if>
+</xf:macro>
+
+<xf:macro name="sponsor_image" arg-node="!">
+	<xf:if is="$node.Sponsor.active && $node.Sponsor.image">
+		<xf:css src="thmonetize_sponsor.less" />
+		<div class="node-thMonetizeSponsorImage" style="width: {$node.Sponsor.width}px;">
+			<a href="{$node.Sponsor.url}"><img src="{$node.Sponsor.image}" width="{$node.Sponsor.width}" height="{$node.Sponsor.height}"></a>
+		</div>
+	</xf:if>
+</xf:macro>]]></template>
+  <template type="public" title="thmonetize_notice_upgrade" version_id="1000013" version_string="1.0.0 Alpha 3"><![CDATA[{{ phrase('thmonetize_an_account_upgrade_purchase_is_required_to_complete_your_registration') }}<br />
+<a href="{{ link('account/upgrades') }}">{{ phrase('account_upgrades') }}</a>]]></template>
+  <template type="public" title="thmonetize_page_container_extra_output" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[<xf:if is="$thmonetize_upgradePage && $thmonetize_upgrades && $thmonetize_profiles">
+	<xf:macro name="upgrade_page"
+		arg-upgradePage="{$thmonetize_upgradePage}"
+		arg-upgrades="{$thmonetize_upgrades}"
+		arg-profiles="{$thmonetize_profiles}"
+		/>
+</xf:if>
+
+<xf:macro name="upgrade_page" arg-upgradePage="!" arg-upgrades="!" arg-profiles="!">
+	<xf:css src="thmonetize_upgrade_page.less" />
+	<xf:js src="themehouse/monetize/structure.js" min="themehouse/monetize/structure.min.js" addon="ThemeHouse/Monetize" />
+	<div style="display: none">
+		<div class="block"
+			data-xf-init="thmonetize_notice-overlay"
+			data-dismissible="{{ $upgradePage.overlay_dismissible ? 'true' : 'false' }}"
+			>
+			<div class="overlay-title">{$upgradePage.title}</div>
+			<xf:macro template="thmonetize_upgrade_page_macros"
+				name="upgrade_options"
+				arg-upgradePage="{$upgradePage}"
+				arg-upgrades="{$upgrades}"
+				arg-profiles="{$profiles}"
+				/>
+		</div>
+	</div>
+</xf:macro>]]></template>
+  <template type="public" title="thmonetize_register_form_above_username" version_id="1000038" version_string="1.0.0 Beta 8"><![CDATA[<xf:if is="$thmonetize_upgrade">
+	<xf:hiddenval name="thmonetize_user_upgrade_id" value="{$fields.thmonetize_user_upgrade_id}" />
+	<xf:formrow label="{{ phrase('thmonetize_account_upgrade') }}"
+		explain="{$thmonetize_upgrade.description}">
+		{$thmonetize_upgrade.title} ({$thmonetize_upgrade.cost_phrase})
+	</xf:formrow>
+	<xf:if is="{{ count($thmonetize_upgrade.payment_profile_ids) > 1 }}">
+		<xf:selectrow label="{{ phrase('thmonetize_payment_method') }}" hint="{{ phrase('required') }}"
+			name="thmonetize_payment_profile_id" value="{$fields.thmonetize_payment_profile_id}">
+			<xf:option>{{ phrase('(choose_payment_method)') }}</xf:option>
+			<xf:foreach loop="$thmonetize_upgrade.payment_profile_ids" value="$profileId">
+				<xf:option value="{$profileId}">{$thmonetize_profiles.{$profileId}}</xf:option>
+			</xf:foreach>
+		</xf:selectrow>
+	<xf:else />
+		<xf:hiddenval name="thmonetize_payment_profile_id">{$thmonetize_upgrade.payment_profile_ids|first}</xf:hiddenval>
+	</xf:if>
+</xf:if>]]></template>
+  <template type="public" title="thmonetize_sponsor.less" version_id="1000039" version_string="1.0.0 Beta 9"><![CDATA[.node-thMonetizeSponsorBlock
+{
+	padding: @xf-blockPaddingV @xf-blockPaddingH;
+	.xf-blockFooter();
+	.m-clearFix();
+	&.pairs.pairs--justified {
+		display: block;
+	}
+}
+
+.node-thMonetizeSponsorImage
+{
+	float: right;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+	padding: 10px 0;
+    margin-left: 20px;
+}
+
+@media (max-width: @xf-responsiveMedium)
+{
+	.node-thMonetizeSponsorImage
+	{
+		display: none;
+	}
+}
+
+.thmonetize_SponsorsList
+{
+	display: flex;
+	flex-wrap: wrap;
+	margin-right: -@xf-paddingMedium;
+
+	.thmonetize_Sponsor {
+		flex-basis: 250px;
+		flex-grow: 1;
+		padding-right: @xf-paddingMedium;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+}]]></template>
+  <template type="public" title="thmonetize_sponsors" version_id="1000035" version_string="1.0.0 Beta 5"><![CDATA[<xf:title>{{ phrase('thmonetize_sponsors') }}</xf:title>
+
+<xf:macro name="sponsors_list" arg-sponsors="{$sponsors}" />
+
+<xf:macro name="sponsor" arg-sponsor="!">
+    <xf:if contentcheck="true">
+        <xf:css src="thmonetize_sponsor.less" />
+        <div class="thmonetize_Sponsor">
+            <div class="block-container">
+                <xf:contentcheck>
+                    <xf:if is="$sponsor.title">
+                        <h2 class="block-header"><a href="{$sponsor.url}">{$sponsor.title}</a></h2>
+                    </xf:if>
+                    <xf:if is="$sponsor.image">
+                        <div class="block-body">
+                            <div class="block-row">
+                                <a href="{$sponsor.url}"><img src="{$sponsor.image}" width="{$sponsor.width}" height="{$sponsor.height}"></a>
+                            </div>
+                        </div>
+                    </xf:if>
+                </xf:contentcheck>
+            </div>
+        </div>
+    </xf:if>
+</xf:macro>
+
+<xf:macro name="sponsors_list" arg-sponsors="!">
+	<xf:css src="thmonetize_sponsor.less" />
+	<div class="thmonetize_SponsorsList">
+		<xf:foreach loop="$sponsors" value="$sponsor">
+			<xf:macro name="sponsor" arg-sponsor="{$sponsor}" />
+		</xf:foreach>
+	</div>
+</xf:macro>]]></template>
+  <template type="public" title="thmonetize_upgrade_custom" version_id="1000131" version_string="1.0.1 Beta 1"><![CDATA[<xf:title>{{ phrase('account_upgrades') }}</xf:title>
+
+<div class="block">
+	<xf:form action="{{ link('purchase', $upgrade, {'user_upgrade_id': $upgrade.user_upgrade_id}) }}" ajax="true" data-xf-init="payment-provider-container">
+
+		<div class="block-container">
+			<h2 class="block-header">{$upgrade.title}</h2>
+
+			<xf:if contentcheck="true">
+				<div class="block-body">
+					<xf:contentcheck>
+						<xf:if is="$upgrade.thmonetize_custom_amount">
+							<xf:formrow rowtype="input" label="{{ phrase('thmonetize_custom_amount') }}" explain="{{ phrase('thmonetize_you_may_enter_any_amount_for_this_upgrade') }}">
+								<div class="inputGroup">
+									<xf:if is="$xf.language.currency_format === '{symbol}{value}' || $xf.language.currency_format === '{symbol} {value}'">
+										<span class="inputGroup-text">{{ $upgrade.getThMonetizeCostCurrencySymbol(false) }}</span>
+									</xf:if>
+									<xf:textbox name="thmonetize_cost_amount" value="{$upgrade.cost_amount}" style="width: 120px" />
+									<xf:if is="!($xf.language.currency_format === '{symbol}{value}' || $xf.language.currency_format === '{symbol} {value}')">
+										<span class="inputGroup-text">{{ $upgrade.getThMonetizeCostCurrencySymbol(false) }}</span>
+									</xf:if>
+									<span class="inputGroup-text">{{ $upgrade.getThMonetizeLengthPhraseLong(false) }}</span>
+								</div>
+							</xf:formrow>
+						</xf:if>
+					</xf:contentcheck>
+				</div>
+			</xf:if>
+			
+			<xf:hiddenval name="payment_profile_id">{$paymentProfile.payment_profile_id}</xf:hiddenval>
+			
+			<xf:submitrow icon="purchase" sticky="true" />
+		</div>
+	</xf:form>
+</div>]]></template>
+  <template type="public" title="thmonetize_upgrade_page.less" version_id="1000070" version_string="1.0.0"><![CDATA[@thmonetize-var-padding-top: ((@xf-thmonetize_userUpgradeShapeWidth - @xf-thmonetize_userUpgradeShapeBorderWidth - 60px) / 2);
+
+.thmonetize_upgrade {
+	&--hasShape .formRow {
+		dt {
+			position: relative;
+			overflow: hidden;
+		}
+		.formRow-labelWrapper:after {
+			.m-faBase();
+			font-weight: 900;
+			font-size: 100px;
+			line-height: 100px;
+			position: absolute;
+			left: -50px;
+			opacity: 0.3;
+		}
+	}
+
+	&--circle {
+		.formRow-labelWrapper:after {
+			.m-faContent(@fa-var-circle);
+		}
+	}
+	&--square {
+		.formRow-labelWrapper:after {
+			.m-faContent(@fa-var-square);
+		}
+	}
+	&--star {
+		.formRow-labelWrapper:after {
+			.m-faContent(@fa-var-star);
+		}
+	}
+	&--certificate {
+		.formRow-labelWrapper:after {
+			.m-faContent(@fa-var-certificate);
+		}
+	}
+	&--weight-hanging {
+		.formRow-labelWrapper:after {
+			.m-faContent(@fa-var-weight-hanging);
+		}
+	}
+	&--shield {
+		.formRow-labelWrapper:after {
+			.m-faContent(@fa-var-shield);
+		}
+	}
+	&--hexagon {
+		.formRow-labelWrapper:after {
+			.m-faContent(@fa-var-hexagon);
+		}
+	}
+	&--heart {
+		.formRow-labelWrapper:after {
+			.m-faContent(@fa-var-heart);
+		}
+	}
+	&--folder {
+		.formRow-labelWrapper:after {
+			.m-faContent(@fa-var-folder);
+		}
+	}
+	&--comment-alt {
+		.formRow-labelWrapper:after {
+			.m-faContent(@fa-var-comment-alt);
+		}
+	}
+	&--cloud {
+		.formRow-labelWrapper:after {
+			.m-faContent(@fa-var-cloud);
+		}
+	}
+	&--poop {
+		.formRow-labelWrapper:after {
+			.m-faContent(@fa-var-poop);
+		}
+	}
+	.block-row {
+		display: flex;
+		align-items: center;
+		line-height: 1;
+	}
+	i {
+		color: @xf-linkColor;
+		display: inline-block;
+		padding-right: @xf-paddingSmall;
+	}
+}
+
+.overlay .thmonetize_UpgradeOptionsList {
+	padding: @xf-paddingMedium;
+}
+
+.thmonetize_UpgradeOptionsList {
+	display: flex;
+	flex-wrap: wrap;
+	margin-right: -@xf-paddingMedium;
+	margin-bottom: @xf-paddingMedium;
+
+	.thmonetize_upgradeHeader, .block-footer {padding: @xf-paddingLarge;}
+
+	.thmonetize_upgrade {
+		overflow: hidden;
+	}
+
+	.thmonetize_upgrade--hasColor .block-header {
+		border-bottom: 0;
+	}
+
+	.thmonetize_upgradeHeader {
+		background: @xf-contentBg;
+		align-items: center;
+		display: flex;
+		flex-direction: column;
+
+		&.thmonetize_upgradeHeader--shape {
+			margin-bottom: (@xf-thmonetize_userUpgradeShapeWidth / 2);
+
+			.thmonetize_upgradeHeader__price {
+				width: @xf-thmonetize_userUpgradeShapeWidth;
+				height: @xf-thmonetize_userUpgradeShapeWidth;
+				margin-bottom: -(@xf-thmonetize_userUpgradeShapeWidth / 2);
+			}
+		}
+
+		&--circle, &--square {
+			.thmonetize_upgradeHeader__price {
+				background-color: @xf-contentBg;
+				border: @xf-thmonetize_userUpgradeShapeBorderWidth solid @xf-contentAltBg;
+				padding-top: @thmonetize-var-padding-top;
+			}
+		}
+		&--circle {
+			.thmonetize_upgradeHeader__price {
+				border-radius: 50%;
+			}
+		}
+		&--star, &--certificate, &--poop, &--bread, &--cloud, &--comment-alt, &--folder, &--heart, &--hexagon, &--shield, &--weight-hanging {
+			.thmonetize_upgradeHeader__price {
+				position: relative;
+				padding-top: (@thmonetize-var-padding-top + @xf-thmonetize_userUpgradeShapeBorderWidth);
+				padding-bottom: @xf-thmonetize_userUpgradeShapeBorderWidth;
+				&:before {
+					.m-faBase();
+					position: absolute;
+					display: inline-block;
+					font-size: (@xf-thmonetize_userUpgradeShapeWidth - @xf-thmonetize_userUpgradeShapeBorderWidth);
+					line-height: (@xf-thmonetize_userUpgradeShapeWidth - @xf-thmonetize_userUpgradeShapeBorderWidth);
+					font-weight: 900;
+					top: (@xf-thmonetize_userUpgradeShapeBorderWidth / 2);
+					color: @xf-contentBg;
+					-webkit-text-stroke: @xf-thmonetize_userUpgradeShapeBorderWidth @xf-contentAltBg;
+				}
+			}
+		}
+		&--star {
+			.thmonetize_upgrade__length {
+				max-width: (@xf-thmonetize_userUpgradeShapeWidth / 2);
+			}
+			.thmonetize_upgradeHeader__price {
+				&:before {
+					.m-faContent(@fa-var-star);
+				}
+			}
+		}
+		&--certificate {
+			.thmonetize_upgradeHeader__price {
+				&:before {
+					.m-faContent(@fa-var-certificate);
+				}
+			}
+		}
+		&--weight-hanging {
+			.thmonetize_upgradeHeader__price {
+				padding-top: (@thmonetize-var-padding-top + @xf-thmonetize_userUpgradeShapeBorderWidth + @xf-thmonetize_userUpgradeShapeWidth / 10);
+				&:before {
+					.m-faContent(@fa-var-weight-hanging);
+				}
+			}
+		}
+		&--shield {
+			.thmonetize_upgradeHeader__price {
+				padding-top: (@thmonetize-var-padding-top + @xf-thmonetize_userUpgradeShapeBorderWidth - @xf-thmonetize_userUpgradeShapeWidth / 10);
+				&:before {
+					.m-faContent(@fa-var-shield);
+				}
+			}
+		}
+		&--hexagon {
+			.thmonetize_upgradeHeader__price {
+				&:before {
+					.m-faContent(@fa-var-hexagon);
+				}
+			}
+		}
+		&--heart {
+			.thmonetize_upgrade__length {
+				max-width: (@xf-thmonetize_userUpgradeShapeWidth / 2);
+			}
+			.thmonetize_upgradeHeader__price {
+				padding-top: (@thmonetize-var-padding-top + @xf-thmonetize_userUpgradeShapeBorderWidth - @xf-thmonetize_userUpgradeShapeWidth / 10);
+				&:before  {
+					.m-faContent(@fa-var-heart);
+				}
+			}
+		}
+		&--folder {
+			.thmonetize_upgradeHeader__price {
+				&:before {
+					.m-faContent(@fa-var-folder);
+				}
+			}
+		}
+		&--comment-alt {
+			.thmonetize_upgradeHeader__price {
+				padding-top: (@thmonetize-var-padding-top + @xf-thmonetize_userUpgradeShapeBorderWidth - @xf-thmonetize_userUpgradeShapeWidth / 8);
+				&:before {
+					.m-faContent(@fa-var-comment-alt);
+				}
+			}
+		}
+		&--cloud {
+			.thmonetize_upgradeHeader__price {
+				padding-top: (@thmonetize-var-padding-top + @xf-thmonetize_userUpgradeShapeBorderWidth + @xf-thmonetize_userUpgradeShapeWidth / 10);
+				&:before {
+					.m-faContent(@fa-var-cloud);
+				}
+			}
+		}
+		&--poop {
+			.thmonetize_upgradeHeader__price {
+				padding-top: (@thmonetize-var-padding-top + @xf-thmonetize_userUpgradeShapeBorderWidth + @xf-thmonetize_userUpgradeShapeWidth / 6);
+				&:before {
+					.m-faContent(@fa-var-poop);
+				}
+			}
+		}
+	}
+
+	.block-container {
+		background: @xf-contentAltBg;
+	}
+
+	.thmonetize_UpgradeOption {
+		flex-basis: 250px;
+		flex-grow: 1;
+		padding-right: @xf-paddingMedium;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+
+		&--featured {
+			.block-container {
+				border: 2px solid @xf-linkColor;
+			}
+		}
+	}
+
+	.block-container {
+    display: flex;
+    flex-direction: column;
+		flex-grow: 1;
+	}
+
+	.thmonetize_upgradeHeader__price {
+		align-items: center;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.thmonetize_upgradeHeader__priceRow {
+		display: flex;
+		justify-content: center;
+		line-height: .75;
+	}
+
+	.thmonetize_upgrade__price {
+		.xf-thmonetize_userUpgradePrice();
+		z-index: 1;
+	}
+
+	.thmonetize_upgrade__currency {
+		.xf-thmonetize_userUpgradeCurrency();
+		z-index: 1;
+	}
+
+	.thmonetize_upgrade__occurrence {
+		.xf-thmonetize_userUpgradeOccurrence();
+		align-self: flex-end;
+		z-index: 1;
+	}
+
+	.thmonetize_upgrade__length {
+		.xf-thmonetize_userUpgradeLength();
+		z-index: 1;
+		text-align: center;
+		line-height: 1em;
+		padding-top: 10px;
+	}
+
+	.block-body {
+		flex-grow: 1;
+		padding-bottom: 20px;
+	}
+}
+
+.thmonetize_UpgradeOptionsList, .thmonetize_UpgradeButtons {
+	.block-footer {
+		text-align: center;
+	}
+}
+
+.thmonetize_UpgradePageLinks {
+	padding: @xf-paddingMedium;
+	.thmonetize_UpgradePageLinks-more {
+		float: right;
+	}
+	a {
+		padding: @xf-paddingMedium;
+		&:hover {
+			text-decoration: none;
+		}
+	}
+}
+
+@media (max-width: @xf-formResponsive) {
+	.thmonetize_upgrade--hasShape .formRow {
+		.formRow-labelWrapper:after {
+			right: @xf-paddingMedium;
+			left: unset;
+			font-size: 15px;
+			line-height: 15px;
+		}
+	}
+}]]></template>
+  <template type="public" title="thmonetize_upgrade_page_macros" version_id="1000132" version_string="1.0.1 Beta 2"><![CDATA[<xf:macro name="upgrade_option" arg-upgrade="!" arg-profiles="!" arg-featured="">
+	<xf:css src="thmonetize_upgrade_page.less" />
+	<xf:css src="thmonetize_user_upgrade_cache.less" />
+	<div class="thmonetize_UpgradeOption {{$featured ? 'thmonetize_UpgradeOption--featured' : ''}}">
+		<div class="block-container thmonetize_upgrade thmonetize_upgrade--{$upgrade.user_upgrade_id}{{ $upgrade.thmonetize_style_properties.color ? ' thmonetize_upgrade--hasColor' : '' }}">
+			<h2 class="block-header">{$upgrade.title}</h2>
+			<div class="block-header thmonetize_upgradeHeader{{ $upgrade.thmonetize_style_properties.shape ? ' thmonetize_upgradeHeader--shape thmonetize_upgradeHeader--' . $upgrade.thmonetize_style_properties.shape : '' }}">
+				<div class="thmonetize_upgradeHeader__price">
+					<div class="thmonetize_upgradeHeader__priceRow">
+						<xf:if is="$xf.language.currency_format === '{symbol}{value}' || $xf.language.currency_format === '{symbol} {value}'">
+							<span class="thmonetize_upgrade__currency">{$upgrade.thmonetize_cost_currency_symbol}</span>
+						</xf:if>
+						<span class="thmonetize_upgrade__price">{$upgrade.thmonetize_cost_amount_formatted}</span>
+						<xf:if is="!($xf.language.currency_format === '{symbol}{value}' || $xf.language.currency_format === '{symbol} {value}')">
+							<span class="thmonetize_upgrade__currency">{$upgrade.thmonetize_cost_currency_symbol}</span>
+						</xf:if>
+						<xf:if contentcheck="true">
+							<span class="thmonetize_upgrade__occurrence">/<xf:contentcheck>{$upgrade.thmonetize_length_phrase_short}</xf:contentcheck></span>
+						</xf:if>
+					</div>
+					<span class="thmonetize_upgrade__length">{$upgrade.thmonetize_length_phrase_long}</span>
+				</div>
+			</div>
+			<div class="block-body">
+				<xf:if is="$upgrade.description">
+					<div class="block-row">
+						<span>{$upgrade.description|raw}</span>
+					</div>
+				</xf:if>
+				<xf:macro name="features" arg-features="{$upgrade.thmonetize_features}" arg-styleProperties="{$upgrade.thmonetize_style_properties}" />
+			</div>
+			<div class="block-footer">
+				<xf:if is="!$upgrade.canPurchase()">
+					<xf:button icon="purchase" class="is-disabled">{{ phrase('thmonetize_already_purchased')}}</xf:button>
+				<xf:else />
+					<xf:form action="{{ link('purchase', $upgrade, {'user_upgrade_id': $upgrade.user_upgrade_id}) }}" ajax="true" data-xf-init="payment-provider-container">
+						<xf:if is="{{ count($upgrade.payment_profile_ids) > 1 }}">
+							<xf:select name="payment_profile_id">
+								<xf:option>{{ phrase('(choose_payment_method)') }}</xf:option>
+								<xf:foreach loop="$upgrade.payment_profile_ids" value="$profileId">
+									<xf:option value="{$profileId}">{$profiles.{$profileId}}</xf:option>
+								</xf:foreach>
+							</xf:select>
+
+							<span class="inputGroup-splitter"></span>
+
+							<xf:button type="submit" icon="purchase" class="button" />
+							<xf:else />
+							<xf:button type="submit" icon="purchase" class="button" />
+
+							<xf:hiddenval name="payment_profile_id">{$upgrade.payment_profile_ids|first}</xf:hiddenval>
+						</xf:if>
+					</xf:form>
+				</xf:if>
+			</div>
+		</div>
+	</div>
+</xf:macro>
+
+<xf:macro name="upgrade_options" arg-upgradePage="!" arg-upgrades="!" arg-profiles="!">
+	<xf:css src="thmonetize_upgrade_page.less" />
+	<div class="block thmonetize_UpgradeOptionsList">
+		<xf:foreach loop="$upgrades" value="$userUpgrade">
+			<xf:macro name="upgrade_option" arg-upgrade="{$userUpgrade}" arg-profiles="{$profiles}" arg-featured="{$upgradePage.Relations.{$userUpgrade.user_upgrade_id}.featured}" />
+		</xf:foreach>
+	</div>
+
+	<xf:if contentcheck="true">
+		<div class="thmonetize_UpgradePageLinks">
+			<xf:contentcheck>
+				<xf:foreach loop="$upgradePage.UpgradePageLinks" value="{$upgradePageLink}">
+					<a href="{{ link('account/upgrades', null, { 'upgrade_page_id': $upgradePageLink.upgrade_page_id }) }}">{$upgradePageLink.title}</a>
+				</xf:foreach>
+				<xf:if is="$upgradePage.accounts_page_link">
+					<span class="thmonetize_UpgradePageLinks-more">
+						<a href="{{ link('account/upgrades', null, { 'show_all': 1 }) }}">{{ phrase('thmonetize_more...') }}</a>
+					</span>
+				</xf:if>
+			</xf:contentcheck>
+		</div>
+	</xf:if>
+</xf:macro>
+
+<xf:macro name="features" arg-features="!" arg-styleProperties="!">
+	<xf:foreach loop="$features" value="$feature">
+		<div class="block-row">
+			<xf:if is="$styleProperties.icon">
+					<i class="fa {$styleProperties.icon} fa-{$styleProperties.icon}"></i>
+			<xf:elseif is="$styleProperties.shape" />
+				<i class="fa fa-{$styleProperties.shape}"></i>
+			<xf:else />
+				<i class="fa fa-check-circle"></i>
+			</xf:if>
+			<span>{$feature}</span>
+		</div>
+	</xf:foreach>
+</xf:macro>]]></template>
+  <template type="public" title="thmonetize_upgrade_page_view" version_id="1000035" version_string="1.0.0 Beta 5"><![CDATA[<xf:title>{$upgradePage.title}</xf:title>
+
+<xf:css src="thmonetize_upgrade_page.less" />
+
+<xf:macro template="thmonetize_upgrade_page_macros"
+	name="upgrade_options"
+	arg-upgradePage="{$upgradePage}"
+	arg-upgrades="{$upgrades}"
+	arg-profiles="{$profiles}"
+	/>]]></template>
+  <template type="public" title="thmonetize_upgrade_required" version_id="1000035" version_string="1.0.0 Beta 5"><![CDATA[<xf:title>{{ phrase('thmonetize_upgrade_required') }}</xf:title>
+
+<xf:css src="thmonetize_upgrade_page.less" />
+
+<xf:head option="robots"><meta name="robots" content="noindex" /></xf:head>
+
+<xf:if contentcheck="true">
+	<div class="blockMessage blockMessage--error blockMessage--iconic">
+		<xf:contentcheck>{$error}</xf:contentcheck>
+	</div>
+</xf:if>
+
+<div class="blocks">
+	<xf:if is="$upgradePage">
+		<xf:macro template="thmonetize_upgrade_page_macros"
+			name="upgrade_options"
+			arg-upgradePage="{$upgradePage}"
+			arg-upgrades="{$upgrades}"
+			arg-profiles="{$profiles}"
+			/>
+	<xf:elseif is="$xf.visitor.user_id || $xf.options.thmonetize_allowGuestsToViewUserUpgrades" />
+		<div class="thmonetize_UpgradeButtons">
+			<div class="block-container">
+				<div class="block-footer">
+					<xf:button href="{{ link('account/upgrades') }}" class="button--cta">{{ phrase('thmonetize_show_all_available_upgrades') }}</xf:button>
+				</div>
+			</div>
+		</div>
+	<xf:else />
+		<div class="thmonetize_UpgradeButtons">
+			<div class="block-container">
+				<div class="block-footer">
+					<xf:button href="{{ link('register') }}" class="button--cta" xf-click="overlay">{{ phrase('thmonetize_show_all_available_upgrades') }}</xf:button>
+				</div>
+			</div>
+		</div>
+	</xf:if>
+	<xf:if is="!$xf.visitor.user_id">
+		<div class="block-outer block-outer--after">
+			<div class="block-outer-middle">
+				{{ phrase('thmonetize_already_have_account_question') }} <xf:button href="{{ link('login') }}" icon="login" />
+			</div>
+		</div>
+	</xf:if>
+
+	<xf:if is="$providers is not empty">
+		<div class="blocks-textJoiner"><span></span><em>{{ phrase('or_separator') }}</em><span></span></div>
+
+		<div class="block">
+			<div class="block-container">
+				<div class="block-body">
+					<xf:formrow rowtype="button"
+						label="{{ phrase('log_in_using') }}">
+
+						<ul class="listHeap">
+							<xf:foreach loop="$providers" value="$provider">
+								<li>
+									<xf:macro template="connected_account_macros" name="button"
+										arg-provider="{$provider}" />
+								</li>
+							</xf:foreach>
+						</ul>
+					</xf:formrow>
+				</div>
+			</div>
+		</div>
+	</xf:if>
+</div>]]></template>
+  <template type="public" title="thmonetize_user_upgrade_generator_macros" version_id="1000036" version_string="1.0.0 Beta 6"><![CDATA[<xf:macro name="generator" arg-upgrade="!" arg-isLight="!" arg-color="!" arg-shape="!">
+	.thmonetize_upgrade--{$upgrade.user_upgrade_id} {
+		--upgrade-backgroundColor: {$color|raw};
+		--upgrade-textColor: {{ $isLight ? '#fff' : '#000' }};
+
+		i {
+			color: {$color|raw};
+		}
+
+		.block-header, .formRow > dt {
+			background: {$color|raw};
+			color: {{ $isLight ? '#fff' : '#000' }};
+		}
+
+		.formRow .formRow-hint {
+			color: {{ $isLight ? '#fff' : '#000' }};
+		}
+
+		.thmonetize_upgradeHeader__priceRow {
+			text-shadow: 0 0 2px {$color|raw};
+		}
+
+		<xf:if is="$shape === 'circle' || $shape === 'square'">
+			.thmonetize_upgradeHeader--shape {
+				background: xf-diminish({$color|raw}, 14%);
+				.thmonetize_upgradeHeader__price {
+					background: {$color|raw};
+					color: {{ $isLight ? '#fff' : '#000' }};
+				}
+			}
+		<xf:elseif is="$shape" />
+			.thmonetize_upgradeHeader--shape {
+				background: xf-diminish({$color|raw}, 14%);
+				.thmonetize_upgradeHeader__price {
+					color: {{ $isLight ? '#fff' : '#000' }};
+					&:before {
+						color: {$color|raw};
+					}
+				}
+			}
+		</xf:if>
+	}
+</xf:macro>]]></template>
+</templates>

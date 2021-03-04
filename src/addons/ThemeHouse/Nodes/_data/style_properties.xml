@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style_properties>
+  <style_property property_name="th_backgroundSelector_nodes" group_name="th_styling_nodes" title="Background selector" description="This is the selector that should be used to place the background image and color on a node, if selected." property_type="value" value_type="string" display_order="100">
+    <value>".node--id{node_id} &gt; .node-body"</value>
+  </style_property>
+  <style_property property_name="th_enableGrid_nodes" group_name="th_grid_nodes" title="Enable node grid" property_type="value" value_type="boolean" display_order="0">
+    <value>1</value>
+  </style_property>
+  <style_property property_name="th_enableNodeFooter_nodes" group_name="th_grid_nodes" title="Enable node footer" property_type="value" value_type="boolean" display_order="5">
+    <value>1</value>
+  </style_property>
+  <style_property property_name="th_enableStyling_nodes" group_name="th_styling_nodes" title="Enable node styling" property_type="value" value_type="boolean" display_order="0">
+    <value>1</value>
+  </style_property>
+  <style_property property_name="th_imageOverlay" group_name="th_styling_nodes" title="Image overlay" property_type="value" value_type="color" display_order="0">
+    <value>"rgba(0,0,0,.3)"</value>
+  </style_property>
+  <style_property property_name="th_nodeBody" group_name="th_styling_nodes" title="Node body" property_type="css" display_order="0" css_components="background,border,border_radius,padding,extra">
+    <value>[]</value>
+  </style_property>
+  <style_property property_name="th_nodeGutter" group_name="th_grid_nodes" title="Node gutter" description="Adds a gutter space in between nodes" property_type="value" value_type="unit" display_order="0">
+    <value>"5px"</value>
+  </style_property>
+  <style_property property_name="th_textSelector_nodes" group_name="th_styling_nodes" title="Text selector" property_type="value" value_type="string" display_order="105">
+    <value>".node--id{node_id} &gt; .node-body, .node--id{node_id} &gt; .node-body a"</value>
+  </style_property>
+</style_properties>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<code_event_listeners>
+  <listener event_id="app_pub_render_page" execute_order="10" callback_class="ThemeHouse\Monetize\Listener\AppPubRenderPage" callback_method="appPubRenderPage" active="1"/>
+  <listener event_id="app_setup" execute_order="10" callback_class="ThemeHouse\Monetize\Listener\AppSetup" callback_method="appSetup" active="1"/>
+  <listener event_id="criteria_user" execute_order="10" callback_class="ThemeHouse\Monetize\Listener\CriteriaUser" callback_method="criteriaUser" active="1"/>
+  <listener event_id="entity_structure" execute_order="10" callback_class="ThemeHouse\Monetize\Listener\EntityStructure" callback_method="xfNode" active="1" hint="XF\Entity\Node" description="XF\Entity\Node"/>
+  <listener event_id="notices_setup" execute_order="10" callback_class="ThemeHouse\Monetize\Listener\NoticesSetup" callback_method="noticesSetup" active="1"/>
+  <listener event_id="templater_macro_pre_render" execute_order="10" callback_class="ThemeHouse\Monetize\Listener\Admin\TemplaterMacroPreRender" callback_method="optionMacrosOptionFormBlock" active="1" hint="admin:option_macros:option_form_block" description="admin:option_macros:option_form_block"/>
+  <listener event_id="templater_template_post_render" execute_order="10" callback_class="ThemeHouse\Monetize\Listener\Pub\TemplaterTemplatePostRender" callback_method="accountUpgrades" active="1" hint="public:account_upgrades" description="public:account_upgrades"/>
+</code_event_listeners>

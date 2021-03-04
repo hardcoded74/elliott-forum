@@ -1,0 +1,6958 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style title="UI.X" description="The Ultimate Theme Framework" user_selectable="1" export_version="2">
+  <templates>
+    <template title="PAGE_CONTAINER" type="public" addon_id="XF" version_id="2000170" version_string="2.0.1"><![CDATA[<!DOCTYPE html>
+
+<xf:set var="$siteName" value="{$xf.options.boardTitle}" />
+<xf:set var="$h1"><xf:h1 fallback="{$siteName}" /></xf:set>
+<xf:set var="$title"><xf:title formatter="%s | %s" fallback="{$xf.options.boardTitle}" /></xf:set>
+<xf:set var="$description"><xf:description /></xf:set>
+
+<xf:set var="$uix_htmlClasses"></xf:set>
+
+<xf:if is="property('uix_pageWidthToggle') != 'disabled'">
+	<xf:comment> UI.X width toggle class</xf:comment>
+	<xf:set var="$uix_htmlClasses">{{$uix_htmlClasses}} uix_page--{{$uix_pageWidth}}</xf:set>
+</xf:if>
+
+<xf:if is="property('uix_navigationType') == 'sidebarNav'">
+	<xf:comment> UI.X sidebar navigation toggle class</xf:comment>
+	<xf:if is="!$uix_sidebarNavCollapsed">
+		<xf:set var="$uix_htmlClasses">{{$uix_htmlClasses}} sidebarNav--active</xf:set>
+	</xf:if>
+</xf:if>
+
+<xf:if is="property('uix_collapsibleSidebar')">
+	<xf:comment> UI.X sidebar toggle class</xf:comment>
+	<xf:if is="$uix_sidebarCollapsed">
+		<xf:set var="$uix_htmlClasses">{{$uix_htmlClasses}} uix_sidebarCollapsed</xf:set>
+	</xf:if>
+</xf:if>
+
+<xf:if is="property('uix_loginTriggerPosition') == 'staffBar' || (property('uix_userTabsPosition') == 'staffBar') || (!property('uix_logoBlockSearch') && (property('uix_searchPosition') == 'staffBar')) || (!property('uix_socialMediaLogoBlock') && (property('uix_socialMediaPosition') == 'staffBar'))">
+	<xf:set var="$uix_responsiveStaffBar" value="always" />
+<xf:elseif is="property('uix_enableLogoBlock')" />
+    <xf:if is="(property('uix_logoBlockSearch') && (property('uix_searchPosition') == 'staffBar')) || (property('uix_socialMediaLogoBlock') && (property('uix_socialMediaPosition') == 'staffBar'))">
+		<xf:set var="$uix_responsiveStaffBar" value="responsive" />
+    </xf:if>
+</xf:if>
+
+<xf:comment>SectionLinks Breakpoints</xf:comment>
+<xf:set var="$uix_responsiveSectionLinks_min" value="0" />
+<xf:set var="$uix_responsiveSectionLinks_max" value="99999" />
+<xf:set var="$uix_sectionLinksAlways" value="0" />
+
+<xf:comment>--------- COMPONENT MARKUP MACROS ---------
+	Markup for components can/should be added here in an XF:set if
+	we want the components to have variably set locations
+</xf:comment>
+
+<xf:comment> --- Search bar --- </xf:comment>
+
+<xf:if is="!{$uix_hideNavigation}">
+<xf:set var="$uix_search__component">
+	<xf:if is="$xf.visitor.canSearch()">
+		<div class="uix_searchBar">
+			<div class="uix_searchBarInner">
+				<form action="{{ link('search/search') }}" method="post" class="uix_searchForm" data-xf-init="quick-search">
+					<a class="uix_search--close">
+						<xf:macro name="icon" template="uix_icons.less" arg-icon="close" />
+					</a>
+					<xf:textbox class="js-uix_syncValue uix_searchInput uix_searchDropdown__trigger" data-uixsync="search" name="keywords" placeholder="{{ phrase('search...') }}" aria-label="{{ phrase('search') }}" data-menu-autofocus="true" />
+					<a href="{{ link('search') }}"
+					   class="uix_search--settings u-ripple"
+					   data-xf-key="{{ phrase('shortcut.search_menu') }}"
+					   aria-label="{{ phrase('search') }}"
+					   aria-expanded="false"
+					   aria-haspopup="true"
+					   title="{{ phrase('search')|for_attr }}">
+						<xf:macro name="icon" template="uix_icons.less" arg-icon="settings" />
+					</a>
+					<span class="<xf:if is="property('uix_searchButton')">uix_search--submit</xf:if> uix_searchIcon">
+						<xf:macro name="icon" template="uix_icons.less" arg-icon="search" />
+					</span>
+					<xf:csrf />
+				</form>
+			</div>
+
+			<xf:if is="property('uix_searchIconBehavior') != 'dropdown'">
+				<a class="uix_searchIconTrigger p-navgroup-link p-navgroup-link--iconic p-navgroup-link--search u-ripple"
+				   aria-label="{{ phrase('search') }}"
+				   aria-expanded="false"
+				   aria-haspopup="true"
+				   title="{{ phrase('search') }}">
+					<i aria-hidden="true"></i>
+				</a>
+			</xf:if>
+
+			<xf:if is="property('uix_searchIconBehavior') != 'expand'">
+				<a href="{{ link('search') }}"
+				   class="p-navgroup-link p-navgroup-link--iconic p-navgroup-link--search u-ripple js-uix_minimalSearch__target"
+				   data-xf-click="menu"
+				   aria-label="{{ phrase('search') }}"
+				   aria-expanded="false"
+				   aria-haspopup="true"
+				   title="{{ phrase('search') }}">
+					<i aria-hidden="true"></i>
+				</a>
+			</xf:if>
+
+			<div class="menu menu--structural menu--wide" data-menu="menu" aria-hidden="true">
+				<form action="{{ link('search/search') }}" method="post"
+					  class="menu-content"
+					  data-xf-init="quick-search">
+					<h3 class="menu-header">{{ phrase('search') }}</h3>
+					<!--[XF:search_menu:above_input]-->
+					<div class="menu-row">
+						<xf:if is="$searchConstraints">
+							<div class="inputGroup inputGroup--joined">
+								<xf:textbox name="keywords"
+											class="js-uix_syncValue"
+											data-uixsync="search"
+											placeholder="{{ phrase('search...') }}"
+											aria-label="{{ phrase('search') }}"
+											data-menu-autofocus="true" />
+								<xf:select name="constraints"
+										   class="js-quickSearch-constraint"
+										   aria-label="{{ phrase('search_within') }}">
+									<xf:option value="">{{ phrase('everywhere') }}</xf:option>
+									<xf:foreach loop="$searchConstraints" key="$constraintName" value="$constraint">
+										<xf:option value="{$constraint|json}">{$constraintName}</xf:option>
+									</xf:foreach>
+								</xf:select>
+							</div>
+							<xf:else />
+							<xf:textbox name="keywords"
+										class="js-uix_syncValue"
+										data-uixsync="search"
+										placeholder="{{ phrase('search...') }}"
+										aria-label="{{ phrase('search') }}"
+										data-menu-autofocus="true" />
+						</xf:if>
+					</div>
+
+					<!--[XF:search_menu:above_title_only]-->
+					<div class="menu-row">
+						<xf:checkbox standalone="true"><xf:option name="c[title_only]" label="{{ phrase('search_titles_only') }}" /></xf:checkbox>
+					</div>
+					<!--[XF:search_menu:above_member]-->
+					<div class="menu-row">
+						<div class="inputGroup">
+							<span class="inputGroup-text">{{ phrase('by:') }}</span>
+							<input class="input" name="c[users]" data-xf-init="auto-complete" placeholder="{{ phrase('member') }}" />
+						</div>
+					</div>
+					<div class="menu-footer">
+						<span class="menu-footer-controls">
+							<xf:button type="submit" class="button--primary" icon="search" />
+							<xf:button href="{{ link('search') }}" rel="nofollow">{{ phrase('advanced_search...') }}</xf:button>
+						</span>
+					</div>
+
+					<xf:csrf />
+				</form>
+			</div>
+
+
+			<div class="menu menu--structural menu--wide uix_searchDropdown__menu" aria-hidden="true">
+				<form action="{{ link('search/search') }}" method="post"
+					  class="menu-content"
+					  data-xf-init="quick-search">
+					<!--[XF:search_menu:above_input]-->
+					<xf:if is="$searchConstraints">
+						<div class="menu-row">
+
+							<div class="inputGroup inputGroup--joined">
+								<input name="keywords"
+											class="js-uix_syncValue"
+											data-uixsync="search"
+											placeholder="{{ phrase('search...') }}"
+											aria-label="{{ phrase('search') }}"
+											type="hidden" />
+								<xf:select name="constraints"
+										   class="js-quickSearch-constraint"
+										   aria-label="{{ phrase('search_within') }}">
+									<xf:option value="">{{ phrase('everywhere') }}</xf:option>
+									<xf:foreach loop="$searchConstraints" key="$constraintName" value="$constraint">
+										<xf:option value="{$constraint|json}">{$constraintName}</xf:option>
+									</xf:foreach>
+								</xf:select>
+							</div>
+						</div>
+					<xf:else />
+						<input name="keywords"
+							class="js-uix_syncValue"
+							data-uixsync="search"
+							placeholder="{{ phrase('search...') }}"
+							aria-label="{{ phrase('search') }}"
+							type="hidden" />
+					</xf:if>
+
+					<!--[XF:search_menu:above_title_only]-->
+					<div class="menu-row">
+						<xf:checkbox standalone="true"><xf:option name="c[title_only]" label="{{ phrase('search_titles_only') }}" /></xf:checkbox>
+					</div>
+					<!--[XF:search_menu:above_member]-->
+					<div class="menu-row">
+						<div class="inputGroup">
+							<span class="inputGroup-text">{{ phrase('by:') }}</span>
+							<input class="input" name="c[users]" data-xf-init="auto-complete" placeholder="{{ phrase('member') }}" />
+						</div>
+					</div>
+					<div class="menu-footer">
+						<span class="menu-footer-controls">
+							<xf:button type="submit" class="button--primary" icon="search" />
+							<xf:button href="{{ link('search') }}" rel="nofollow">{{ phrase('th_advanced_uix...') }}</xf:button>
+						</span>
+					</div>
+
+					<xf:csrf />
+				</form>
+			</div>
+		</div>
+	</xf:if>
+</xf:set>
+</xf:if>
+
+<xf:macro name="uix_search__component" arg-content="!" arg-location="!">
+	<xf:if is="(property('uix_searchPosition') == {$location}) || (property('uix_logoBlockSearch') && ({$location} == 'header') && property('uix_enableLogoBlock'))">
+		{$content}
+	</xf:if>
+</xf:macro>
+
+<xf:comment> --- whats new --- </xf:comment>
+
+<xf:set var="$uix_whatsNew__component">
+	<a href="{{ link('whats-new') }}"
+	   class="p-navgroup-link p-navgroup-link--iconic p-navgroup-link--whatsnew"
+	   title="{{ phrase('whats_new')|for_attr }}">
+		<i aria-hidden="true"></i>
+		<span class="p-navgroup-linkText">{{ phrase('whats_new') }}</span>
+	</a>
+</xf:set>
+
+<xf:macro name="uix_whatsNew__component" arg-content="!" arg-location="!">
+	<xf:if is="property('uix_userTabsPosition') == {$location}">
+		{$content}
+	</xf:if>
+</xf:macro>
+
+<xf:comment> --- login tabs --- </xf:comment>
+
+<xf:set var="$uix_loginTabs__component">
+	<xf:if is="{$template} != 'login'">
+		<xf:if is="property('uix_loginStyle') == 'dropdown'">
+			<a href="{{ link('login') }}" class="p-navgroup-link p-navgroup-link--textual p-navgroup-link--logIn" data-xf-click="menu">
+				<i></i>
+				<span class="p-navgroup-linkText">{{ phrase('log_in') }}</span>
+			</a>
+			<div class="menu menu--structural menu--medium" data-menu="menu" aria-hidden="true" data-href="{{ link('login') }}"></div>
+		<xf:elseif is="property('uix_loginStyle') == 'modal'" />
+			<a href="{{ link('login') }}" class="p-navgroup-link u-ripple p-navgroup-link--textual p-navgroup-link--logIn" rel="nofollow" data-xf-click="overlay">
+				<i></i>
+				<span class="p-navgroup-linkText">{{ phrase('log_in') }}</span>
+			</a>
+		<xf:elseif is="property('uix_loginStyle') == 'link'" />
+			<a href="{{ link('login') }}" class="p-navgroup-link u-ripple p-navgroup-link--textual p-navgroup-link--logIn" rel="nofollow">
+				<i></i>
+				<span class="p-navgroup-linkText">{{ phrase('log_in') }}</span>
+			</a>
+		<xf:elseif is="property('uix_loginStyle') == 'slidingPanel'" />
+			<a href="{{ link('login') }}" id="uix_loginPanel--trigger" class="p-navgroup-link u-ripple p-navgroup-link--textual p-navgroup-link--logIn" rel="nofollow">
+				<i></i>
+				<span class="p-navgroup-linkText">{{ phrase('log_in') }}</span>
+			</a>
+		</xf:if>
+	</xf:if>
+	<xf:if is="{$template} != 'register_form'">
+		<xf:if is="property('uix_loginStyle') == 'modal'">
+			<a href="{{ link('register') }}" class="p-navgroup-link u-ripple p-navgroup-link--textual p-navgroup-link--register" rel="nofollow" data-xf-click="overlay">
+				<i></i>
+				<span class="p-navgroup-linkText">{{ phrase('register') }}</span>
+			</a>
+		<xf:else />
+			<a href="{{ link('register') }}" class="p-navgroup-link u-ripple p-navgroup-link--textual p-navgroup-link--register" rel="nofollow">
+				<i></i>
+				<span class="p-navgroup-linkText">{{ phrase('register') }}</span>
+			</a>
+		</xf:if>
+	</xf:if>
+</xf:set>
+
+<xf:macro name="uix_loginTabs__component" arg-content="!" arg-location="!">
+	<xf:if is="property('uix_loginTriggerPosition') == {$location} ">
+		<xf:if is="{$location} == 'tablinks'">
+			<xf:set var="$uix_sectionLinksAlways" value="1" />
+		</xf:if>
+		{$content}
+	</xf:if>
+</xf:macro>
+
+<xf:comment> --- user tabs --- </xf:comment>
+
+<xf:if is="!{$uix_hideNavigation}">
+<xf:set var="$uix_userTabs__component">
+	<xf:if is="$xf.visitor.user_state == 'rejected' OR $xf.visitor.user_state == 'disabled'">
+		<a href="{{ link('account') }}"
+		   class="p-navgroup-link u-ripple p-navgroup-link--iconic p-navgroup-link--user">
+			<xf:avatar user="$xf.visitor" size="xxs" href="" />
+			<span class="p-navgroup-linkText">{$xf.visitor.username}</span>
+		</a>
+
+		<a href="{{ link('logout', null, {'t': csrf_token()}) }}" class="p-navgroup-link">
+			<span class="p-navgroup-linkText">{{ phrase('log_out') }}</span>
+		</a>
+		<xf:else />
+		<a href="{{ link('account') }}"
+			class="p-navgroup-link u-ripple p-navgroup-link--iconic p-navgroup-link--user"
+			data-xf-click="menu"
+			data-xf-key="{{ phrase('shortcut.visitor_menu') }}"
+			data-menu-pos-ref="< .p-navgroup"
+			aria-expanded="false"
+			aria-haspopup="true">
+			<xf:avatar user="$xf.visitor" size="xxs" href="" />
+			<span class="p-navgroup-linkText">{$xf.visitor.username}</span>
+		</a>
+		<div class="menu menu--structural menu--wide menu--account" data-menu="menu" aria-hidden="true"
+			 data-href="{{ link('account/visitor-menu') }}"
+			 data-load-target=".js-visitorMenuBody">
+			<div class="menu-content js-visitorMenuBody">
+				<div class="menu-row">
+					{{ phrase('loading...') }}
+				</div>
+			</div>
+		</div>
+
+		<a href="{{ link('conversations') }}"
+		   class="p-navgroup-link u-ripple p-navgroup-link--iconic p-navgroup-link--conversations js-badge--conversations badgeContainer{{ $xf.visitor.conversations_unread ? ' badgeContainer--highlighted' : '' }}"
+		   data-badge="{$xf.visitor.conversations_unread|number}"
+		   data-xf-click="menu"
+		   data-xf-key="{{ phrase('shortcut.conversations_menu') }}"
+		   data-menu-pos-ref="< .p-navgroup"
+		   aria-expanded="false"
+		   aria-haspopup="true">
+			<i aria-hidden="true"></i>
+			<span class="p-navgroup-linkText">{{ phrase('inbox') }}</span>
+		</a>
+		<div class="menu menu--structural menu--medium" data-menu="menu" aria-hidden="true"
+			 data-href="{{ link('conversations/popup') }}"
+			 data-nocache="true"
+			 data-load-target=".js-convMenuBody">
+			<div class="menu-content">
+				<h3 class="menu-header">{{ phrase('conversations') }}</h3>
+				<div class="js-convMenuBody">
+					<div class="menu-row">{{ phrase('loading...') }}</div>
+				</div>
+				<div class="menu-footer menu-footer--split">
+					<span class="menu-footer-main">
+						<a href="{{ link('conversations') }}">{{ phrase('show_all...') }}</a>
+					</span>
+					<span class="menu-footer-opposite">
+						<a href="{{ link('conversations/add') }}">{{ phrase('start_new_conversation') }}</a>
+					</span>
+				</div>
+			</div>
+		</div>
+
+		<a href="{{ link('account/alerts') }}"
+		   class="p-navgroup-link u-ripple p-navgroup-link--iconic p-navgroup-link--alerts js-badge--alerts badgeContainer{{ $xf.visitor.alerts_unread ? ' badgeContainer--highlighted' : '' }}"
+		   data-badge="{$xf.visitor.alerts_unread|number}"
+		   data-xf-click="menu"
+		   data-xf-key="{{ phrase('shortcut.alerts_menu') }}"
+		   data-menu-pos-ref="< .p-navgroup"
+		   aria-expanded="false"
+		   aria-haspopup="true">
+			<i aria-hidden="true"></i>
+			<span class="p-navgroup-linkText">{{ phrase('alerts') }}</span>
+		</a>
+		<div class="menu menu--structural menu--medium" data-menu="menu" aria-hidden="true"
+			 data-href="{{ link('account/alerts-popup') }}"
+			 data-nocache="true"
+			 data-load-target=".js-alertsMenuBody">
+			<div class="menu-content">
+				<h3 class="menu-header">{{ phrase('alerts') }}</h3>
+				<div class="js-alertsMenuBody">
+					<div class="menu-row">{{ phrase('loading...') }}</div>
+				</div>
+				<div class="menu-footer menu-footer--split">
+					<span class="menu-footer-main">
+						<a href="{{ link('account/alerts') }}">{{ phrase('show_all...') }}</a>
+					</span>
+					<span class="menu-footer-opposite">
+						<a href="{{ link('account/preferences') }}">{{ phrase('preferences') }}</a>
+					</span>
+				</div>
+			</div>
+		</div>
+	</xf:if>
+</xf:set>
+</xf:if>
+
+<xf:macro name="uix_userTabs__component" arg-content="!" arg-location="!">
+	<xf:if is="property('uix_userTabsPosition') == {$location}">
+		<xf:if is="{$location} == 'tablinks'">
+			<xf:set var="$uix_sectionLinksAlways" value="1" />
+		</xf:if>
+		{$content}
+	</xf:if>
+</xf:macro>
+
+<xf:set var="$uix_socialMediaContent">
+	<xf:include template="uix_socialMedia" />
+</xf:set>
+
+<xf:macro name="uix_socialMedia__component" arg-content="" arg-location="">
+	<xf:if is="(property('uix_socialMediaPosition') == {$location}) || (property('uix_socialMediaLogoBlock') && ({$location} == 'header') && property('uix_enableLogoBlock'))">
+		{$content}
+	</xf:if>
+</xf:macro>
+
+<xf:comment> --- Visitor tabs --- </xf:comment>
+
+<xf:if is="!{$uix_hideNavigation}">
+<xf:macro name="uix_visitorTabs__component" arg-socialMediaContent="" arg-searchContent="!" arg-location="!" arg-whatsNewContent="!" arg-visitorContent="!" arg-loginTabsContent="!">
+	<xf:if contentcheck="true">
+		<xf:contentcheck>
+			<xf:if contentcheck="true">
+				<div class="p-navgroup p-account {{ $xf.visitor.user_id ? 'p-navgroup--member' : 'p-navgroup--guest' }}">
+					<xf:contentcheck>
+						<xf:if is="$xf.visitor.user_id">
+							<xf:macro name="uix_userTabs__component" arg-content="{$visitorContent}" arg-location="{$location}" />
+							<xf:else />
+							<xf:macro name="uix_loginTabs__component" arg-content="{$loginTabsContent}" arg-location="{$location}" />
+						</xf:if>
+					</xf:contentcheck>
+				</div>
+			</xf:if>
+			<xf:if contentcheck="true">
+				<div class="p-navgroup p-discovery">
+					<xf:contentcheck>
+						<xf:macro name="uix_whatsNew__component" arg-content="{$whatsNewContent}" arg-location="{$location}" />
+						<xf:macro name="uix_search__component" arg-content="{$searchContent}" arg-location="{$location}" />
+					</xf:contentcheck>
+				</div>
+			</xf:if>
+			<xf:macro name="uix_socialMedia__component" arg-content="{$socialMediaContent}" arg-location="{$location}" />
+		</xf:contentcheck>
+	</xf:if>
+</xf:macro>
+</xf:if>
+
+<xf:comment> --- Titlebar --- </xf:comment>
+
+<xf:set var="$uix_titlebar__component">
+	<xf:if is="( (!property('uix_removePageTitleForumList') || {{ !in_array({$template}, ['forum_list', 'forum_new_posts']) }}) && !{$uix_hidePageTitle}) || ( {$pageAction} && !property('uix_pageActionBreadcrumb') && (!property('uix_removePageAction') || ({$template} != 'forum_list') )
+		   )">
+		<xf:if contentcheck="true">
+			<div class="uix_titlebar">
+				<div class="pageContent">
+					<xf:contentcheck>
+						<xf:if is="$headerHtml is not empty">
+							<div class="p-body-header">
+								{$headerHtml|raw}
+							</div>
+						<xf:elseif contentcheck="true" />
+							<div class="p-body-header">
+								<xf:contentcheck>
+									<xf:if contentcheck="true">
+										<div class="p-title {{ $noH1 ? 'p-title--noH1' : '' }}">
+											<xf:contentcheck>
+												<xf:if is="!$noH1">
+													<h1 class="p-title-value">{$h1}</h1>
+												</xf:if>
+											</xf:contentcheck>
+										</div>
+									</xf:if>
+									<xf:if is="$description is not empty">
+										<div class="p-description">{$description}</div>
+									</xf:if>
+								</xf:contentcheck>
+							</div>
+							<xf:if is="!property('uix_pageActionBreadcrumb') && (!property('uix_removePageAction') || ({$template} != 'forum_list') )">
+								<xf:if contentcheck="true">
+									<div class="p-title-pageAction"><xf:contentcheck><xf:pageaction /></xf:contentcheck></div>
+								</xf:if>
+							</xf:if>
+						</xf:if>
+					</xf:contentcheck>
+				</div>
+			</div>
+		</xf:if>
+	</xf:if>
+</xf:set>
+
+<xf:macro name="uix_titlebar__component" arg-location="!" arg-content="!">
+	<xf:if is="property('uix_titlebarLocation') === {$location}">
+		{$content}
+	</xf:if>
+</xf:macro>
+
+<xf:comment> --- Sidebar --- </xf:comment>
+
+<xf:set var="$uix_sidebar__component">
+<xf:if is="$sidebar">
+	<div class="p-body-sidebar">
+		<div class="uix_sidebarInner{{ property('uix_stickySidebar') ? ' uix_stickyBodyElement' : '' }}">
+			<xf:ad position="container_sidebar_above" />
+			<xf:foreach loop="$sidebar" value="$sidebarHtml">
+				{$sidebarHtml}
+			</xf:foreach>
+			<xf:ad position="container_sidebar_below" />
+		</div>
+	</div>
+</xf:if>
+</xf:set>
+
+<xf:macro name="uix_sidebar__component" arg-location="!" arg-content="!">
+	<xf:if is="property('uix_sidebarLocation') === {$location}">
+		{$content}
+	</xf:if>
+</xf:macro>
+
+
+<xf:comment> --- Top breadcrumb ---</xf:comment>
+
+<xf:set var="$uix_topBreadcrumb__component">
+	<xf:ad position="container_breadcrumb_top_above" />
+	<xf:macro name="breadcrumbs"
+			  arg-sidebar="{$sidebar}"
+			  arg-uix_hideBreadcrumb="{$uix_hideBreadcrumb}"
+			  arg-breadcrumbs="{$breadcrumbs}"
+			  arg-navTree="{$navTree}"
+			  arg-template="{$template}"
+			  arg-pageAction="{$pageAction}"
+			  arg-selectedNavEntry="{$selectedNavEntry}" />
+	<xf:ad position="container_breadcrumb_top_below" />
+</xf:set>
+
+<xf:macro name="uix_topBreadcrumb__component" arg-location="" arg-content="!">
+	<xf:if is="property('uix_topBreadcrumbLocation') === {$location}">
+		{$content}
+	</xf:if>
+</xf:macro>
+
+<xf:comment> --- bottom breadcrumb --- </xf:comment>
+
+<xf:set var="$uix_bottomBreadcrumb__component">
+	<xf:if is="!property('uix_removeBottomBreadcrumb')">
+		<xf:ad position="container_breadcrumb_bottom_above" />
+		<xf:macro name="breadcrumbs"
+			arg-breadcrumbs="{$breadcrumbs}"
+			arg-navTree="{$navTree}"
+			arg-template="{$template}"
+			arg-selectedNavEntry="{$selectedNavEntry}"
+			arg-uix_hideBreadcrumb="{$uix_hideBreadcrumb}"
+			arg-pageAction="{$pageAction}"
+			arg-variant="bottom" />
+		<xf:ad position="container_breadcrumb_bottom_below" />
+	</xf:if>
+</xf:set>
+
+<xf:macro name="uix_bottomBreadcrumb__component" arg-content="!" arg-location="!">
+	<xf:if is="property('uix_bottomBreadcrumbLocation') == {$location}">
+		{$content}
+	</xf:if>
+</xf:macro>
+
+<xf:comment> --- Logo --- </xf:comment>
+
+<xf:set var="$uix_logo__component">
+	<div class="p-header-logo p-header-logo--image">
+		<a class="uix_logo" href="{{ ($xf.options.logoLink && $xf.homePageUrl) ? $xf.homePageUrl : link('index') }}">
+			<xf:if is="property('publicLogoUrl') || property('publicLogoUrl2x')">
+				<img src="{{ base_url(property('publicLogoUrl')) }}"
+					 alt="{$xf.options.boardTitle}"
+					 {{ property('publicLogoUrl2x') ? 'srcset="' . base_url(property('publicLogoUrl2x')) . ' 2x"' : '' }} />
+			<xf:else />
+				<h2 class="uix_logo--text"><i class="{{ property('uix_logoIcon') }} uix_logoIcon"></i>{{ property('uix_logoText') }}</h2>
+			</xf:if>
+		</a>
+		<xf:if is="property('uix_logoSmall')">
+			<a class="uix_logoSmall" href="{{ ($xf.options.logoLink && $xf.homePageUrl) ? $xf.homePageUrl : link('index') }}">
+				<img src="{{ base_url(property('uix_logoSmall')) }}"
+					 alt="{$xf.options.boardTitle}"
+				/>
+			</a>
+		</xf:if>
+	</div>
+</xf:set>
+
+<xf:macro name="uix_logo__component" arg-content="!">
+	{$content}
+</xf:macro>
+
+<xf:comment> --- staff bar --- </xf:comment>
+
+<xf:set var="$uix_staffbar__component">
+	<xf:if contentcheck="true">
+		<div class="p-staffBar <xf:if is="property('uix_stickyStaffBar')">uix_stickyBar</xf:if>">
+			<div class="pageContent">
+				<xf:contentcheck>
+					<xf:if contentcheck="true">
+						<xf:set var="$uix_responsiveStaffBar" value="always" />
+						<div class="p-staffBar-inner hScroller" data-xf-init="h-scroller">
+							<div class="hScroller-scroll">
+								<xf:contentcheck>
+									<xf:if is="$xf.visitor.is_moderator && $xf.session.unapprovedCounts.total">
+										<a href="{{ link('approval-queue') }}" class="p-staffBar-link badgeContainer badgeContainer--highlighted" data-badge="{$xf.session.unapprovedCounts.total|number}">
+											{{ phrase('approval_queue') }}
+										</a>
+									</xf:if>
+
+									<xf:if is="$xf.visitor.is_moderator && !$xf.options.reportIntoForumId && $xf.session.reportCounts.total">
+										<a href="{{ link('reports') }}"
+											class="p-staffBar-link badgeContainer badgeContainer--visible {{ ($xf.session.reportCounts.total && ($xf.session.reportCounts.lastBuilt > $xf.session.reportLastRead) OR $xf.session.reportCounts.assigned) ? ' badgeContainer--highlighted' : '' }}"
+											data-badge="{{ $xf.session.reportCounts.assigned ? $xf.session.reportCounts.assigned|number . ' / ' . $xf.session.reportCounts.total|number : $xf.session.reportCounts.total|number }}"
+											title="{{ $xf.session.reportCounts.lastBuilt ? phrase('last_report_update:') . ' ' . date_time($xf.session.reportCounts.lastBuilt) : '' }}">
+											{{ phrase('reports') }}
+										</a>
+									</xf:if>
+
+									<xf:if contentcheck="true">
+										<a class="p-staffBar-link menuTrigger" data-xf-key="alt+m" data-xf-click="menu" role="button" tabindex="0" aria-expanded="false" aria-haspopup="true">{{ phrase('moderator') }}</a>
+										<div class="menu" data-menu="menu" aria-hidden="true">
+											<div class="menu-content">
+												<h4 class="menu-header">{{ phrase('moderator_tools') }}</h4>
+												<xf:contentcheck>
+												<!--[XF:mod_tools_menu:top]-->
+												<xf:if is="$xf.visitor.is_moderator">
+													<a href="{{ link('approval-queue') }}" class="menu-linkRow">{{ phrase('approval_queue') }}</a>
+												</xf:if>
+												<xf:if is="$xf.visitor.is_moderator && !$xf.options.reportIntoForumId">
+													<a href="{{ link('reports') }}" class="menu-linkRow" title="{{ $xf.session.reportCounts.lastBuilt ? 'Last report update: ' . date_time($xf.session.reportCounts.lastBuilt) : '' }}">{{ phrase('reports') }}</a>
+												</xf:if>
+												<!--[XF:mod_tools_menu:bottom]-->
+												</xf:contentcheck>
+											</div>
+										</div>
+									</xf:if>
+
+									<xf:if is="$xf.visitor.is_admin">
+										<a href="{{ base_url('admin.php') }}" class="p-staffBar-link" target="_blank">{{ phrase('admin') }}</a>
+									</xf:if>
+
+									<xf:if contentcheck="true">
+										<a href="{{ base_url('admin.php') }}" target="_blank" class="p-staffBar-link menuTrigger uix_adminTrigger" data-xf-click="menu" role="button" tabindex="0" aria-expanded="false" aria-haspopup="true">{{ phrase('admin') }}</a>
+										<div class="menu" data-menu="menu" aria-hidden="true">
+											<div class="menu-content">
+												<h4 class="menu-header">{{ phrase('moderator_tools') }}</h4>
+												<xf:contentcheck>
+													<!--[XF:mod_tools_menu:top]-->
+													<xf:if is="$xf.visitor.is_admin">
+														<a href="{{ base_url('admin.php') }}" class="menu-linkRow">{{ phrase('admin') }}</a>
+													</xf:if>
+													<!--[XF:mod_tools_menu:top]-->
+													<xf:if is="$xf.visitor.is_moderator">
+														<a href="{{ link('approval-queue') }}" class="menu-linkRow">{{ phrase('approval_queue') }}</a>
+													</xf:if>
+													<xf:if is="$xf.visitor.is_moderator && !$xf.options.reportIntoForumId">
+														<a href="{{ link('reports') }}" class="menu-linkRow" title="{{ $xf.session.reportCounts.lastBuilt ? 'Last report update: ' . date_time($xf.session.reportCounts.lastBuilt) : '' }}">{{ phrase('reports') }}</a>
+													</xf:if>
+													<xf:if is="$xf.visitor.is_moderator && $xf.session.unapprovedCounts.total">
+														<a href="{{ link('approval-queue') }}" class="menu-linkRow badgeContainer badgeContainer--highlighted" data-badge="{$xf.session.unapprovedCounts.total|number}">
+															{{ phrase('approval_queue') }}
+														</a>
+													</xf:if>
+
+													<xf:if is="$xf.visitor.is_moderator && !$xf.options.reportIntoForumId && $xf.session.reportCounts.total">
+														<a href="{{ link('reports') }}"
+															class="menu-linkRow badgeContainer badgeContainer--visible {{ ($xf.session.reportCounts.total && ($xf.session.reportCounts.lastBuilt > $xf.session.reportLastRead) OR $xf.session.reportCounts.assigned) ? ' badgeContainer--highlighted' : '' }}"
+															data-badge="{{ $xf.session.reportCounts.assigned ? $xf.session.reportCounts.assigned|number . ' / ' . $xf.session.reportCounts.total|number : $xf.session.reportCounts.total|number }}"
+															title="{{ $xf.session.reportCounts.lastBuilt ? phrase('last_report_update') . date_time($xf.session.reportCounts.lastBuilt) : '' }}">
+															{{ phrase('reports') }}
+														</a>
+													</xf:if>
+												</xf:contentcheck>
+											</div>
+										</div>
+									</xf:if>
+								</xf:contentcheck>
+							</div>
+						</div>
+					</xf:if>
+
+					<xf:if contentcheck="true">
+						<div class="p-nav-opposite">
+							<xf:contentcheck>
+								<xf:macro name="uix_visitorTabs__component" arg-socialMediaContent="{$uix_socialMediaContent}" arg-whatsNewContent="{$uix_whatsNew__component}" arg-searchContent="{$uix_search__component}" arg-loginTabsContent="{$uix_loginTabs__component}" arg-visitorContent="{$uix_userTabs__component}" arg-location="staffBar" />
+							</xf:contentcheck>
+						</div>
+					</xf:if>
+
+				</xf:contentcheck>
+			</div>
+		</div>
+	</xf:if>
+</xf:set>
+
+<xf:if is="{$uix_responsiveStaffBar} == 'always'">
+	<xf:set var="$uix_htmlClasses">{$uix_htmlClasses} uix_alwaysStaffBar</xf:set>
+<xf:elseif is="{$uix_responsiveStaffBar} == 'responsive'" />
+	<xf:set var="$uix_htmlClasses">{$uix_htmlClasses} uix_responsiveStaffBar</xf:set>
+</xf:if>
+
+<xf:macro name="uix_staffbar__component" arg-content="!">
+	{$content}
+</xf:macro>
+
+<xf:comment> --- section links --- </xf:comment>
+
+<xf:if is="property('uix_collapsibleSidebar') && {$sidebar} && (property('uix_sidebarTriggerPosition') == 'sectionLinks')">
+	<xf:set var="$uix_sectionLinksHasSidebarTrigger" value="1" />
+	<xf:if is="(0 + property('uix_sidebarBreakpoint')) < $uix_responsiveSectionLinks_max">
+		<xf:set var="$uix_responsiveSectionLinks_max" value="{{0 + property('uix_sidebarBreakpoint')}}" />
+	</xf:if>
+</xf:if>
+<xf:if is="!{$uix_hideNavigation}">
+<xf:set var="$subNavHtml">
+	<xf:if contentcheck="true">
+		<div class="p-sectionLinks">
+			<div class="pageContent">
+				<xf:contentcheck>
+					<xf:if contentcheck="true">
+						<div class="p-sectionLinks--group">
+							<xf:contentcheck>
+								<xf:if is="{$uix_sectionLinksHasSidebarTrigger} && ( property('uix_sidebarLocation') == 'left' )">
+									<a class="uix_sidebarTrigger button" id="uix_sidebarTrigger">
+										<span>Sidebar</span>
+										<xf:macro name="icon" template="uix_icons.less" arg-icon="chevron-right" />
+									</a>
+								</xf:if>
+								<xf:if is="$selectedNavChildren is not empty && !property('uix_removeTablinks')">
+									<xf:if is="(0 + property('publicNavCollapseWidth')) < $uix_responsiveSectionLinks_max">
+										<xf:set var="$uix_responsiveSectionLinks_max" value="{{0 + property('publicNavCollapseWidth')}}" />
+									</xf:if>
+									<div class="p-sectionLinks-inner hScroller" data-xf-init="h-scroller">
+										<div class="hScroller-scroll">
+											<ul class="p-sectionLinks-list">
+											<xf:foreach loop="$selectedNavChildren" key="$navId" value="$navEntry" i="$i">
+												<li>
+													<xf:macro name="nav_entry" arg-navId="{$navId}" arg-nav="{$navEntry}" arg-shortcut="alt+{$i}" />
+												</li>
+											</xf:foreach>
+											</ul>
+										</div>
+									</div>
+								</xf:if>
+							</xf:contentcheck>
+						</div>
+					</xf:if>
+					<xf:if contentcheck="true">
+						<div class="p-nav-opposite">
+							<xf:contentcheck>
+								<xf:macro name="uix_visitorTabs__component" arg-socialMediaContent="{$uix_socialMediaContent}" arg-whatsNewContent="{$uix_whatsNew__component}" arg-searchContent="{$uix_search__component}" arg-loginTabsContent="{$uix_loginTabs__component}" arg-visitorContent="{$uix_userTabs__component}" arg-location="tablinks" />
+								<xf:if is="{$uix_sectionLinksHasSidebarTrigger} && ( property('uix_sidebarLocation') == 'right' )">
+									<a class="uix_sidebarTrigger button" id="uix_sidebarTrigger">
+										<span>Sidebar</span>
+										<xf:macro name="icon" template="uix_icons.less" arg-icon="chevron-right" />
+									</a>
+								</xf:if>
+							</xf:contentcheck>
+						</div>
+					</xf:if>
+				</xf:contentcheck>
+			</div>
+		</div>
+	<xf:elseif is="{$selectedNavEntry}" />
+		<div class="p-sectionLinks p-sectionLinks--empty"></div>
+	</xf:if>
+</xf:set>
+</xf:if>
+
+<xf:comment> --- UIX sidebar navigation --- </xf:comment>
+
+<xf:set var="$uix_sidebarNav__component">
+	<div class="uix_sidebarNav">
+		<div class="uix_sidebarNav__inner <xf:if is="property('uix_stickySidebar')"> uix_stickyBodyElement</xf:if>">
+			<ul class="uix_sidebarNavList js-offCanvasNavSource">
+				<xf:foreach loop="$navTree" key="$navSection" value="$navEntry" i="$i" if="{{ $navSection != $xf.app.defaultNavigationId }}">
+					<li class="uix_sidebarNavList__listItem">
+						<xf:macro name="nav_entry"
+								  arg-sidebarNav="1"
+								  arg-navId="{$navSection}"
+								  arg-nav="{$navEntry}"
+								  arg-selected="{{ $navSection == $pageSection }}"
+								  arg-shortcut="{$i}"/>
+					</li>
+				</xf:foreach>
+			</ul>
+			<xf:if is="$xf.visitor.user_id">
+				<ul class="uix_sidebarNavList">
+					<li><div class="p-navEl u-ripple"><a data-nav-id="profile" href="{{ link('members', $xf.visitor) }}" class="p-navEl-link">Profile</a></div></li>
+					<li><div class="p-navEl u-ripple"><a data-nav-id="alerts" href="{{ link('account/alerts') }}" class="p-navEl-link">Alerts</a></div></li>
+					<li><div class="p-navEl u-ripple"><a data-nav-id="settings" href="{{ link('account/preferences') }}" class="p-navEl-link">Settings</a></div></li>
+				</ul>
+			</xf:if>
+			<xf:if contentcheck="true">
+				<div class="uix_sidebarNav__inner__widgets">
+					<xf:contentcheck>
+						{$uix_sidebarNavWidgets|raw}
+					</xf:contentcheck>
+				</div>
+			</xf:if>
+		</div>
+	</div>
+</xf:set>
+
+<xf:macro name="uix_sidebarNav__component" arg-content="!">
+	{$content}
+</xf:macro>
+
+<xf:if is="property('uix_enableLogoBlock')">
+	<xf:if is="property('uix_socialMediaPosition') == 'tablinks'">
+		<xf:if is="property('uix_socialMediaLogoBlock') ">
+			<xf:if is="(0 + property('uix_viewportShowLogoBlock')) > $uix_responsiveSectionLinks_min">
+				<xf:set var="$uix_responsiveSectionLinks_min" value="{{0 + property('uix_viewportShowLogoBlock')}}" />
+			</xf:if>
+		<xf:else />
+			<xf:set var="$uix_sectionLinksAlways" value="1" />
+		</xf:if>
+	</xf:if>
+
+	<xf:if is="property('uix_searchPosition') == 'tablinks'">
+		<xf:if is="property('uix_logoBlockSearch')">
+			<xf:if is="(0 + property('uix_viewportShowLogoBlock')) > $uix_responsiveSectionLinks_min">
+				<xf:set var="$uix_responsiveSectionLinks_min" value="{{0 + property('uix_viewportShowLogoBlock')}}" />
+			</xf:if>
+		<xf:else />
+			<xf:set var="$uix_sectionLinksAlways" value="1" />
+		</xf:if>
+	</xf:if>
+<xf:else />
+	<xf:if is="(property('uix_searchPosition') == 'tablinks') || (property('uix_socialMediaPosition') == 'tablinks')">
+		<xf:set var="$uix_sectionLinksAlways" value="1" />
+	</xf:if>
+</xf:if>
+
+<xf:set var="$uix_stickyTopLogoMin" value="0" />
+<xf:set var="$uix_stickyTopLogoMax" value="0" />
+
+<xf:if is="property('uix_stickyStaffBar')">
+	<xf:if is="{$uix_responsiveStaffBar} == 'always'">
+		<xf:set var="$uix_stickyTopLogoMin" value="{{0 + property('uix_stickyStaffBarHeight')}}" />
+		<xf:set var="$uix_stickyTopLogoMax" value="{{0 + property('uix_stickyStaffBarHeight')}}" />
+	<xf:elseif is="{$uix_responsiveStaffBar} == 'responsive'" />
+		<xf:set var="$uix_stickyTopLogoMin" value="{{0 + property('uix_stickyStaffBarHeight')}}" />
+	</xf:if>
+</xf:if>
+
+<xf:comment> --- Canvases --- </xf:comment>
+
+<xf:macro name="uix_canvasTab" arg-icon="!" arg-location="!" arg-canvas="!" arg-type="!">
+	<xf:if is="{$location} == {$canvas}">
+		<div class="uix_canvasTab uix_canvasTab__{{$type}}" data-target="uix_canvasPanel__{{$type}}">
+			<xf:macro name="icon" template="uix_icons.less" arg-icon="{{$icon}}" />
+		</div>
+	</xf:if>
+</xf:macro>
+
+<xf:macro name="uix_canvasTabs" arg-location="!">
+	<div class="uix_canvas__tabs">
+		<xf:macro name="uix_canvasTab" arg-icon="list" arg-type="navigation" arg-location="{{property('uix_canvas_location_navigation')}}" arg-canvas="{$location}"/>
+		<xf:macro name="uix_canvasTab" arg-icon="grid" arg-type="sidebar" arg-location="{{property('uix_canvas_location_sidebar')}}" arg-canvas="{$location}"/>
+		<xf:macro name="uix_canvasTab" arg-icon="user" arg-type="account" arg-location="{{property('uix_canvas_location_visitorTabs')}}" arg-canvas="{$location}"/>
+		<xf:macro name="uix_canvasTab" arg-icon="email" arg-type="conversations" arg-location="{{property('uix_canvas_location_visitorTabs')}}" arg-canvas="{$location}"/>
+		<xf:macro name="uix_canvasTab" arg-icon="alert" arg-type="alerts" arg-location="{{property('uix_canvas_location_visitorTabs')}}" arg-canvas="{$location}"/>
+		<xf:macro name="uix_canvasTab" arg-icon="star" arg-type="custom" arg-location="{{property('uix_canvas_location_custom')}}" arg-canvas="{$location}"/>
+	</div>
+</xf:macro>
+
+<xf:comment>
+<xf:set var="$uix_whatsNew__component">
+	<a href="{{ link('whats-new') }}"
+	   class="p-navgroup-link p-navgroup-link--iconic p-navgroup-link--whatsnew"
+	   title="{{ phrase('whats_new') }}">
+		<i aria-hidden="true"></i>
+		<span class="p-navgroup-linkText">{{ phrase('whats_new') }}</span>
+	</a>
+</xf:set>
+
+<xf:macro name="uix_whatsNew__component" arg-content="!" arg-location="!">
+	<xf:if is="property('uix_userTabsPosition') == {$location}">
+		{$content}
+	</xf:if>
+</xf:macro>
+</xf:comment>
+
+
+<xf:comment>------ END COMPONENT MARKUP MACROS ---------</xf:comment>
+
+<html id="XF" lang="{$xf.language.language_code}" dir="{$xf.language.text_direction}"
+	data-app="public"
+	data-template="{$template}"
+	data-container-key="{$containerKey}"
+	data-content-key="{$contentKey}"
+	data-logged-in="{{ $xf.visitor.user_id ? 'true' : 'false' }}"
+	data-cookie-prefix="{$xf.cookie.prefix}"
+	class="has-no-js{{ $template ? ' template-' . $template : '' }} {$uix_htmlClasses} {$uix_additionalHtmlClasses}"
+	{{ $xf.runJobs ? ' data-run-jobs=""' : '' }}>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<xf:comment> -- moved to top to use in macros
+	<xf:set var="$siteName" value="{$xf.options.boardTitle}" />
+	<xf:set var="$h1"><xf:h1 fallback="{$siteName}" /></xf:set>
+	<xf:set var="$title"><xf:title formatter="%s | %s" fallback="{$xf.options.boardTitle}" /></xf:set>
+	<xf:set var="$description"><xf:description /></xf:set>
+	</xf:comment>
+
+	<title>{$title}</title>
+
+	<xf:foreach loop="$head" value="$headTag">
+		{$headTag}
+	</xf:foreach>
+
+	<xf:if is="!$head.meta_site_name && $siteName is not empty">
+		<xf:macro template="metadata_macros" name="site_name" arg-siteName="{$siteName}" arg-output="{{ true }}" />
+	</xf:if>
+	<xf:if is="!$head.meta_title">
+		<xf:macro template="metadata_macros" name="title" arg-title="{{ page_title() ?: $siteName }}" arg-output="{{ true }}" />
+	</xf:if>
+	<xf:if is="!$head.meta_description && $description is not empty && $pageDescriptionMeta">
+		<xf:macro template="metadata_macros" name="description" arg-description="{$description}" arg-output="{{ true }}" />
+	</xf:if>
+	<xf:if is="!$head.meta_image_url && property('publicMetadataLogoUrl')">
+		<xf:macro template="metadata_macros" name="image_url"
+			arg-imageUrl="{{ base_url(property('publicMetadataLogoUrl'), true) }}"
+			arg-output="{{ true }}" />
+	</xf:if>
+
+	<xf:if is="property('metaThemeColor')">
+		<meta name="theme-color" content="{{ property('metaThemeColor') }}" />
+		<meta name="msapplication-TileColor" content="{{ property('metaThemeColor') }}">
+	</xf:if>
+
+	<xf:include template="uix_config" />
+
+	<xf:macro template="helper_js_global" name="head" arg-app="public" />
+
+	<xf:if is="property('publicFaviconUrl')">
+		<link rel="icon" type="image/png" href="{{ base_url(property('publicFaviconUrl')) }}" sizes="32x32" />
+	</xf:if>
+	<xf:if is="property('publicMetadataLogoUrl')">
+		<link rel="apple-touch-icon" href="{{ base_url(property('publicMetadataLogoUrl'), true) }}" />
+	</xf:if>
+	<xf:include template="google_analytics" />
+
+	<xf:comment>
+
+	UI.X inline style tag, used for styling that cannot be compiled into .css
+
+	<!-- hack to fix syntax highlighting
+	</xf:comment>
+
+	<style>
+		.uix_headerContainer .p-navSticky.is-sticky {
+			top: {{ $uix_stickyTopLogoMin }}px !important;
+		}
+		@media (max-width: {{property('uix_viewportShowLogoBlock')}}) {
+			.uix_headerContainer .p-navSticky.is-sticky {
+				top: {{ $uix_stickyTopLogoMax }}px !important;
+			}
+		}
+
+		<xf:set var="$uix_stickyNavHeightTotal" value="0" />
+		<xf:if is="!{$uix_hideNavigation}">
+			<xf:if is="property('publicNavSticky') == 'primary'">
+				<xf:set var="$uix_stickyNavHeightTotal" value="{{property('uix_stickyNavHeight')}}" />
+			<xf:elseif is="property('publicNavSticky') == 'all'" />
+				<xf:set var="$uix_stickyNavHeightTotal" value="{{property('uix_stickyNavHeight') + property('uix_stickySectionLinkHeight')}}" />
+			</xf:if>
+		</xf:if>
+
+		<xf:if is="!{$uix_sectionLinksAlways} && ($uix_responsiveSectionLinks_min < $uix_responsiveSectionLinks_max)">
+			.uix_stickyBodyElement:not(.offCanvasMenu) {
+				top: {{ $uix_stickyTopLogoMin + $uix_stickyNavHeightTotal + property('elementSpacer') }}px !important;
+			}
+
+			@media (max-width: {{property('uix_viewportShowLogoBlock')}}) {
+				.uix_stickyBodyElement:not(.offCanvasMenu) {
+					top: {{ $uix_stickyTopLogoMax + $uix_stickyNavHeightTotal + property('elementSpacer') }}px !important;
+				}
+			}
+
+			<xf:set var="$uix_stickyNavHeightTotal" value="0" />
+			<xf:if is="!{$uix_hideNavigation}">
+				<xf:if is="property('publicNavSticky') == 'primary'">
+					<xf:set var="$uix_stickyNavHeightTotal" value="{{property('uix_stickyNavHeight')}}" />
+				<xf:elseif is="property('publicNavSticky') == 'all'" />
+					<xf:comment> intentionally no section links </xf:comment>
+					<xf:set var="$uix_stickyNavHeightTotal" value="{{property('uix_stickyNavHeight')}}" />
+				</xf:if>
+			</xf:if>
+
+			@media(min-width: {{$uix_responsiveSectionLinks_min}}px) and (max-width: {{$uix_responsiveSectionLinks_max}}px) {
+				<xf:comment> Hide section links </xf:comment>
+				.p-sectionLinks {
+					display: none;
+				}
+
+				.uix_stickyBodyElement:not(.offCanvasMenu) {
+					top: {{ $uix_stickyTopLogoMin + $uix_stickyNavHeightTotal + property('elementSpacer') }}px !important;
+				}
+
+				@media (max-width: {{property('uix_viewportShowLogoBlock')}}) {
+					.uix_stickyBodyElement:not(.offCanvasMenu) {
+						top: {{ $uix_stickyTopLogoMax + $uix_stickyNavHeightTotal + property('elementSpacer') }}px !important;
+					}
+				}
+			}
+		<xf:else />
+			.uix_stickyBodyElement:not(.offCanvasMenu) {
+				top: {{ $uix_stickyTopLogoMin + $uix_stickyNavHeightTotal + property('elementSpacer') }}px !important;
+			}
+
+			@media (max-width: {{property('uix_viewportShowLogoBlock')}}) {
+				.uix_stickyBodyElement:not(.offCanvasMenu) {
+					top: {{ $uix_stickyTopLogoMax + $uix_stickyNavHeightTotal + property('elementSpacer') }}px !important;
+				}
+			}
+		</xf:if>
+	</style>
+
+	<xf:comment>
+	end hack to fix syntax highlighting-->
+	</xf:comment>
+</head>
+
+<body data-template="{$template}">
+<div id="jumpToTop"></div>
+
+<xf:comment> -- Not currently supporting Sidebar navigation when page style is not covered ---
+<xf:if is="property('uix_navigationType') == 'sidebarNav' && property('uix_pageStyle') != 'covered'">
+	<xf:macro name="uix_sidebarNav__component" arg-content="{$uix_sidebarNav__component}" />
+</xf:if>
+</xf:comment>
+
+<div class="uix_pageWrapper--fixed">
+	<div class="p-pageWrapper" id="top">
+
+		<div class="uix_headerContainer">
+			<div class="uix_headerContainer--stickyFix"></div>
+			<xf:macro name="uix_staffbar__component" arg-content="{$uix_staffbar__component}" />
+
+			<xf:set var="$uix_headerContent">
+				<xf:if contentcheck="true">
+					<div class="p-header-content">
+						<xf:contentcheck>
+							<xf:if is="property('uix_enableLogoBlock')">
+								<xf:macro name="uix_logo__component" arg-content="{$uix_logo__component}" />
+							</xf:if>
+
+							<xf:if contentcheck="true">
+								<div class="p-nav-opposite">
+									<xf:contentcheck>
+										<xf:macro name="uix_visitorTabs__component" arg-socialMediaContent="{$uix_socialMediaContent}" arg-whatsNewContent="{$uix_whatsNew__component}" arg-searchContent="{$uix_search__component}" arg-loginTabsContent="{$uix_loginTabs__component}" arg-visitorContent="{$uix_userTabs__component}" arg-location="header" />
+									</xf:contentcheck>
+								</div>
+							</xf:if>
+						</xf:contentcheck>
+					</div>
+				</xf:if>
+			</xf:set>
+
+			<xf:if contentcheck="true">
+				<header class="p-header p-header--hasExtraContent" id="header">
+					<div class="p-header-inner">
+						{$uix_headerContent}
+						<xf:contentcheck>
+							<xf:ad position="container_header" />
+						</xf:contentcheck>
+
+					</div>
+				</header>
+			<xf:else />
+				<header class="p-header" id="header">
+					<div class="p-header-inner">
+						{$uix_headerContent}
+					</div>
+				</header>
+			</xf:if>
+
+			<xf:set var="$navHtml">
+				<nav class="p-nav">
+					<div class="p-nav-inner">
+						<xf:if is="!{$uix_hideNavigation}">
+							<a class="p-nav-menuTrigger" data-xf-click="off-canvas" data-menu=".js-headerOffCanvasMenu" role="button" tabindex="0">
+								<i aria-hidden="true"></i>
+								<span class="p-nav-menuText">{{ phrase('menu') }}</span>
+							</a>
+							<xf:if is="property('uix_navigationType') == 'sidebarNav' && property('uix_pageStyle') == 'covered'">
+							<a class="p-nav-menuTrigger uix_sidebarNav--trigger" id="uix_sidebarNav--trigger">
+								<i aria-hidden="true"></i>
+								<span class="p-nav-menuText">{{ phrase('menu') }}</span>
+							</a>
+							</xf:if>
+						</xf:if>
+
+						<xf:macro name="uix_logo__component" arg-content="{$uix_logo__component}" />
+
+						<xf:if is="!{$uix_hideNavigation}">
+							<xf:if is="property('uix_navigationType') != 'sidebarNav' || property('uix_pageStyle') != 'covered'">
+							<div class="p-nav-scroller hScroller" data-xf-init="h-scroller">
+								<div class="hScroller-scroll">
+									<ul class="p-nav-list js-offCanvasNavSource">
+									<xf:foreach loop="$navTree" key="$navSection" value="$navEntry" i="$i" if="{{ $navSection != $xf.app.defaultNavigationId }}">
+										<li>
+											<xf:macro name="nav_entry"
+												arg-navId="{$navSection}"
+												arg-nav="{$navEntry}"
+												arg-selected="{{ $navSection == $pageSection }}"
+												arg-shortcut="{$i}" />
+										</li>
+									</xf:foreach>
+									</ul>
+								</div>
+							</div>
+							</xf:if>
+
+							<xf:if is="property('uix_activeNavTitle')">
+								<div class="uix_activeNavTitle">
+									<span>
+										<xf:if is="{$uix_mobileActiveNav}">
+											{{ $uix_mobileActiveNav }}
+										<xf:elseif is="{$selectedNavEntry.href}" />
+											{$selectedNavEntry.title}
+										<xf:else />
+										</xf:if>
+									</span>
+								</div>
+							</xf:if>
+						</xf:if>
+
+							<xf:macro name="uix_search__component" arg-location="navigationLeft" arg-content="{$uix_search__component}" />
+
+							<xf:if contentcheck="true">
+								<div class="p-nav-opposite">
+									<xf:contentcheck>
+										<xf:macro name="uix_visitorTabs__component" arg-socialMediaContent="{$uix_socialMediaContent}" arg-whatsNewContent="{$uix_whatsNew__component}" arg-searchContent="{$uix_search__component}" arg-loginTabsContent="{$uix_loginTabs__component}" arg-visitorContent="{$uix_userTabs__component}" arg-location="navigation" />
+									</xf:contentcheck>
+								</div>
+							</xf:if>
+					</div>
+				</nav>
+			</xf:set>
+
+			<xf:if is="property('publicNavSticky') == 'primary'">
+				<div class="p-navSticky p-navSticky--primary <xf:if is="property('publicNavSticky') !== 'none'">uix_stickyBar</xf:if>" data-top-offset-min="{{$uix_stickyTopLogoMin}}" data-top-offset-max="{{$uix_stickyTopLogoMax}}" data-top-offset-breakpoint="{{property('uix_viewportShowLogoBlock')}}">
+					{$navHtml|raw}
+				</div>
+				{$subNavHtml|raw}
+				<xf:elseif is="property('publicNavSticky') == 'all'" />
+				<div class="p-navSticky p-navSticky--all <xf:if is="property('publicNavSticky') !== 'none'">uix_stickyBar</xf:if>" data-top-offset-min="{{$uix_stickyTopLogoMin}}" data-top-offset-max="{{$uix_stickyTopLogoMax}}" data-top-offset-breakpoint="{{property('uix_viewportShowLogoBlock')}}">
+					{$navHtml|raw}
+					{$subNavHtml|raw}
+				</div>
+				<xf:else />
+				{$navHtml|raw}
+				{$subNavHtml|raw}
+			</xf:if>
+
+			<xf:macro name="welcomeSection" arg-contentTemplate="{$template}" template="uix_welcomeSection" arg-location="header" arg-showWelcomeSection="{$uix_showWelcomeSection}" />
+			<xf:macro name="uix_topBreadcrumb__component" arg-location="header" arg-content="{$uix_topBreadcrumb__component}" />
+			<xf:macro name="uix_titlebar__component" arg-location="header" arg-content="{$uix_titlebar__component}" />
+
+		</div>
+
+		<xf:comment> --- UI.X off canvas start ---</xf:comment>
+		<div class="offCanvasMenu offCanvasMenu--nav js-headerOffCanvasMenu" data-menu="menu" aria-hidden="true" data-ocm-builder="navigation">
+			<div class="offCanvasMenu-backdrop" data-menu-close="true"></div>
+			<div class="offCanvasMenu-content">
+				<xf:include template="uix_canvasTabs" />
+				<xf:include template="uix_canvasPanels" />
+
+				<xf:macro name="canvasNavPanel">
+					<div class="offCanvasMenu-header">
+						{{ phrase('menu') }}
+						<a class="offCanvasMenu-closer" data-menu-close="true" role="button" tabindex="0" aria-label="{{ phrase('close') }}"></a>
+					</div>
+					<xf:if is="$xf.visitor.user_id">
+						<div class="p-offCanvasAccountLink">
+							<a href="{{ link('account') }}" class="offCanvasMenu-link">
+								<xf:avatar user="$xf.visitor" size="xxs" href="" />
+								{$xf.visitor.username}
+							</a>
+							<hr class="offCanvasMenu-separator" />
+						</div>
+					</xf:if>
+					<div class="js-offCanvasNavTarget"></div>
+				</xf:macro>
+			</div>
+		</div>
+
+
+		<!-- <div class="offCanvasMenu offCanvasMenu--nav js-headerOffCanvasMenu" data-menu="menu" aria-hidden="true" data-ocm-builder="navigation">
+			<div class="offCanvasMenu-backdrop" data-menu-close="true"></div>
+			<div class="offCanvasMenu-content">
+				<div class="offCanvasMenu-header">
+					{{ phrase('menu') }}
+					<a class="offCanvasMenu-closer" data-menu-close="true" role="button" tabindex="0" aria-label="{{ phrase('close') }}"></a>
+				</div>
+				<xf:if is="$xf.visitor.user_id">
+					<div class="p-offCanvasAccountLink">
+						<a href="{{ link('account') }}" class="offCanvasMenu-link">
+							<xf:avatar user="$xf.visitor" size="xxs" href="" />
+							{$xf.visitor.username}
+						</a>
+						<hr class="offCanvasMenu-separator" />
+					</div>
+				</xf:if>
+				<div class="js-offCanvasNavTarget"></div>
+			</div>
+		</div> -->
+
+		<div class="p-body">
+
+			<xf:if is="property('uix_navigationType') == 'sidebarNav' && property('uix_pageStyle') == 'covered'">
+				<xf:macro name="uix_sidebarNav__component" arg-content="{$uix_sidebarNav__component}" />
+			</xf:if>
+
+			<div class="p-body-inner">
+				<xf:if is="!is_addon_active('ThemeHouse/UIX') && $xf.visitor.is_admin">
+				<div class="blockMessage blockMessage--error blockMessage--errorUixAddon">
+					<h2 style="margin: 0 0 .5em 0">UI.X Error</h2>
+					<p>
+						It appears that you do not have the UI.X Add-on installed. Please install this add-on to ensure your style works as expected. You can download the UI.X add-on <a href="https://www.themehouse.com/xenforo/2/addons/uix-addon">here</a>.
+					</p>
+					<xf:button href="https://www.themehouse.com/help/documentation/uix2" class="button--primary"><xf:macro template="uix_icons.less" name="icon" arg-icon="warning" /> View Documention</xf:button>
+				</div>
+				</xf:if>
+				<!--XF:EXTRA_OUTPUT-->
+
+				<xf:macro name="uix_titlebar__component" arg-location="default" arg-content="{$uix_titlebar__component}" />
+
+				<xf:macro name="welcomeSection" arg-contentTemplate="{$template}" template="uix_welcomeSection" arg-location="outsideWrapper" arg-showWelcomeSection="{$uix_showWelcomeSection}" />
+
+				<xf:comment> --- moved to component list at top of template ---
+				<xf:if is="$location == property('uix_topBreadcrumbLocation')">
+					<xf:ad position="container_breadcrumb_top_above" />
+					<xf:macro name="breadcrumbs" arg-sidebar="{$sidebar}" arg-breadcrumbs="{$breadcrumbs}" arg-selectedNavEntry="{$selectedNavEntry}" />
+					<xf:ad position="container_breadcrumb_top_below" />
+					</xf:if>
+				</xf:comment>
+
+				<xf:macro name="uix_topBreadcrumb__component" arg-location="outsideWrapper" arg-content="{$uix_topBreadcrumb__component}" />
+
+				<xf:macro template="browser_warning_macros" name="javascript" />
+				<xf:macro template="browser_warning_macros" name="browser" />
+
+				<div class="uix_contentWrapper">
+
+					<xf:if is="!{$uix_hideNotices}">
+						<xf:if is="$notices.block">
+							<xf:macro template="notice_macros" name="notice_list" arg-type="block" arg-notices="{$notices.block}" />
+						</xf:if>
+
+						<xf:if is="$notices.scrolling">
+							<xf:macro template="notice_macros" name="notice_list" arg-type="scrolling" arg-notices="{$notices.scrolling}" />
+						</xf:if>
+					</xf:if>
+
+					<xf:ad position="container_content_above" />
+					<xf:macro name="welcomeSection" arg-contentTemplate="{$template}" template="uix_welcomeSection" arg-location="insideWrapper" arg-showWelcomeSection="{$uix_showWelcomeSection}" />
+					<xf:macro name="uix_topBreadcrumb__component" arg-location="insideWrapper" arg-content="{$uix_topBreadcrumb__component}" />
+					<xf:macro name="uix_titlebar__component" arg-location="insideWrapper" arg-content="{$uix_titlebar__component}" />
+
+					<div class="p-body-main {{ $sidebar ? 'p-body-main--withSidebar' : '' }} {{ $sideNav ? 'p-body-main--withSideNav' : '' }}">
+						<xf:if is="$sideNav">
+							<div class="p-body-sideNav">
+								<div class="p-body-sideNavTrigger">
+									<xf:button class="button--link" data-xf-click="off-canvas" data-menu="#js-SideNavOcm">
+										{{ $sideNavTitle ?: phrase('navigation') }}
+									</xf:button>
+								</div>
+								<div class="p-body-sideNavInner<xf:if is="property('uix_stickySidebar')"> uix_stickyBodyElement</xf:if>" data-ocm-class="offCanvasMenu offCanvasMenu--blocks" id="js-SideNavOcm" data-ocm-builder="sideNav">
+									<div data-ocm-class="offCanvasMenu-backdrop" data-menu-close="true"></div>
+									<div data-ocm-class="offCanvasMenu-content">
+										<div class="p-body-sideNavContent">
+											<xf:ad position="container_sidenav_above" />
+											<xf:foreach loop="$sideNav" value="$sideNavHtml">
+												{$sideNavHtml}
+											</xf:foreach>
+											<xf:ad position="container_sidenav_below" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</xf:if>
+
+						<xf:macro name="uix_sidebar__component" arg-content="{$uix_sidebar__component}" arg-location="left" />
+						<div class="p-body-content">
+							<div class="p-body-pageContent">
+								<xf:macro name="welcomeSection" arg-contentTemplate="{$template}" template="uix_welcomeSection" arg-location="insideBody" arg-showWelcomeSection="{$uix_showWelcomeSection}" />
+								<xf:macro name="uix_topBreadcrumb__component" arg-location="insideBody" arg-content="{$uix_topBreadcrumb__component}" />
+								<xf:macro name="uix_titlebar__component" arg-location="insideBody" arg-content="{$uix_titlebar__component}" />
+								{$content|raw}
+								<xf:macro name="uix_bottomBreadcrumb__component" arg-content="{$uix_bottomBreadcrumb__component}" arg-location="insideContent" />
+							</div>
+							<xf:ad position="container_content_below" />
+
+							<xf:macro name="uix_bottomBreadcrumb__component" arg-content="{$uix_bottomBreadcrumb__component}" arg-location="insideWrapper" />
+						</div>
+
+						<xf:macro name="uix_sidebar__component" arg-content="{$uix_sidebar__component}" arg-location="right" />
+					</div>
+
+				</div>
+
+				<xf:macro name="uix_bottomBreadcrumb__component" arg-content="{$uix_bottomBreadcrumb__component}" arg-location="outsideWrapper" />
+			</div>
+		</div>
+
+		<footer class="p-footer" id="footer">
+
+			<xf:if is="!{$uix_hideExtendedFooter} && property('uix_enableExtendedFooter')">
+				<xf:include template="uix_extendedFooter" />
+			</xf:if>
+
+			<div class="p-footer-inner">
+				<div class="pageContent">
+					<div class="p-footer-row">
+						<xf:if contentcheck="true">
+							<div class="p-footer-row-main">
+								<ul class="p-footer-linkList p-footer-choosers">
+								<xf:contentcheck>
+									<xf:if is="property('uix_pageWidthToggle') != 'disabled'">
+										<li><a id="uix_widthToggle--trigger" data-xf-init="tooltip" title="{{ phrase('th_toggle_width_uix') }}" ><xf:macro name="icon" template="uix_icons.less" arg-icon="collapse" /></a></li>
+									</xf:if>
+									<xf:if is="$xf.visitor.canChangeStyle()">
+										<li><a href="{{ link('misc/style') }}" data-xf-click="overlay" data-xf-init="tooltip" title="{{ phrase('style_chooser') }}" rel="nofollow">{$xf.style.title}</a></li>
+									</xf:if>
+									<xf:if is="$xf.visitor.canChangeLanguage()">
+										<li><a href="{{ link('misc/language') }}" data-xf-click="overlay" data-xf-init="tooltip" title="{{ phrase('language_chooser') }}" rel="nofollow"><i class="fa fa-globe" aria-hidden="true"></i> {$xf.language.title}</a></li>
+									</xf:if>
+								</xf:contentcheck>
+								</ul>
+							</div>
+						</xf:if>
+					</div>
+					<div class="p-footer-row-opposite">
+						<ul class="p-footer-linkList">
+							<xf:if is="$xf.visitor.canUseContactForm()">
+								<xf:if is="$xf.options.contactUrl.type == 'default'">
+									<li><a href="{{ link('misc/contact') }}" data-xf-click="overlay">{{ phrase('contact_us') }}</a></li>
+								<xf:elseif is="$xf.options.contactUrl.type == 'custom'" />
+									<li><a href="{$xf.options.contactUrl.custom}" data-xf-click="{{ $xf.options.contactUrl.overlay ? 'overlay' : '' }}">{{ phrase('contact_us') }}</a></li>
+								</xf:if>
+							</xf:if>
+
+							<xf:if is="$xf.tosUrl">
+								<li><a href="{$xf.tosUrl}">{{ phrase('terms_and_rules') }}</a></li>
+							</xf:if>
+
+							<xf:if is="$xf.options.privacyPolicyUrl">
+								<li><a href="{$xf.options.privacyPolicyUrl}">{{ phrase('privacy') }}</a></li>
+							</xf:if>
+
+							<xf:if is="$xf.helpPageCount">
+								<li><a href="{{ link('help') }}">{{ phrase('help') }}</a></li>
+							</xf:if>
+
+							<xf:if is="$xf.homePageUrl">
+								<li><a href="{$xf.homePageUrl}">{{ phrase('home') }}</a></li>
+							</xf:if>
+
+							<li><a href="#top" title="{{ phrase('top') }}" data-xf-click="scroll-to"><i class="fa fa-arrow-up" aria-hidden="true"></i></a></li>
+
+							<li><a href="{{ link('forums/index.rss', '-') }}" target="_blank" class="p-footer-rssLink" title="{{ phrase('rss') }}"><span aria-hidden="true"><i class="fa fa-rss"></i></span></a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="p-footer-copyrightRow">
+				<div class="pageContent">
+					<div class="uix_copyrightBlock">
+						<xf:if contentcheck="true">
+							<div class="p-footer-copyright">
+								<xf:contentcheck>
+									<xf:copyright />
+									<xf:callback class="ThemeHouse\Core\Branding" method="renderStyleBranding" /><xf:set var="$thBrandingDisplayed" value="1" />
+									{{ phrase('extra_copyright') }}
+								</xf:contentcheck>
+							</div>
+						</xf:if>
+
+						<xf:if contentcheck="true">
+							<div class="p-footer-debug">
+							<xf:contentcheck>
+								<xf:macro template="debug_macros" name="debug"
+									arg-controller="{$controller}"
+									arg-action="{$actionMethod}"
+									arg-template="{$template}" />
+							</xf:contentcheck>
+							</div>
+						</xf:if>
+					</div>
+					<xf:comment>
+					<xf:macro name="uix_socialMedia" arg-location="copyright" template="uix_socialMedia" />
+					</xf:comment>
+					<xf:macro name="uix_socialMedia__component" arg-content="{$uix_socialMediaContent}" arg-location="copyright" />
+				</div>
+			</div>
+		</footer>
+		<xf:if is="property('uix_fab') != 'never'">
+			<xf:if contentcheck="true">
+				<div class="uix_fabBar uix_fabBar--active">
+					<div class="p-title-pageAction"><xf:contentcheck><xf:pageaction /></xf:contentcheck></div>
+				</div>
+			</xf:if>
+		</xf:if>
+		<xf:if is="property('uix_visitorTabsMobile') == 'tabbar'">
+			<xf:macro name="uix_tabBar" template="uix_tabBar" />
+		</xf:if>
+	</div>
+</div>
+
+<div class="u-bottomFixer js-bottomFixTarget">
+	<xf:if is="$notices.floating">
+		<xf:macro template="notice_macros" name="notice_list" arg-type="floating" arg-notices="{$notices.floating}" />
+	</xf:if>
+</div>
+
+<xf:if is="property('scrollJumpButtons')">
+	<div class="u-scrollButtons js-scrollButtons" data-trigger-type="{{ property('scrollJumpButtons') }}">
+		<xf:button href="#top" class="button--scroll" data-xf-click="scroll-to"><i class="fa fa-arrow-up"></i></xf:button>
+		<xf:if is="property('scrollJumpButtons') != 'up'">
+			<xf:button href="#footer" class="button--scroll" data-xf-click="scroll-to"><i class="fa fa-arrow-down"></i></xf:button>
+		</xf:if>
+	</div>
+</xf:if>
+
+<xf:macro template="helper_js_global" name="body" arg-app="public" arg-jsState="{$jsState}" />
+
+<xf:if is="property('uix_loginStyle') == 'slidingPanel'">
+	<div class="uix__loginForm uix__loginForm--login">
+		<div class="uix__loginForm--panel">
+			<xf:include template="login" />
+		</div>
+		<div class="uix__loginForm--mask"></div>
+	</div>
+</xf:if>
+
+{$ldJsonHtml|raw}
+
+</body>
+</html>
+
+<xf:macro name="nav_entry" arg-sidebarNav="" arg-navId="!" arg-nav="!" arg-selected="{{ false }}" arg-shortcut="">
+	<div class="p-navEl u-ripple {{ $selected ? 'is-selected' : '' }}" {{ $nav.children ? 'data-has-children="true"' : '' }}>
+		<xf:if is="$sidebarNav">
+		<div class="p-navEl__inner">
+		</xf:if>
+			<xf:if is="$nav.href">
+				<xf:macro name="nav_link"
+					arg-navId="{$navId}"
+					arg-nav="{$nav}"
+					arg-class="p-navEl-link {{ $nav.children ? 'p-navEl-link--splitMenu' : '' }}"
+					arg-shortcut="{{ $nav.children ? false : $shortcut }}" />
+				<xf:if is="$nav.children">
+					<a data-xf-key="{$shortcut}"
+					   data-xf-click="menu"
+					   data-menu-pos-ref="< .p-navEl"
+					   data-arrow-pos-ref="< .p-navEl"
+					   class="p-navEl-splitTrigger"
+					   role="button"
+					   tabindex="0"
+					   aria-label="{{ phrase('toggle_expanded') }}"
+					   aria-expanded="false"
+					   aria-haspopup="true">
+					</a>
+				</xf:if>
+			<xf:elseif is="$nav.children" />
+				<a data-xf-key="{$shortcut}"
+				   class="p-navEl-linkHolder"
+				   data-menu-pos-ref="< .p-navEl"
+				   data-arrow-pos-ref="< .p-navEl"
+				   data-xf-click="menu"
+				   role="button"
+				   tabindex="0"
+				   aria-expanded="false"
+				   aria-haspopup="true">
+					<xf:macro name="nav_link"
+							  arg-navId="{$navId}"
+							  arg-nav="{$nav}"
+							  arg-class="p-navEl-link p-navEl-link--menuTrigger" />
+				</a>
+			<xf:else />
+				<xf:macro name="nav_link"
+					arg-navId="{$navId}"
+					arg-nav="{$nav}"
+					arg-class="p-navEl-link"
+					arg-shortcut="{$shortcut}" />
+			</xf:if>
+			<xf:if is="$nav.children">
+				<xf:if is="!{$sidebarNav}">
+					<div class="menu menu--structural" data-menu="menu" aria-hidden="true">
+						<div class="menu-content">
+							<!--<h4 class="menu-header">{$nav.title}</h4>-->
+							<xf:foreach loop="$nav.children" key="$childNavId" value="$child">
+								<xf:macro name="nav_menu_entry"
+									arg-navId="{$childNavId}"
+									arg-nav="{$child}" />
+							</xf:foreach>
+						</div>
+					</div>
+				</xf:if>
+			</xf:if>
+			<xf:if is="{$sidebarNav} && $nav.children && property('uix_tablinksInSideNav')">
+				<a class="uix_sidebarNav--trigger"><xf:macro name="icon" template="uix_icons.less" arg-icon="chevron-down" /></a>
+			</xf:if>
+		<xf:if is="$sidebarNav">
+		</div>
+		</xf:if>
+		<xf:if is="property('uix_tablinksInSideNav')">
+			<xf:if is="{$sidebarNav}">
+				<div <xf:if is="$nav.children">data-menu="false"</xf:if> class="uix_sidebarNav__subNav <xf:if is="!property('uix_sideNavCollapsed') && $selected">subNav--expand</xf:if>">
+					<div class="uix_sidebarNav__subNavInner">
+						<xf:foreach loop="$nav.children" key="$childNavId" value="$child">
+							<xf:macro name="nav_menu_entry"
+									  arg-navId="{$childNavId}"
+									  arg-nav="{$child}" />
+						</xf:foreach>
+					</div>
+				</div>
+			</xf:if>
+		</xf:if>
+	</div>
+</xf:macro>
+
+<xf:macro name="nav_link" arg-navId="!" arg-nav="!" arg-class="" arg-titleHtml="" arg-shortcut="{{ false }}">
+	<xf:set var="$tag" value="{{ $nav.href ? 'a' : 'span' }}" />
+	<{$tag} {{ $nav.href ? 'href="' . $nav.href . '"' : '' }}
+		class="{$class} {$nav.attributes.class}"
+		{{ attributes($nav.attributes, ['class']) }}
+		{{ $shortcut !== false ? 'data-xf-key="' . $shortcut . '"' : '' }}
+		data-nav-id="{$navId}"><xf:if is="$nav.icon"><i class="fa {$nav.icon}" aria-hidden="true"></i> </xf:if>{{ $titleHtml ? $titleHtml|raw : $nav.title }}<xf:if is="$nav.counter"> <span class="badge badge--highlighted">{$nav.counter|number}</span></xf:if></{$tag}>
+</xf:macro>
+
+<xf:macro name="nav_menu_entry" arg-navId="!" arg-nav="!" arg-depth="0">
+	<xf:macro name="nav_link"
+		arg-navId="{$navId}"
+		arg-nav="{$nav}"
+		arg-class="menu-linkRow u-indentDepth{$depth} js-offCanvasCopy" />
+	<xf:if is="$nav.children">
+		<xf:foreach loop="$nav.children" key="$childNavId" value="$child">
+			<xf:macro name="nav_menu_entry"
+				arg-navId="{$childNavId}"
+				arg-nav="{$child}"
+				arg-depth="{{ $depth + 1 }}" />
+		</xf:foreach>
+		<xf:if is="$depth == 0">
+			<hr class="menu-separator" />
+		</xf:if>
+	</xf:if>
+</xf:macro>
+
+<xf:macro name="breadcrumbs" arg-uix_hideBreadcrumb="!"  arg-template="!" arg-pageAction="!" arg-breadcrumbs="!" arg-navTree="!" arg-selectedNavEntry="{{ null }}" arg-variant="" arg-sidebar="">
+	<xf:set var="$breadcrumbCount">{{ count($breadcrumbs)|default(0) }}</xf:set>
+    <xf:set var="$navEntryCount">{{ $selectedNavEntry == null ? 0 : 1 }}</xf:set>
+
+	<xf:if is="property('uix_collapsibleSidebar') && {$sidebar} && (property('uix_sidebarTriggerPosition') == 'breadcrumb')">
+		<xf:set var="$breadcrumbHasAction" value="1" />
+	<xf:elseif is="{$pageAction} && property('uix_pageActionBreadcrumb') && ( !property('uix_removePageAction') || ({$template} != 'forum_list') )" />
+		<xf:set var="$breadcrumbHasAction" value="1" />
+	<xf:else />
+		<xf:set var="$breadcrumbHasAction" value="0" />
+	</xf:if>
+
+	<xf:if is="{$uix_hideBreadcrumb}">
+		<xf:set var="$showBreadcrumb" value="0" />
+	<xf:elseif is="{$breadcrumbHasAction}" />
+		<xf:set var="$showBreadcrumb" value="1" />
+	<xf:elseif is="({{ ($navEntryCount|escape + $breadcrumbCount|escape) == 1 }} && property('uix_hideSingleCrumb'))" />
+		<xf:set var="$showBreadcrumb" value="0" />
+	<xf:else />
+		<xf:set var="$showBreadcrumb" value="1" />
+	</xf:if>
+
+	<xf:if is="{$showBreadcrumb}">
+		<div class="breadcrumb {{ $variant ? 'p-breadcrumb--' . $variant : '' }}">
+			<div class="pageContent">
+				<xf:if is="property('uix_collapsibleSidebar') && ( property('uix_sidebarLocation') == 'left' ) && {$sidebar} && (property('uix_sidebarTriggerPosition') == 'breadcrumb')">
+					<a class="uix_sidebarTrigger button" id="uix_sidebarTrigger">
+						<span>Sidebar</span>
+						<xf:macro name="icon" template="uix_icons.less" arg-icon="chevron-right" />
+					</a>
+				</xf:if>
+
+				<ul class="p-breadcrumbs {{ $variant ? 'p-breadcrumbs--' . $variant : '' }}"
+					itemscope itemtype="https://schema.org/BreadcrumbList">
+
+					<xf:set var="$rootBreadcrumb" value="{$navTree.{$xf.options.rootBreadcrumb}}" />
+					<xf:if is="$rootBreadcrumb AND $rootBreadcrumb.href != $xf.uri">
+						<xf:macro name="crumb"
+								  arg-href="{$rootBreadcrumb.href}"
+								  arg-value="{$rootBreadcrumb.title}" />
+					</xf:if>
+
+					<xf:if is="$selectedNavEntry && $selectedNavEntry.href && $selectedNavEntry.href != $xf.uri && $selectedNavEntry.href != $rootBreadcrumb.href">
+						<xf:macro name="crumb"
+								  arg-href="{$selectedNavEntry.href}"
+								  arg-value="{$selectedNavEntry.title}" />
+					</xf:if>
+					<xf:foreach loop="$breadcrumbs" value="$breadcrumb" if="$breadcrumb.href != $xf.uri">
+						<xf:macro name="crumb"
+								  arg-href="{$breadcrumb.href}"
+								  arg-value="{$breadcrumb.value}" />
+					</xf:foreach>
+				</ul>
+
+				<xf:if is="property('uix_pageActionBreadcrumb')">
+					<xf:if contentcheck="true">
+						<div class="p-title-pageAction"><xf:contentcheck><xf:pageaction /></xf:contentcheck></div>
+					</xf:if>
+				</xf:if>
+
+				<xf:if is="property('uix_collapsibleSidebar') && (property('uix_sidebarLocation') == 'right') && {$sidebar} && (property('uix_sidebarTriggerPosition') == 'breadcrumb')">
+					<a class="uix_sidebarTrigger button" id="uix_sidebarTrigger">
+						<span>Sidebar</span>
+						<xf:macro name="icon" template="uix_icons.less" arg-icon="chevron-right" />
+					</a>
+				</xf:if>
+			</div>
+		</div>
+	</xf:if>
+</xf:macro>
+
+<xf:macro name="crumb" arg-href="!" arg-value="!">
+	<li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+		<a href="{$href}" itemprop="item">
+			<xf:if is="{$href} == {$xf.homePageUrl} && property('uix_homeCrumbIcon')">
+				<xf:macro name="icon" template="uix_icons.less" arg-icon="home" />
+			<xf:else />
+				<span itemprop="name">{$value}</span>
+			</xf:if>
+		</a>
+	</li>
+</xf:macro>]]></template>
+    <template title="account_visitor_menu" type="public" addon_id="XF" version_id="2000170" version_string="2.0.1"><![CDATA[<div class="menu-row menu-row--highlighted">
+	<xf:macro name="visitor_panel_row" />
+</div>
+
+<xf:macro name="visitor_panel_row">
+	<div class="contentRow">
+		<div class="contentRow-figure">
+			<xf:avatar user="{$xf.visitor}" size="m" href="" notooltip="true" update="{{ link('account/avatar', $xf.visitor) }}" />
+		</div>
+		<div class="contentRow-main">
+			<h3 class="contentRow-header"><xf:username user="$xf.visitor" rich="true" notooltip="true" /></h3>
+			<div class="contentRow-lesser">
+				<xf:usertitle user="$xf.visitor" />
+			</div>
+
+			<div class="contentRow-minor">
+				<!--[XF:stats_pairs:above_messages]-->
+				<dl class="pairs pairs--justified fauxBlockLink">
+					<dt>{{ phrase('messages') }}</dt>
+					<dd>
+						<a href="{{ link('search/member', null, {'user_id': $xf.visitor.user_id}) }}" class="fauxBlockLink-linkRow u-concealed">
+							{$xf.visitor.message_count|number}
+						</a>
+					</dd>
+				</dl>
+				<!--[XF:stats_pairs:above_likes]-->
+				<dl class="pairs pairs--justified fauxBlockLink">
+					<dt>{{ phrase('likes') }}</dt>
+					<dd>
+						<a href="{{ link('account/likes') }}" class="fauxBlockLink-linkRow u-concealed">
+							{$xf.visitor.like_count|number}
+						</a>
+					</dd>
+				</dl>
+				<!--[XF:stats_pairs:above_points]-->
+				<xf:if is="$xf.options.enableTrophies">
+					<dl class="pairs pairs--justified fauxBlockLink">
+						<dt>{{ phrase('trophy_points') }}</dt>
+						<dd>
+							<a href="{{ link('members/trophies', $xf.visitor) }}" data-xf-click="overlay" class="fauxBlockLink-linkRow u-concealed">
+								{$xf.visitor.trophy_points|number}
+							</a>
+						</dd>
+					</dl>
+				</xf:if>
+			</div>
+		</div>
+	</div>
+</xf:macro>
+
+<!--[XF:menu_separator:below_visitor_panel]-->
+<hr class="menu-separator menu-separator--hard" />
+
+<ul class="listPlain listColumns listColumns--narrow listColumns--together">
+	<!--[XF:content_links:top]-->
+	<li><a href="{{ link('whats-new/news-feed') }}" class="menu-linkRow">{{ phrase('news_feed') }}</a></li>
+	<li><a href="{{ link('search/member', null, {'user_id': $xf.visitor.user_id}) }}" class="menu-linkRow">{{ phrase('your_content') }}</a></li>
+	<li><a href="{{ link('account/likes') }}" class="menu-linkRow">{{ phrase('likes_received') }}</a></li>
+	<li><a href="{{ link('conversations') }}" class="menu-linkRow">{{ phrase('conversations') }}</a></li>
+	<li><a href="{{ link('account/alerts') }}" class="menu-linkRow">{{ phrase('alerts') }}</a></li>
+	<!--[XF:content_links:bottom]-->
+</ul>
+
+<!--[XF:menu_separator:below_content_links]-->
+<hr class="menu-separator" />
+
+<ul class="listPlain listColumns listColumns--narrow listColumns--together">
+	<!--[XF:account_links:top]-->
+	<li><a href="{{ link('account/account-details') }}" class="menu-linkRow">{{ phrase('account_details') }}</a></li>
+	<li><a href="{{ link('account/security') }}" class="menu-linkRow">{{ phrase('password_and_security') }}</a></li>
+	<li><a href="{{ link('account/privacy') }}" class="menu-linkRow">{{ phrase('privacy') }}</a></li>
+	<li><a href="{{ link('account/preferences') }}" class="menu-linkRow">{{ phrase('preferences') }}</a></li>
+	<xf:if is="$xf.visitor.canEditSignature()">
+		<li><a href="{{ link('account/signature') }}" class="menu-linkRow">{{ phrase('signature') }}</a></li>
+	</xf:if>
+	<xf:if is="$xf.app.userUpgradeCount">
+		<li><a href="{{ link('account/upgrades') }}" class="menu-linkRow">{{ phrase('account_upgrades') }}</a></li>
+	</xf:if>
+	<xf:if is="$xf.app.connectedAccountCount">
+		<li><a href="{{ link('account/connected-accounts') }}" class="menu-linkRow">{{ phrase('connected_accounts') }}</a></li>
+	</xf:if>
+	<li><a href="{{ link('account/following') }}" class="menu-linkRow">{{ phrase('following') }}</a></li>
+	<li><a href="{{ link('account/ignored') }}" class="menu-linkRow">{{ phrase('ignoring') }}</a></li>
+	<!--[XF:account_links:bottom]-->
+</ul>
+
+<!--[XF:menu_separator:below_account_links]-->
+<hr class="menu-separator" />
+
+<a href="{{ link('logout', null, {'t': csrf_token()}) }}" class="menu-linkRow">{{ phrase('log_out') }}</a>
+
+<xf:if is="$xf.visitor.canPostOnProfile()">
+	<xf:form action="{{ link('members/post', $xf.visitor) }}" ajax="true"
+		data-redirect="off"
+		data-reset-complete="true"
+		data-no-auto-focus="true"
+		class="menu-footer">
+
+		<xf:textarea name="message" rows="1" autosize="true"
+			maxlength="{$xf.options.profilePostMaxLength}"
+			placeholder="{{ phrase('update_your_status...') }}"
+			data-xf-init="focus-trigger user-mentioner" data-display="< :next" />
+		<div class="u-hidden u-hidden--transition u-inputSpacer">
+			<xf:button type="submit" class="button--primary">{{ phrase('post_verb') }}</xf:button>
+		</div>
+	</xf:form>
+</xf:if>]]></template>
+    <template title="account_wrapper" type="public" addon_id="XF" version_id="2000170" version_string="2.0.1"><![CDATA[<xf:sidenav>
+	<div class="block">
+		<div class="block-container">
+			<h3 class="block-header">{{ phrase('your_account') }}</h3>
+			<div class="block-body">
+				<!--[XF:profile_links:top]-->
+				<a class="blockLink" href="{{ link('members', $xf.visitor) }}">{{ phrase('your_profile') }}</a>
+				<a class="blockLink {{ $pageSelected == 'alerts' ? 'is-selected' : '' }}" href="{{ link('account/alerts') }}">
+					{{ phrase('alerts') }}
+				</a>
+				<a class="blockLink {{ $pageSelected == 'likes' ? 'is-selected' : '' }}" href="{{ link('account/likes') }}">
+					{{ phrase('likes_received') }}
+				</a>
+				<!--[XF:profile_links:bottom]-->
+			</div>
+
+			<h3 class="block-minorHeader">{{ phrase('settings') }}</h3>
+			<div class="block-body">
+				<!--[XF:settings_links:top]-->
+				<a class="blockLink {{ $pageSelected == 'account_details' ? 'is-selected' : '' }}" href="{{ link('account/account-details') }}">
+					{{ phrase('account_details') }}
+				</a>
+				<a class="blockLink {{ $pageSelected == 'security' ? 'is-selected' : '' }}" href="{{ link('account/security') }}">
+					{{ phrase('password_and_security') }}
+				</a>
+				<a class="blockLink {{ $pageSelected == 'privacy' ? 'is-selected' : '' }}" href="{{ link('account/privacy') }}">
+					{{ phrase('privacy') }}
+				</a>
+				<a class="blockLink {{ $pageSelected == 'preferences' ? 'is-selected' : '' }}" href="{{ link('account/preferences') }}">
+					{{ phrase('preferences') }}
+				</a>
+				<xf:if is="$xf.visitor.canEditSignature()">
+					<a class="blockLink {{ $pageSelected == 'signature' ? 'is-selected' : '' }}" href="{{ link('account/signature') }}">
+						{{ phrase('signature') }}
+					</a>
+				</xf:if>
+				<xf:if is="$xf.app.userUpgradeCount">
+					<a class="blockLink {{ $pageSelected == 'upgrades' ? 'is-selected' : '' }}" href="{{ link('account/upgrades') }}">
+						{{ phrase('account_upgrades') }}
+					</a>
+				</xf:if>
+				<xf:if is="$xf.app.connectedAccountCount">
+					<a class="blockLink {{ $pageSelected == 'connected_account' ? 'is-selected' : '' }}" href="{{ link('account/connected-accounts') }}">
+						{{ phrase('connected_accounts') }}
+					</a>
+				</xf:if>
+				<a class="blockLink {{ $pageSelected == 'following' ? 'is-selected' : '' }}" href="{{ link('account/following') }}">
+					{{ phrase('following') }}
+				</a>
+				<a class="blockLink {{ $pageSelected == 'ignored' ? 'is-selected' : '' }}" href="{{ link('account/ignored') }}">
+					{{ phrase('ignoring') }}
+				</a>
+				<a href="{{ link('logout', null, {'t': csrf_token()}) }}" class="blockLink">{{ phrase('log_out') }}</a>
+				<!--[XF:settings_links:bottom]-->
+			</div>
+		</div>
+	</div>
+</xf:sidenav>
+<xf:page option="sideNavTitle">{{ phrase('your_account') }}</xf:page>
+
+<xf:breadcrumb href="{{ link('account') }}">{{ phrase('your_account') }}</xf:breadcrumb>
+
+{$innerContent|raw}]]></template>
+    <template title="app.less" type="public" addon_id="XF" version_id="2000170" version_string="2.0.1"><![CDATA[@_nav-elTransitionSpeed: @xf-animationSpeed;
+@_navAccount-hPadding: @xf-paddingLarge;
+@uix_sidebarNavBreakpoint: {{ property('pageWidthMax')  + 1 + ( 2 * (property('uix_sidebarNavWidth') + property('elementSpacer')) ) }}px;
+
+.u-anchorTarget
+{
+	.m-stickyHeaderConfig(@xf-publicNavSticky);
+	height: (@_stickyHeader-height + @_stickyHeader-offset);
+	margin-top: -(@_stickyHeader-height + @_stickyHeader-offset);
+}
+
+.uix_pageWidth--wrapped {
+	width: 100%;
+	<xf:if is="property('uix_pageStyle') == 'wrapped'">
+		.m-pageWidth();
+	</xf:if>
+}
+
+.p-pageWrapper
+{
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	flex-grow: 1;
+	<xf:if is="property('uix_pageStyle') == 'wrapped'">
+		.xf-uix_pageWrapper();
+		@media (min-width: {{ property('responsiveEdgeSpacerRemoval') + 1 }}px) {
+			margin-top: @xf-pageEdgeSpacer;
+			margin-bottom: @xf-pageEdgeSpacer;
+			padding: @xf-pageEdgeSpacer;
+		}
+	
+		@media (max-width: @xf-responsiveEdgeSpacerRemoval) {
+			border: none;
+			box-shadow: none;
+		}
+	</xf:if>
+}
+
+.uix_headerContainer {
+	.xf-uix_headerWrapper();
+}
+
+// RESPONSIVE HEADER
+
+.p-offCanvasAccountLink
+{
+	display: none;
+}
+
+@media (max-width: 359px)
+{
+	.p-offCanvasAccountLink
+	{
+		display: block;
+	}
+}
+
+@media (max-width: 359px)
+{
+	.p-offCanvasRegisterLink
+	{
+		display: block;
+	}
+}
+
+@media (max-width: @xf-pageWidthMax) {
+	#uix_widthToggle--trigger {display: none;}
+}
+
+#uix_widthToggle--trigger:hover {cursor: pointer;}
+
+.uix_page--fixed #uix_widthToggle--trigger .uix_icon:before {<xf:macro name="content" template="uix_icons.less" arg-icon="expand" />}
+
+{{ include('app_staffbar.less') }}
+{{ include('app_header.less') }}
+{{ include('app_stickynav.less') }}
+{{ include('app_nav.less') }}
+{{ include('app_sectionlinks.less') }}
+{{ include('app_body.less') }}
+{{ include('app_breadcrumbs.less') }}
+{{ include('app_title.less') }}
+{{ include('app_footer.less') }}
+{{ include('app_inlinemod.less') }}
+{{ include('app_ignored.less') }}
+{{ include('app_username_styles.less') }}
+{{ include('app_user_banners.less') }}
+{{ include('uix.less') }}]]></template>
+    <template title="app_body.less" type="public" addon_id="XF" version_id="2000170" version_string="2.0.1"><![CDATA[// ######################################### MAIN BODY #################################
+
+.p-body
+{
+	display: flex;
+	align-items: stretch;
+	position: relative;
+}
+
+.p-body-inner
+{
+	<xf:if is="property('uix_pageStyle') != 'wrapped'">
+	.m-pageWidth();
+	<xf:else />
+	@media (min-width: {{ property('responsiveEdgeSpacerRemoval') + 1 }}px ) {
+		flex-grow: 1;
+	}
+	@media (max-width: @xf-responsiveEdgeSpacerRemoval) {
+		.m-pageWidth();
+	}
+	</xf:if>
+	transition: ease-in max-width .2s, ease-in left .2s, ease-in width .2s;
+	display: flex;
+	flex-direction: column;
+	.m-clearFix();
+	position: relative;
+	left: 0;
+	padding-left: 0;
+	padding-right: 0;
+
+	padding-bottom: @xf-elementSpacer;
+
+
+	> * {
+		margin-bottom: 20px;
+
+		&:last-child {margin-bottom: 0;}
+	}
+}
+
+.p-body-header
+{
+	// margin-bottom: ((@xf-elementSpacer) / 2);
+}
+
+.p-body
+{
+	flex-grow: 1;
+}
+
+.uix_contentWrapper {
+	<xf:if is="property('uix_contentWrapper') == 1">
+		.xf-uix_contentWrapperStyle();
+		padding: @xf-pageEdgeSpacer;
+	@media (max-width: @xf-responsiveEdgeSpacerRemoval) {
+		padding: {{ property('pageEdgeSpacer') / 2 }}px;
+		margin-left: -{{ property('pageEdgeSpacer') / 2 }}px;
+		margin-right: -{{ property('pageEdgeSpacer') / 2 }}px;
+		border: none;
+		box-shadow: none;
+	}
+	</xf:if>
+}
+
+.p-body-main
+{
+	// display: table;
+	table-layout: fixed;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	width: 100%;
+	max-width: 100%;
+	margin-bottom: auto;
+}
+
+.p-body-content
+{
+	// display: table-cell;
+	vertical-align: top;
+	@media ( min-width: {{ property('uix_sidebarBreakpoint') + 1 }}px ) {
+		transition: ease-in width 0.2s 0.2s, ease-in max-width 0.2s 0.2s;
+	}
+	flex-grow: 1;
+	max-width: 100%;
+	width: 100%;
+
+	.p-body-main--withSidebar &,
+	.p-body-main--withSideNav &
+	{
+		// don't let the ad overflow the sidebar area -- this can happen due to how the Adsense JS works
+		ins.adsbygoogle
+		{
+			// -10px gives a little buffer or helps account for no scrollbar being considered
+			max-width: ~"calc(100vw - 10px - @{xf-pageEdgeSpacer} - @{xf-pageEdgeSpacer} - @{xf-sidebarWidth} - @{xf-sidebarSpacer})";
+
+			@media (min-width: @xf-pageWidthMax)
+			{
+				// window wider than the max width, so limit to the display area without the sidebar
+				max-width: ~"calc(@{xf-pageWidthMax} - @{xf-pageEdgeSpacer} - @{xf-pageEdgeSpacer} - @{xf-sidebarWidth} - @{xf-sidebarSpacer})";
+			}
+
+			@media (max-width: @xf-responsiveWide)
+			{
+				// sidebar/sidenav have been moved/hidden
+				max-width: 100vw;
+			}
+		}
+	}
+
+	.p-body-main--withSideNav &
+	{
+		@media (min-width: {{ property('uix_sidebarBreakpoint') + 1 }}px ) {
+			width: calc(~"100% - {{ property('sidebarWidth') + property('elementSpacer')}}px");
+			max-width: calc(~"100% - {{ property('sidebarWidth') + property('elementSpacer')}}px");
+			display: inline-block;
+		}
+	}
+
+	.p-body-main--withSidebar &
+	{
+		@media (min-width: {{ property('uix_sidebarBreakpoint') + 1 }}px ) {
+			width: calc(~"100% - {{ property('sidebarWidth') + property('elementSpacer')}}px");
+			max-width: calc(~"100% - {{ property('sidebarWidth') + property('elementSpacer')}}px");
+			display: inline-block;
+		}
+	}
+
+	.p-body-main--withSidebar.p-body-main--withSideNav & {
+		width: calc(~"100% - {{ (property('sidebarWidth') + property('elementSpacer')) * 2 }}px");
+		max-width: calc(~"100% - {{ (property('sidebarWidth') + property('elementSpacer')) * 2 }}px");
+		display: inline-block;
+	}
+}
+
+.p-body-pageContent
+{
+	> .tabs--standalone:first-child
+	{
+		margin-bottom: (@xf-elementSpacer) / 2;
+	}
+}
+
+.p-body-pageContent {
+	<xf:if is="property('uix_contentWrapper') == 2">
+		.xf-uix_contentWrapperStyle();
+		padding: @xf-pageEdgeSpacer;
+
+		@media (max-width: @xf-responsiveEdgeSpacerRemoval) {
+			padding: {{ property('pageEdgeSpacer') / 2 }}px;
+			margin-left: -{{ property('pageEdgeSpacer') / 2 }}px;
+			margin-right: -{{ property('pageEdgeSpacer') / 2 }}px;
+			border: none;
+			box-shadow: none;
+		}
+	</xf:if>
+}
+
+.p-body-sideNav
+{
+	display: table-cell;
+	vertical-align: top;
+	width: @xf-sidebarWidth;
+	float: left;
+}
+
+.p-body-sideNavTrigger
+{
+	display: none;
+}
+
+.p-body-sidebar
+{
+	// display: table-cell;
+    display: inline-block;
+	vertical-align: top;
+	width: @xf-sidebarWidth;
+	
+	.block-minorHeader,
+	.block-header
+	{
+		display: flex;
+		align-items: center;
+		padding: @xf-uix_widgetPadding;
+		.xf-uix_sidebarWidgetHeading();
+	}
+}
+
+.block[data-widget-id],
+.p-body-sideNav {
+	.block-container {
+		.xf-uix_sidebarWidgetWrapper();
+	}
+
+	.block-footer {
+		padding: @xf-uix_widgetPadding;
+		.xf-uix_uix_sidebarFooter();
+	}
+
+	.block-row {padding: @xf-uix_widgetPadding;}
+}
+
+// ----  Widget icons -----
+<xf:if is="property('uix_sidebarIcons')">
+
+.block[data-widget-id] .block-minorHeader:before {
+	.m-faBase();
+	font-size: @xf-uix_iconSize !important;
+	padding-right: @xf-paddingMedium;
+	color: @xf-textColorMuted;
+}
+
+
+.block[data-widget-definition="members_online"] .block-minorHeader:before {<xf:macro template="uix_icons.less" name="content" arg-icon="user-multiple" />}
+.block[data-widget-definition="board_totals"] .block-minorHeader:before,
+.block[data-widget-definition="online_statistics"] .block-minorHeader:before,
+.block[data-widget-definition="forum_statistics"] .block-minorHeader:before {<xf:macro template="uix_icons.less" name="content" arg-icon="statistics" />}
+.block[data-widget-definition="share_page"] .block-minorHeader:before {<xf:macro template="uix_icons.less" name="content" arg-icon="share" />}
+.block[data-widget-definition="most_messages"] .block-minorHeader:before {<xf:macro template="uix_icons.less" name="content" arg-icon="messages" />}
+.block[data-widget-definition="find_member"] .block-minorHeader:before {<xf:macro template="uix_icons.less" name="content" arg-icon="search-member" />}
+.block[data-widget-definition="new_threads"] .block-minorHeader:before,
+.block[data-widget-definition="new_profile_posts"] .block-minorHeader:before,
+.block[data-widget-definition="new_posts"] .block-minorHeader:before{<xf:macro template="uix_icons.less" name="content" arg-icon="post" />}
+.block[data-widget-definition="birthdays"] .block-minorHeader:before{<xf:macro template="uix_icons.less" name="content" arg-icon="birthday" />}
+form[data-xf-init*="poll-block"] .block-minorHeader:before {<xf:macro template="uix_icons.less" name="content" arg-icon="poll" />}
+
+
+</xf:if>
+
+<xf:if is="property('uix_footerIcons')">
+
+.uix_extendedFooterRow .block-minorHeader:before {
+	.m-faBase();
+	font-size: @xf-uix_iconSize;
+	padding-right: @xf-paddingMedium;
+}
+
+.uix_extendedFooterRow {
+	.block[data-widget-definition="members_online"] .block-minorHeader:before {<xf:macro template="uix_icons.less" name="content" arg-icon="user-multiple" />}
+	.block[data-widget-definition="board_totals"] .block-minorHeader:before,
+	.block[data-widget-definition="online_statistics"] .block-minorHeader:before,
+	.block[data-widget-definition="forum_statistics"] .block-minorHeader:before {<xf:macro template="uix_icons.less" name="content" arg-icon="statistics" />}
+	.block[data-widget-definition="share_page"] .block-minorHeader:before {<xf:macro template="uix_icons.less" name="content" arg-icon="share" />}
+	.block[data-widget-definition="most_messages"] .block-minorHeader:before {<xf:macro template="uix_icons.less" name="content" arg-icon="messages" />}
+	.block[data-widget-definition="find_member"] .block-minorHeader:before {<xf:macro template="uix_icons.less" name="content" arg-icon="search-member" />}
+	.block[data-widget-definition="new_threads"] .block-minorHeader:before,
+	.block[data-widget-definition="new_profile_posts"] .block-minorHeader:before,
+	.block[data-widget-definition="new_posts"] .block-minorHeader:before{<xf:macro template="uix_icons.less" name="content" arg-icon="post" />}
+	.block[data-widget-definition="birthdays"] .block-minorHeader:before{<xf:macro template="uix_icons.less" name="content" arg-icon="birthday" />}
+	form[data-xf-init*="poll-block"] .block-minorHeader:before {<xf:macro template="uix_icons.less" name="content" arg-icon="poll" />}
+}
+
+</xf:if>
+
+<xf:if is="property('uix_visitorPanelIcons')">
+	.block[data-widget-definition="visitor_panel"]
+
+		.pairs {
+			display: flex;
+			dt:after {display: none;}
+		}
+</xf:if>
+
+.p-body-content,
+.p-body-sideNav,
+.p-body-sideNavContent,
+.uix_sidebarInner
+{
+	> :first-child
+	{
+		margin-top: 0;
+	}
+
+	> :last-child
+	{
+		margin-bottom: 0;
+	}
+}
+
+@media (max-width: @xf-uix_sidebarBreakpoint ) 
+{
+	/*
+	.p-body-main,
+	.p-body-content
+	{
+		display: block;
+	}
+	*/
+
+	.p-body-content {flex-grow: 1; width: 100%;}
+
+	.p-body-sideNav
+	{
+		display: block;
+		width: 100%;
+	}
+
+	.p-body-sideNavTrigger
+	{
+		margin-bottom: ((@xf-elementSpacer) / 2);
+		text-align: center;
+
+		.button:before
+		{
+			.m-faBase();
+			font-size: 120%;
+			vertical-align: middle;
+			display: inline-block;
+			margin: -4px 6px -4px 0;
+			.m-faContent(@fa-var-bars, .86em);
+			<xf:macro template="uix_icons.less" name="content" arg-icon="menu" />
+		}
+
+		.has-js &
+		{
+			display: block;
+		}
+	}
+
+	.has-js .p-body-sideNavInner:not(.offCanvasMenu)
+	{
+		display: none;
+
+		.m-transitionFadeDown();
+	}
+
+	.has-no-js .p-body-sideNavInner
+	{
+		margin-bottom: @xf-elementSpacer;
+	}
+
+	.p-body-sidebar
+	{
+		width: 100%;
+		float: none;
+		order: 1;
+		flex-grow: 1;
+		display: block;
+		margin-top: @xf-elementSpacer;
+
+		.uix_sidebarInner {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: stretch;
+			flex-grow: 1;
+			margin: 0 -((@xf-pageEdgeSpacer) / 2);
+		}
+
+		.uix_sidebarInner > *
+		{
+			margin: 0 ((@xf-pageEdgeSpacer) / 2) @xf-elementSpacer;
+			min-width: @xf-sidebarWidth;
+			flex: 1 1 @xf-sidebarWidth;
+
+			.block-container {
+				margin-left: 0;
+				margin-right: 0;
+			}
+
+			&:last-child
+			{
+				margin-bottom: @xf-elementSpacer;
+			}
+		}
+
+		// add an invisible block to ensure that the last row has the correct widths
+		&:after
+		{
+			display: block;
+			content: '';
+			height: 0;
+			margin: 0 ((@xf-pageEdgeSpacer) / 2);
+			min-width: @xf-sidebarWidth;
+			flex: 1 1 @xf-sidebarWidth;
+		}
+
+		.block-container
+		{
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+
+			.block-footer
+			{
+				margin-top: auto;
+			}
+		}
+	}
+
+	.p-body-main--withSideNav,
+	.p-body-main--withSidebar
+	{
+		.p-body-content { padding: 0; }
+	}
+}
+
+.uix_sidebarCollapsed .uix_sidebarInner {
+	overflow: hidden;
+    padding: 0 3px;
+    margin: 0 -3px;
+}
+
+@media (max-width: @xf-responsiveEdgeSpacerRemoval)
+{
+	.p-body-sideNavContent
+	{
+		// this is likely to contain blocks that overflow the container so account for that
+		margin: 0 -@xf-pageEdgeSpacer;
+		padding: 0 @xf-pageEdgeSpacer;
+
+		.offCanvasMenu &
+		{
+			margin: 0;
+			padding: 0;
+		}
+	}
+
+	.p-body-sidebar
+	{
+		display: block;
+		margin-left: 0;
+		margin-right: 0;
+
+		.uix_sidebarInner > *
+		{
+			// margin-left: 0;
+			// margin-right: 0;
+			min-width: 0;
+		}
+	}
+}]]></template>
+    <template title="app_breadcrumbs.less" type="public" addon_id="XF" version_id="2000170" version_string="2.0.1"><![CDATA[.uix_headerContainer {
+	.breadcrumb {
+		<xf:if is="property('uix_pageStyle') == 'fixed'">
+			.m-pageWidth();
+		</xf:if>
+		
+		.pageContent {
+			<xf:if is="property('uix_pageStyle') != 'fixed'">
+				.m-pageWidth();
+			</xf:if>
+		}
+	}
+}
+
+.breadcrumb {
+	margin-bottom: @xf-elementSpacer;
+	.xf-uix_breadcrumbWrapper();
+	
+	&.p-breadcrumb--bottom {
+		margin-top: @xf-elementSpacer;
+		margin-bottom: 0;
+	}
+	
+	.pageContent {
+		display: flex;
+		align-items: center;
+	}
+}
+
+.uix_headerContainer .breadcrumb .pageContent {
+	<xf:if is="property('uix_pageStyle') != 'fixed'">
+		.m-pageWidth();
+	</xf:if>
+}
+
+.p-breadcrumbs
+{
+	.m-listPlain();
+	.m-clearFix();
+
+	// margin-bottom: 5px;
+	// line-height: 1.5;
+	display: flex;
+	align-items: center;
+	flex-grow: 1;
+	.xf-uix_breadcrumbStyle();
+	
+	i {font-size: @xf-uix_iconSize;}
+
+	&.p-breadcrumbs--bottom
+	{
+		// margin-top: @xf-elementSpacer;
+		margin-bottom: 0;
+	}
+
+	> li
+	{
+		float: left;
+		margin-right: .5em;
+		font-size: @xf-fontSizeSmall;
+		display: flex;
+		align-items: center;
+		font-size: inherit;
+
+		a
+		{
+			display: inline-block;
+			vertical-align: bottom;
+			max-width: 300px;
+			.m-overflowEllipsis();
+			.xf-uix_breadcrumbItem();
+		}
+
+		&:after,
+		&:before
+		{
+			.m-faBase();
+			// font-size: 90%;
+			color: @xf-textColorMuted;
+		}
+
+		&:after
+		{
+			.m-faContent(@fa-var-angle-right, .36em, ltr);
+			.m-faContent(@fa-var-angle-left, .36em, rtl);
+			<xf:macro template="uix_icons.less" name="content" arg-icon="chevron-right" />
+			margin-left: .5em;
+		}
+		
+		&:first-child {
+			padding-left: 0;
+		}
+
+		&:last-child
+		{
+			margin-right: 0;
+			
+			&:after {display: none;}
+
+			a
+			{
+				font-weight: @xf-fontWeightHeavy;
+				.xf-uix_breadcrumbItem__active();
+				
+				
+			}
+		}
+	}
+}
+
+@media (max-width: @xf-responsiveMedium)
+{
+	.p-breadcrumbs > li a
+	{
+		max-width: 200px;
+	}
+}
+
+@media (max-width: @xf-responsiveNarrow)
+{
+	.p-breadcrumbs
+	{
+		> li
+		{
+			font-size: @xf-fontSizeSmallest;
+			.xf-buttonBase();
+			.xf-buttonDefault();
+			display: none;
+
+			&:last-child
+			{
+				// display: block;
+				display: flex;
+			}
+
+			a
+			{
+				max-width: 90vw;
+				color: inherit !important;
+			}
+
+			&:after
+			{
+				display: none;
+			}
+
+			&:before
+			{
+				// .m-faContent(@fa-var-chevron-left, .72em, ltr);
+				// .m-faContent(@fa-var-chevron-right, .72em, rtl);
+				// margin-right: .5em;
+				<xf:macro template="uix_icons.less" name="content" arg-icon="chevron-left" />
+				font-size: @xf-uix_iconSizeLarge !important;
+				color: inherit;
+			}
+		}
+	}
+}]]></template>
+    <template title="app_footer.less" type="public" addon_id="XF" version_id="2000053" version_string="2.0.0 Release Candidate 3"><![CDATA[// ######################################### FOOTER #################################
+
+<xf:comment> may have been removed at xf2 beta
+.p-footer-debug-list
+ {
+	 // color: xf-default(@xf-publicFooterLink--color, inherit);
+
+	.pairs--debug
+	{
+		display: inline;
+		padding-right: 4px;
+
+		> dt,
+		> dd
+		{
+			display: inline;
+			color: inherit;
+
+			a {padding: 0;}
+		}
+	}
+ }
+</xf:comment>
+
+.p-footer
+{
+	display: flex;
+	flex-direction: column;
+	.xf-publicFooter();
+
+	// a {.xf-publicFooterLink();}
+}
+
+.p-footer-inner
+{
+	order: @xf-uix_footerMenuOrder;
+	padding-top: @xf-paddingMedium;
+	padding-bottom: @xf-paddingMedium;
+	.xf-uix_footerMenu();
+	<xf:if is="property('uix_pageStyle') != 'covered' && !property('uix_forceCoverFooterMenu')">
+		.m-pageWidth();
+	</xf:if>
+
+	.pageContent {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: center;
+		<xf:if is="property('uix_pageStyle') == 'covered' || property('uix_forceCoverFooterMenu')">
+			.m-pageWidth();
+			<xf:if is="(property('uix_pageStyle') != 'wrapped')">
+				padding:0;
+			</xf:if>
+		</xf:if>
+	}
+
+	a {
+		.xf-publicFooterLink();
+	}
+}
+
+.p-footer-copyrightRow {
+	order: @xf-uix_copyrightOrder;
+	.xf-uix_footerCopyrightRow();
+		<xf:if is="property('uix_pageStyle') != 'covered' && !property('uix_forceCoverCopyright')">
+			.m-pageWidth();
+		</xf:if>
+
+	.pageContent {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		<xf:if is="property('uix_pageStyle') == 'covered' || property('uix_forceCoverCopyright')">
+			.m-pageWidth();
+			<xf:if is="(property('uix_pageStyle') != 'wrapped')">
+				padding:0;
+			</xf:if>
+		</xf:if>
+	}
+
+	.p-footer-debug-list li a {
+		color: inherit;
+
+		&:hover {color: inherit; text-decoration: underline;}
+	}
+}
+
+/* commented out in beta 1 (Ian)
+.p-footer-row
+{
+	.m-clearFix();
+
+	margin-bottom: -@xf-paddingLarge;
+}
+
+.p-footer-row-main
+{
+	float: left;
+	margin-bottom: @xf-paddingLarge;
+}
+
+.p-footer-row-opposite
+{
+	float: right;
+	margin-bottom: @xf-paddingLarge;
+}
+*/
+
+.p-footer-linkList
+{
+	.m-listPlain();
+	// .m-clearFix();
+	display: inline-flex;
+	flex-wrap: wrap;
+    align-items: center;
+	> li
+	{
+		/* commented out in beta 1 (Ian)
+		float: left;
+		margin-right: .5em;
+		margin: @xf-paddingMedium;
+		*/
+
+		&:last-child
+		{
+			margin-right: 0;
+		}
+
+		a
+		{
+			padding: 6px;
+			border-radius: @xf-borderRadiusSmall;
+			display: inline-block;
+
+			&:hover
+			{
+				.xf-uix_footerLinkHover();
+				text-decoration: none;
+				// background-color: fade(@xf-publicFooterLink--color, 10%);
+			}
+		}
+	}
+
+	&.p-footer-choosers {
+		margin: -6px;
+		a {
+			margin: 6px;
+			.xf-uix_footerChooser();
+
+
+			&:hover {.xf-uix_footerChooser();}
+
+			// i {display: none;}
+		}
+	}
+}
+
+.p-footer-rssLink
+{
+	span
+	{
+		position: relative;
+		top: -1px;
+
+		display: inline-block;
+		width: 1.44em;
+		height: 1.44em;
+		line-height: 1.44em;
+		text-align: center;
+		font-size: .8em;
+		background-color: #FFA500;
+		border-radius: 2px;
+	}
+
+	.fa-rss
+	{
+		color: white;
+	}
+}
+
+/*
+.p-footer-copyright
+{
+	margin-top: @xf-elementSpacer;
+	text-align: center;
+	font-size: @xf-fontSizeSmallest;
+}
+
+.p-footer-debug
+{
+	margin-top: @xf-paddingLarge;
+	text-align: right;
+	font-size: @xf-fontSizeSmallest;
+}
+*/
+
+@media (max-width: @xf-responsiveMedium)
+{
+	.p-footer-row-main,
+	.p-footer-row-opposite
+	{
+		float: none;
+	}
+
+	.p-footer-copyright
+	{
+		text-align: left;
+		padding: 0 4px; // aligns with other links
+	}
+}
+]]></template>
+    <template title="app_header.less" type="public" addon_id="XF" version_id="2000170" version_string="2.0.1"><![CDATA[// MAIN HEADER ROW
+
+.p-header
+{
+	.xf-publicHeader();
+	<xf:if is="property('uix_pageStyle') == 'fixed'">
+		.m-pageWidth();
+	</xf:if>
+
+	.p-header-logo img {width: @xf-uix_logoWidth;}
+
+	a
+	{
+		color: inherit;
+	}
+}
+
+.p-header-inner
+{
+	<xf:if is="property('uix_pageStyle') != 'fixed'">
+		.m-pageWidth();
+	</xf:if>
+	position: relative;
+}
+
+.p-header-content
+{
+	// padding: @xf-paddingMedium 0;
+
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	max-width: 100%;
+
+	.has-no-flexbox &
+	{
+		display: table;
+		width: 100%;
+	}
+	
+	<xf:if is="property('uix_viewportCenterLogo') == '100%'">
+		justify-content: center;
+		flex-direction: column;
+		
+		.p-nav-opposite {margin-top: @xf-paddingLarge; margin-left: 0;}
+		.p-header-logo {margin-right: 0;}
+	</xf:if>
+	
+	@media (max-width: @xf-uix_viewportCenterLogo) {
+		justify-content: center;
+		flex-direction: column;
+		
+		.p-nav-opposite {margin-top: @xf-paddingLarge; margin-left: 0;}
+		.p-header-logo {margin-right: 0;}
+	}
+}
+
+.p-header-logo
+{
+	.has-no-flexbox &
+	{
+		display: table-cell;
+	}
+
+	vertical-align: middle;
+	margin-right: auto;
+
+	a
+	{
+		color: inherit;
+		text-decoration: none;
+	}
+
+	&.p-header-logo--text
+	{
+		font-size: @xf-fontSizeLargest;
+	}
+
+	&.p-header-logo--image
+	{
+		img
+		{
+			vertical-align: bottom;
+			// max-width: 100%;
+			// max-height: 200px;
+		}
+	}
+
+	.uix_logoIcon {.xf-uix_logoIconStyle();}
+}
+
+
+@media (max-width: @xf-responsiveNarrow)
+{
+	.p-header-logo
+	{
+		// max-width: 100px;
+
+		&.p-header-logo--text
+		{
+			font-size: @xf-fontSizeLarge;
+			font-weight: @xf-fontWeightNormal;
+			.m-overflowEllipsis();
+		}
+	}
+
+	.p-navgroup-link
+	{
+		.p-navGroup--member &
+		{
+			margin-left: 5px;
+
+			&:first-of-type
+			{
+				margin-left: 0;
+			}
+		}
+
+	}
+}
+
+<xf:if is="property('uix_rightAlignNavigation')">
+	.p-nav-inner .p-nav-opposite,
+	.p-sectionLinks .p-nav-opposite {margin-left: 0;}
+
+	.p-nav-inner .p-nav-scroller,
+	.p-sectionLinks .p-sectionLinks-inner {margin-right: 0; margin-left: auto;}
+</xf:if>]]></template>
+    <template title="app_ignored.less" type="public" addon_id="XF" version_id="2000033" version_string="2.0.0 Beta 3"><![CDATA[// ################## IGNORED USERS / CONTENT ##########################
+
+.is-ignored
+{
+	display: none !important;
+}
+
+.showIgnoredLink
+{
+	&.is-hidden
+	{
+		display: none !important;
+	}
+}
+
+.block-outer .showIgnoredLink,
+.showIgnoredLink.showIgnoredLink--subtle
+{
+	font-size: @xf-fontSizeSmall;
+	color: @xf-textColorMuted;
+
+	&:hover
+	{
+		color: @xf-textColorDimmed;
+	}
+}]]></template>
+    <template title="app_inlinemodbar.less" type="public" addon_id="" version_id="0" version_string=""><![CDATA[// #################################### INLINE MOD BUTTON ################
+.inlineModButton
+{
+	display: inline-block;
+	position: relative;
+	i:before
+	{
+		display: inline-block;
+		.m-faBase();
+		.m-faContent(@fa-var-check-square-o, .97em);
+		vertical-align: middle;
+		font-size: 1.2em;
+		margin: -.10em 0;
+	}
+	&.inlineModButton--noIcon i
+	{
+		display: none;
+	}
+	&.is-mod-active
+	{
+		color: @xf-textColorAttention;
+		.inlineModButton-count
+		{
+			display: inline;
+		}
+	}
+	&:not(.inlineModButton--withLabel)
+	{
+		.inlineModButton-label
+		{
+			.m-visuallyHidden();
+		}
+	}
+}
+.inlineModButton-count
+{
+	display: none;
+	position: absolute;
+	top: -3px;
+	left: -6px;
+	.xf-contentAccentBase();
+	border: @xf-borderSize solid @xf-borderColorAccentContent;
+	border-radius: @xf-borderRadiusSmall;
+	padding: 1px 2px;
+	font-size: 9px;
+	line-height: 1;
+	.inlineModButton--noIcon &
+	{
+		position: static;
+		font-size: 80%;
+		padding-top: 0;
+		padding-bottom: 0;
+	}
+}
+
+
+// #################################### INLINE MOD BAR ################
+
+.inlineModBar
+{
+	.xf-inlineModBar();
+	.m-transitionFadeDown();
+	.m-clearFix();
+
+	.input,
+	.button
+	{
+		padding-top: @xf-paddingSmall;
+		padding-bottom: @xf-paddingSmall;
+	}
+	&.is-active:first-of-type
+	{
+		.m-dropShadow(0, 0, 8px, 3px, 0.3);
+	}
+}
+
+.inlineModBar-inner
+{
+	.m-pageWidth();
+
+	display: flex;
+	align-items: center;
+}
+
+.inlineModBar-controls
+{
+	.m-listPlain();
+	margin-right: auto;
+
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	min-height: 35px;
+	max-width: 100%;
+
+	> li
+	{
+		float: left;
+		display: inline-block;
+		margin-right: 1em;
+
+		&:last-child
+		{
+			margin-right: 0;
+		}
+	}
+}
+
+.inlineModBar-close
+{
+	float: right;
+	margin-left: 1em;
+	order: 2;
+}
+
+.inlineModBar-title
+{
+	font-weight: @xf-fontWeightHeavy;
+}
+
+.button.inlineModBar-goButton
+{
+	font-size: @xf-fontSizeNormal;
+	line-height: 1.5; // matches select
+	min-width: auto;
+	// padding: @xf-paddingMedium;
+}]]></template>
+    <template title="app_nav.less" type="public" addon_id="XF" version_id="2000170" version_string="2.0.1"><![CDATA[// navEl / Navigation Elements for header navigation
+
+.m-navElHPadding(@padding)
+{
+	.p-navEl-link
+	{
+		padding: 0 @padding;
+
+		&.p-navEl-link--splitMenu
+		{
+			padding-right: ((@padding) / 4);
+		}
+
+		&.p-navEl-link--menuTrigger
+		{
+			padding-right: ((@padding) / 3); // equal to splitTrigger padding-right
+
+			&:after
+			{
+				padding-left: ((@padding) / 4 + (@padding) / 3); // equal to splitMenu padding-right + splitTrigger padding-left
+			}
+		}
+	}
+
+	.p-navEl .p-navEl-splitTrigger
+	{
+		padding: 0 ((@padding) / 3);
+		font-size: @xf-uix_iconSize;
+		// margin-right: @xf-paddingMedium;
+	}
+}
+
+
+.p-navEl
+{
+	.m-clearFix();
+	display: inline-flex;
+	align-items: center;
+}
+
+.p-navEl-linkHolder
+{
+	float: left;
+}
+
+.p-navEl-link
+{
+	float: left;
+	// .m-transition(all, @_nav-elTransitionSpeed);
+	//.m-transitionProperty(opacity, background, color;);
+
+	&.p-navEl-link--menuTrigger
+	{
+		cursor: pointer;
+
+		&:after
+		{
+			.m-faBase();
+			.m-faContent(@fa-var-caret-down, .58em);
+			<xf:macro template="uix_icons.less" name="content" arg-icon="menu-down" />
+			opacity: .5;
+			.m-transition(opacity, @_nav-elTransitionSpeed);
+			unicode-bidi: isolate; // try to keep this in the right position in RTL with LTR text
+		}
+
+		&:hover:after
+		{
+			opacity: 1;
+		}
+	}
+}
+
+.p-navEl-splitTrigger
+{
+	float: left;
+	opacity: .5;
+	cursor: pointer;
+	text-decoration: none;
+	.m-transition(all, @_nav-elTransitionSpeed);
+
+	&:after
+	{
+		.m-faBase();
+		.m-faContent(@fa-var-caret-down, .58em);
+		<xf:macro template="uix_icons.less" name="content" arg-icon="menu-down" />
+	}
+
+	&:hover
+	{
+		opacity: 1;
+		text-decoration: none;
+	}
+}
+
+// HEADER NAV ROW
+
+.p-nav
+{
+	.xf-publicNav();
+	<xf:if is="property('uix_pageStyle') == 'fixed'">
+		.m-pageWidth();
+	</xf:if>
+
+
+	a:not(.button)
+	{
+		color: inherit;
+
+		&:hover {
+			color: @xf-publicNavTabHover--color;
+		}
+	}
+
+	.p-navSticky.is-sticky &
+	{
+		.p-nav-list .p-navEl.is-selected,
+		.p-account
+		{
+			border-radius: 0;
+		}
+	}
+}
+
+.p-nav-inner
+{
+	<xf:if is="property('uix_pageStyle') != 'fixed'">
+		.m-pageWidth();
+	</xf:if>
+	position: relative;
+	<xf:if is="property('uix_navigationBarHeight')">
+		height: @xf-uix_navigationBarHeight;
+	</xf:if>
+
+	.p-header-logo {
+		display: inline-flex;
+		align-items: center;
+		margin-right: @xf-paddingLarge;
+		
+		&.p-header-logo--image img {
+			max-height: calc(@xf-uix_navigationBarHeight - 20px);
+			
+			.is-sticky & {
+				max-height: calc(@xf-uix_stickyNavHeight - 16px);	
+			}
+		}
+	}
+
+	.m-clearFix();
+	display: flex;
+	align-items: center;
+}
+
+.p-nav .uix_activeNavTitle {
+	.xf-uix_activeNavTitleStyle();
+	display: none;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+
+	@media (max-width: @xf-publicNavCollapseWidth) and (min-width: @xf-responsiveNarrow) {
+		display: inline-block;
+	}
+}
+
+.p-nav .p-nav-menuTrigger
+{
+	display: none;
+	vertical-align: middle;
+	align-self: center;
+	// margin-left: max(0px, @xf-pageEdgeSpacer - 6px);
+	margin-right: 5px;
+	padding: 0 8px;
+
+	&:hover
+	{
+		text-decoration: none;
+		cursor: pointer;
+	}
+
+	i:after
+	{
+		.m-faBase();
+		font-size: @xf-fontSizeLargest;
+		.m-faContent(@fa-var-navicon, .86em);
+		<xf:macro template="uix_icons.less" name="content" arg-icon="menu" />
+		vertical-align: bottom;
+		font-size: @xf-uix_iconSizeLarge;
+	}
+
+	.p-nav-menuText
+	{
+		display: none;
+	}
+}
+<xf:if is="property('uix_logoSmall')">
+.uix_logoSmall
+{
+	<xf:if is="property('uix_brandmarkImage__breakpoint') != '100%'">
+		display: none;
+	</xf:if>
+	// max-width: 100px;
+	align-self: center;
+
+	img
+	{
+		display: block;
+		max-height: @header-navHeight;
+	}
+}
+
+<xf:if is="property('uix_brandmarkImage__breakpoint') == '100%'">
+	.p-header-logo.p-header-logo--image .uix_logo {display: none;}
+</xf:if>
+
+@media (max-width: @xf-uix_brandmarkImage__breakpoint) {
+	.uix_logoSmall {display: inline-block;}
+	.p-header-logo.p-header-logo--image .uix_logo {display: none;}
+}
+</xf:if>
+
+.uix_logo--text {
+	display: flex;
+	align-items: center;
+	.xf-uix_logoText__style();
+}
+
+.uix_navLogo--text {
+	display: flex;
+	align-items: center;
+	.xf-uix_navLogoText__style();
+
+	.uix_logoIcon {padding-right: @xf-paddingMedium;}
+}
+
+<xf:if is="property('uix_logoTextBreakpoint')">
+@media (max-width: @xf-uix_logoTextBreakpoint) {
+	.uix_logo--text {font-size: @xf-uix_responsiveLogoFontSize;}
+}
+</xf:if>
+
+<xf:if is="property('uix_navLogoTextBreakpoint')">
+@media (max-width: @xf-uix_navLogoTextBreakpoint) {
+	.uix_navLogo--text {font-size: @xf-uix_responsiveNavLogoFontSize}
+}
+</xf:if>
+
+.p-nav-scroller
+{
+	margin-right: auto;
+	max-width: 100%;
+
+	.has-no-flexbox &
+	{
+		float: left;
+	}
+
+	.hScroller-scroll:not(.is-calculated)
+	{
+		// IE11 seems to want to flash a vertical scrollbar without this here
+		overflow: hidden;
+	}
+
+	.hScroller-action
+	{
+		.m-hScrollerActionColorVariation(
+			xf-default(@xf-publicNav--background-color, transparent),
+			@xf-publicNav--color,
+			xf-intensify(@xf-publicNav--color, 10%)
+		);
+	}
+}
+
+.p-nav-list
+{
+	.m-listPlain();
+	.m-clearFix();
+
+	font-size: 0;
+
+	// this applies padding that will be contained within the scroller.
+	// it needs font-size 0 to not create extra space though
+	/*
+	&:before,
+	&:after
+	{
+		display: inline-block;
+		width: @xf-pageEdgeSpacer;
+		content: '';
+	}
+	*/
+
+	> li
+	{
+		display: inline-block;
+		vertical-align: bottom;
+		font-size: @xf-fontSizeNormal;
+
+		&:first-child
+		{
+			margin-left: 0;
+		}
+	}
+
+	.m-navElHPadding(@xf-publicNavPaddingH);
+
+	.p-navEl
+	{
+		.xf-publicNavTab();
+		.m-transition(all, @_nav-elTransitionSpeed);
+
+		&.is-selected
+		{
+			.xf-publicNavSelected();
+
+			.p-navEl-link
+			{
+				padding-right: @xf-publicNavPaddingH; // since the split trigger is hidden
+
+				&:hover
+				{
+					.xf-publicNavSelected();
+					background: none;
+					text-decoration: none;
+				}
+			}
+
+			.p-navEl-splitTrigger
+			{
+				<xf:if is="!property('uix_removeTablinks')">
+				display: none;
+				</xf:if>
+			}
+		}
+
+		&:not(.is-selected):not(.is-menuOpen)
+		{
+			&:hover,
+			.p-navEl-link:hover,
+			.p-navEl-splitTrigger:hover
+			{
+				.xf-publicNavTabHover();
+			}
+		}
+
+		&.is-menuOpen
+		{
+			.xf-publicNavTabMenuOpen();
+			border-top-left-radius: xf-default(@xf-publicNavSelected--border-top-left-radius, 0);
+			border-top-right-radius: xf-default(@xf-publicNavSelected--border-top-right-radius, 0);
+			// .m-dropShadow(0, 5px, 10px, 0, .35);
+			a
+			{
+				// text-decoration: none;
+				// opacity: 1;
+			}
+		}
+
+	}
+
+	.p-navEl-link,
+	.p-navEl-splitTrigger
+	{
+		padding-top: @xf-publicNavPaddingV;
+		padding-bottom: @xf-publicNavPaddingV;
+		display: inline-flex;
+		align-items: center;
+		
+		&:hover {background: none !important;}
+	}
+}
+
+.p-navSticky--primary.is-sticky
+{
+	.p-nav-list
+	{
+		.p-navEl-link.p-navEl-link--splitMenu
+		{
+			padding-right: ((@xf-publicNavPaddingH) / 4);
+		}
+
+		.p-navEl.is-selected .p-navEl-splitTrigger
+		{
+			display: inline;
+			position: relative;
+
+			&:before
+			{
+				content: '';
+				position: absolute;
+				left: 0;
+				top: 5px;
+				bottom: 5px;
+				width: 0;
+				border-left: @xf-borderSize solid fade(xf-default(@xf-publicNavSelected--color, transparent), 35%);
+			}
+		}
+	}
+}
+
+@media (max-width: @xf-publicNavCollapseWidth)
+{
+	.has-js
+	{
+		.p-nav-inner
+		{
+			// min-height: 45px;
+		}
+		.p-nav .p-nav-menuTrigger
+		{
+			display: inline-flex;
+		}
+		.p-sectionLinks .p-sectionLinks--group {
+			display: none;
+		}
+		.p-nav-scroller
+		{
+			display: none;
+		}
+	}
+}
+
+// ACCOUNT/VISITOR/SEARCH SECTION
+
+.p-nav-opposite
+{
+	margin-left: auto;
+	// margin-right: @xf-pageEdgeSpacer;
+	text-align: right;
+	flex-shrink: 0;
+	display: inline-flex;
+	align-items: center;
+
+	.has-no-flexbox &
+	{
+		float: right;
+	}
+}
+
+.p-navgroup
+{
+	float: left;
+	.m-clearFix();
+	// background: @xf-publicHeaderAdjustColor;
+	border-top-left-radius: @xf-borderRadiusMedium;
+	border-top-right-radius: @xf-borderRadiusMedium;
+	display: inline-flex;
+
+	i {line-height: 1;}
+
+	.p-navgroup-linkText {padding-left: @xf-paddingSmall;}
+}
+
+<xf:if is="property('uix_removeVisitorTabsText')">
+@media (max-width: @xf-uix_viewportRemoveVisitorTabsText) {
+	.p-navgroup:not(.p-navgroup--guest) .p-navgroup-linkText {display: none;}
+}
+</xf:if>
+
+<xf:if is="property('uix_removeRegisterText')">
+@media (max-width: @xf-uix_viewportRemoveRegisterText) {
+	.p-navgroup--guest .p-navgroup-linkText {display: none;}
+}
+</xf:if>
+
+<xf:if is="property('uix_condenseVisitorTabs')">
+@media (max-width: @xf-uix_viewportCondenseVisitorTabs) {
+	.p-account.p-navgroup--member {
+		.p-navgroup-link--conversations {display: none;}
+		.p-navgroup-link--alerts {display: none;}
+	}
+}
+</xf:if>
+
+.p-navgroup-link
+{
+	float: left;
+	padding: (@xf-publicNavPaddingV / 2);
+	// border-left: 1px solid @xf-publicHeaderAdjustColor;
+	display: inline-flex;
+	align-items: center;
+
+	<xf:if is="property('uix_removeVisitorTabsText')">
+	@media (max-width: @xf-uix_viewportRemoveVisitorTabsText) {
+		padding: @xf-paddingSmall;
+	}
+	</xf:if>
+
+	&:first-of-type
+	{
+		border-top-left-radius: @xf-borderRadiusMedium;
+		border-left: none;
+	}
+
+	&:last-of-type
+	{
+		border-top-right-radius: @xf-borderRadiusMedium;
+	}
+
+	&:hover
+	{
+		text-decoration: none;
+		// background: xf-intensify(@xf-publicHeaderAdjustColor, 5%);
+	}
+
+	&.p-navgroup-link--user
+	{
+		.m-overflowEllipsis();
+		max-width: 150px;
+
+		.avatar
+		{
+			// .m-avatarSize((@xf-fontSizeNormal) * (@xf-lineHeightDefault));
+			.m-avatarSize(@xf-uix_iconSizeLarge);
+			margin: 1px 0;
+
+			@media (min-width: @xf-uix_removeVisitorTabsText) {
+				.m-avatarSize(@xf-uix_iconSize);
+				font-size: 11px;
+			}
+		}
+	}
+
+	&.badgeContainer
+	{
+		// opacity: .6;
+		position: relative;
+
+		&:after
+		{
+			position: absolute;
+			// left: (@_navAccount-hPadding - 6px);
+			// top: (@xf-publicNavPaddingV - 2px);
+			right: 0;
+			top: 3px;
+			padding: 1px 3px;
+			margin: 0;
+			font-size: 10px;
+			line-height: 11px;
+		}
+
+		&:hover,
+		&.badgeContainer--highlighted
+		{
+			// opacity: 1;
+		}
+	}
+
+	&.is-menuOpen
+	{
+		.xf-publicNavTabMenuOpen();
+		// .m-dropShadow(0, 5px, 10px, 0, .35);
+		opacity: 1;
+	}
+
+	/*
+	&.p-navgroup-link--iconic
+	{
+		i:after
+		{
+			.m-faBase();
+			display: inline-block;
+			min-width: 1em;
+		}
+	}
+	*/
+
+	&.p-navgroup-link--conversations
+	{
+		i:after
+		{
+			.m-faBase();
+			display: inline-block;
+			min-width: 1em;
+			.m-faContent(@fa-var-envelope, 1em);
+			<xf:macro template="uix_icons.less" name="content" arg-icon="email" />
+		}
+	}
+
+	&.p-navgroup-link--alerts
+	{
+		i:after
+		{
+			.m-faBase();
+			display: inline-block;
+			min-width: 1em;
+			.m-faContent(@fa-var-bell, 1em);
+			<xf:macro template="uix_icons.less" name="content" arg-icon="alert" />
+		}
+	}
+
+	&.p-navgroup-link--whatsnew i:after
+	{
+		.m-faBase();
+		.m-faContent(@fa-var-bolt, .5em);
+		<xf:macro template="uix_icons.less" name="content" arg-icon="comment-alert" />
+		font-size: @xf-uix_iconSizeLarge;
+		width: auto;
+	}
+
+	&.p-navgroup-link--search i:after
+	{
+		.m-faBase();
+		.m-faContent(@fa-var-search, .93em);
+		<xf:macro template="uix_icons.less" name="content" arg-icon="search" />
+		font-size: @xf-uix_iconSizeLarge !important;
+	}
+
+	&.p-navgroup-link--logIn
+	{
+		i:after
+		{
+			.m-faBase();
+			display: inline-block;
+			min-width: 1em;
+			content: "\f0f3";
+			<xf:macro template="uix_icons.less" name="content" arg-icon="login" />
+		}
+	}
+
+	&.p-navgroup-link--register
+	{
+		i:after
+		{
+			.m-faBase();
+			display: inline-block;
+			min-width: 1em;
+			content: "\f0f3";
+			<xf:macro template="uix_icons.less" name="content" arg-icon="register" />
+		}
+	}
+}
+
+.p-navgroup-link--whatsnew
+{
+	display: none;
+
+	.p-navgroup-link:first-of-type& + .p-navgroup-link
+	{
+		border-top-left-radius: @xf-borderRadiusMedium;
+		border-left: none;
+	}
+}
+
+<xf:if is="property('uix_visitorTabsMobile') != 'initial'">
+	@media (max-width: @xf-responsiveNarrow) {
+		.p-navgroup.p-account {
+			.p-navgroup-link--user {display: none;}
+			.p-navgroup-link--conversations {display: none;}
+			.p-navgroup-link--alerts {display: none;}
+		}
+		<xf:if is="property('uix_visitorTabsMobile') != 'tabbar'">
+			.p-navgroup.p-discovery {
+				.p-navgroup-link--whatsnew {display: none;}
+			}
+		</xf:if>
+	}
+</xf:if>
+
+@media (max-width: @xf-responsiveWide)
+{
+	/*
+	.p-navgroup-link
+	{
+		&.p-navgroup-link--iconic .p-navgroup-linkText,
+		&.p-navgroup-link--textual i
+		{
+			display: none;
+		}
+		&.p-navgroup-link--textual
+		{
+			.m-overflowEllipsis();
+			max-width: 110px;
+		}
+
+		&.p-navgroup-link--iconic i:after
+		{
+			text-align: center;
+		}
+	}
+	*/
+}
+
+
+@media (max-width: @xf-publicNavCollapseWidth)
+{
+	.p-navgroup-link--whatsnew
+	{
+		display: inline-flex;
+
+		.p-navgroup-link:first-of-type& + .p-navgroup-link
+		{
+			// border-top-left-radius: 0;
+			// border-left: 1px solid @xf-publicHeaderAdjustColor;
+		}
+	}
+
+	.has-js
+	{
+		.p-nav-opposite
+		{
+			align-self: center;
+			// margin-right: max(0px, @xf-pageEdgeSpacer - @_navAccount-hPadding);
+
+			.p-navgroup
+			{
+				background: none;
+			}
+
+			.p-navgroup-link
+			{
+				border: none;
+				border-radius: @xf-borderRadiusMedium;
+
+				&.is-menuOpen
+				{
+					.m-borderBottomRadius(0);
+				}
+			}
+		}
+	}
+}
+
+/*
+@media (max-width: 359px)
+{
+	.p-navgroup-link&.p-navgroup-link--user
+	{
+		display: none;
+	}
+}
+
+@media (max-width: 374px)
+{
+	.p-navgroup-link.p-navgroup-link--register
+	{
+		display: none;
+	}
+}
+*/
+
+.p-navgroup .p-navgroup-link i:after {
+	font-size: @xf-uix_iconSizeLarge;
+	@media (min-width: @xf-uix_viewportRemoveVisitorTabsText) {
+		font-size: @xf-uix_iconSize;
+		// padding-right: @xf-paddingMedium;
+	}
+}]]></template>
+    <template title="app_sectionlinks.less" type="public" addon_id="XF" version_id="2000170" version_string="2.0.1"><![CDATA[// SUB SECTION LINKS
+
+.p-sectionLinks
+{
+	.xf-publicSubNav();
+	<xf:if is="property('uix_pageStyle') == 'fixed'">
+		.m-pageWidth();
+	</xf:if>
+	
+	.p-sectionLinks--group {display: flex;}
+
+	.hScroller-action
+	{
+		.m-hScrollerActionColorVariation(
+			xf-default(@xf-publicSubNav--background-color, transparent),
+			@xf-publicSubNav--color,
+			@xf-publicSubNavElHover--color
+		);
+	}
+
+	&.p-sectionLinks--empty
+	{
+		height: 10px;
+		display: none;
+	}
+
+	.pageContent {
+		display: flex;
+		align-items: center;
+		position: relative;
+		justify-content: space-between;
+		<xf:if is="property('publicNavSticky')">
+			min-height: @xf-uix_stickySectionLinkHeight;
+		</xf:if>
+		<xf:if is="property('uix_pageStyle') != 'fixed'">
+			.m-pageWidth();
+		</xf:if>
+	}
+
+	.p-navgroup .p-navgroup-link i:after,
+	.p-navSearch-trigger i:after {font-size: @xf-uix_iconFont;}
+	.p-navgroup-link.p-navgroup-link--user .avatar {
+		.m-avatarSize(@xf-uix_iconSize);
+		font-size: @xf-uix_iconSizeLarge;
+	}
+	.p-navSearch-trigger,
+	.p-navgroup .p-navgroup-link {padding: @xf-paddingSmall @xf-paddingLarge;}
+}
+
+.p-sectionLinks-inner
+{
+	// .m-clearFix();
+	// .m-pageWidth();
+
+	// padding-left: max(0px, @xf-pageEdgeSpacer - @xf-publicSubNavPaddingH);
+	// padding-right: max(0px, @xf-pageEdgeSpacer - @xf-publicSubNavPaddingH);
+	margin-right: auto;
+}
+
+
+.p-sectionLinks-list
+{
+	.m-listPlain();
+
+	font-size: 0;
+
+	a
+	{
+		color: inherit;
+	}
+
+	> li
+	{
+		display: inline-block;
+	}
+
+	.m-navElHPadding(@xf-publicSubNavPaddingH);
+
+	.p-navEl
+	{
+		font-size: @xf-publicSubNav--font-size;
+		padding-top: @xf-paddingMedium;
+		padding-bottom: @xf-paddingMedium;
+
+		&:hover
+		{
+			.xf-publicSubNavElHover();
+
+			a
+			{
+				text-decoration: @xf-publicSubNavElHover--text-decoration;
+			}
+		}
+		<xf:comment>
+		&.is-menuOpen
+		{
+			.xf-publicSubNavElMenuOpen();
+			.m-borderBottomRadius(0);
+			.m-dropShadow(0, 5px, 10px, 0, .35);
+		}
+		</xf:comment>
+	}
+
+	.p-navEl-link,
+	.p-navEl-splitTrigger
+	{
+		padding-top: @xf-publicSubNavPaddingV;
+		padding-bottom: @xf-publicSubNavPaddingV;
+	}
+}
+
+<xf:if is="(property('uix_searchPosition') != 'tablinks') &&
+	(property('uix_loginTriggerPosition ') != 'tablinks') &&
+	(property('uix_userTabsPosition ') != 'tablinks')">
+
+	@media (max-width: @xf-publicNavCollapseWidth) {
+		.has-js .p-sectionLinks-inner
+		{
+			display: none;
+		}
+	}
+
+</xf:if>]]></template>
+    <template title="app_staffbar.less" type="public" addon_id="XF" version_id="2000053" version_string="2.0.0 Release Candidate 3"><![CDATA[// ######################################### STAFF BAR #################################
+
+.p-staffBar
+{
+	.xf-publicStaffBar();
+		<xf:if is="property('uix_pageStyle') == 'fixed'">
+			.m-pageWidth();
+		</xf:if>
+
+	.hScroller-action
+	{
+		.m-hScrollerActionColorVariation(
+			xf-default(@xf-publicStaffBar--background-color, transparent),
+			@xf-publicStaffBar--color,
+			xf-intensify(@xf-publicStaffBar--color, 10%)
+		);
+	}
+
+	.pageContent {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		position: relative;
+		<xf:if is="property('uix_pageStyle') != 'fixed'">
+			.m-pageWidth();
+		</xf:if>
+		
+		<xf:if is="property('uix_stickyStaffBar')">
+			min-height: @xf-uix_stickyStaffBarHeight;
+		</xf:if>
+		
+		a {
+			color: @xf-uix_staffBarTab--color;
+			
+			&:hover {color: @xf-uix_staffBarTabHover--color;}
+		}
+	}
+
+
+}
+
+.p-staffBar-inner
+{
+	.m-clearFix();
+	// padding-top: @xf-paddingMedium;
+	//padding-bottom: @xf-paddingMedium;
+}
+
+.p-staffBar-link
+{
+	display: inline-block;
+	vertical-align: top;
+	color: inherit;
+	padding: 4px @xf-paddingMedium;
+	margin-right: .35em;
+	.xf-uix_staffBarTab();
+
+	&:last-child
+	{
+		margin-right: 0;
+	}
+
+	&:hover
+	{
+		text-decoration: none;
+		background: xf-diminish(@xf-publicStaffBar--background-color, 6%);
+		border-radius: @xf-borderRadiusSmall;
+		.xf-uix_staffBarTabHover();
+	}
+}]]></template>
+    <template title="app_stickynav.less" type="public" addon_id="XF" version_id="2000070" version_string="2.0.0"><![CDATA[// STICKY NAV SETUP
+
+.uix_headerContainer .p-navSticky
+{
+	z-index: @zIndex-1;
+
+	&.is-sticky
+	{
+		z-index: @zIndex-4;
+		// .m-dropShadow(0, 2px, 5px, 0px, .26);
+		box-shadow: @xf-uix_elevation1;
+		position: fixed !important;
+		top: 0;
+		bottom: auto !important;
+		left: 0;
+		right: 0;
+
+		<xf:if is="property('uix_pageStyle') != 'covered'">
+			.m-pageWidth();
+			padding: 0 !important;
+
+			> * {
+				width: 100%;
+			}
+		</xf:if>
+
+		<xf:if is="property('uix_pageStyle') == 'fluid'">
+			> * {
+				max-width: 100%;
+			}
+		</xf:if>
+
+		.p-nav-inner {
+			height: @xf-uix_stickyNavHeight;
+
+			// .p-header-logo {display: inline-flex;}
+			
+			.p-navEl,
+			.p-navEl-link {max-height: @xf-uix_stickyNavHeight;}
+			
+			<xf:comment>
+			.uix_searchForm .input,
+			.uix_searchForm .uix_searchIcon,
+			.uix_searchForm .uix_searchIcon i,
+			.p-header-logo--image img,
+			.p-navgroup-link {max-height: calc(@xf-uix_stickyNavHeight - (@uix_navigationPaddingV * 2));}
+
+			// *:not(.hScroller-scroll) {max-height: @xf-uix_stickyNavHeight;}
+			
+			</xf:comment>
+		}
+		
+		<xf:if is="property('publicNavSticky')">
+			.p-sectionLinks {
+				border-bottom: 0;
+				
+				.pageContent {
+					height: @xf-uix_stickySectionLinkHeight;
+					// *:not(.hScroller-scroll) {max-height: @xf-uix_stickySectionLinkHeight;}
+				}
+			}
+		</xf:if>
+	}
+}
+
+<xf:if is="property('uix_stickyStaffBar')">
+	.p-staffBar.is-sticky {
+		position: fixed !important;
+		bottom: auto !important;
+		top: 0 !important;
+		left: 0;
+		right: 0;
+		z-index: 400;
+
+		.pageContent {
+			height: @xf-uix_stickyStaffBarHeight;
+		}
+
+		// *:not(.hScroller-scroll) {max-height: @xf-uix_stickyStaffBarHeight;}
+	}
+</xf:if>
+
+@supports (position: sticky) or (position: -webkit-sticky)
+{
+	.p-navSticky
+	{
+		// position: -webkit-sticky;
+		// position: sticky;
+		top: 0;
+
+		&.is-sticky-broken,
+		&.is-sticky-disabled
+		{
+			position: static;
+			top: auto;
+		}
+	}
+}]]></template>
+    <template title="app_title.less" type="public" addon_id="XF" version_id="2000070" version_string="2.0.0"><![CDATA[.uix_headerContainer {
+	.uix_titlebar {
+		<xf:if is="property('uix_pageStyle') == 'fixed'">
+		.m-pageWidth();
+		</xf:if>
+		
+		.pageContent {
+			<xf:if is="property('uix_pageStyle') != 'fixed'">
+				.m-pageWidth();
+			</xf:if>
+		}
+	}
+}
+
+.uix_titlebar {
+	.xf-uix_titlebar();
+	min-height: 36px;
+	
+	.pageContent {
+		display: flex;
+		align-items: center;
+		max-width: 100%;
+		
+		@media(max-width: @xf-responsiveNarrow) {
+			flex-wrap: wrap;
+			justify-content: center;
+		}
+	}
+
+	.p-body-header {flex-grow: 1;}
+	
+	.p-title
+	{
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		max-width: 100%;
+
+		&.p-title--noH1
+		{
+			flex-direction: row-reverse;
+		}
+
+		.has-no-flexbox &
+		{
+			.m-clearFix();
+		}
+
+		.p-title-pageAction {
+			margin: 5px 0;
+		}
+	}
+
+	.p-title-value
+	{
+		padding: 0;
+		margin: 0 0 3px 0;
+		font-size: @xf-fontSizeLargest;
+		font-weight: @xf-fontWeightNormal;
+		margin-right: auto;
+		min-width: 0;
+		.xf-uix_pageTitle();
+
+		.has-no-flexbox &
+		{
+			float: left;
+		}
+	}
+
+	.p-title-pageAction
+	{
+		margin-left: @xf-paddingLarge;
+		
+		@media(max-width: @xf-responsiveNarrow) {
+			margin-left: 0;
+			margin-top: @xf-paddingLarge;
+		}
+		
+		.has-no-flexbox &
+		{
+			float: right;
+		}
+
+	}
+
+	.p-description
+	{
+		margin: 0;
+		padding: 0;
+		font-size: @xf-fontSizeSmall;
+		color: @xf-textColorMuted;
+	}
+}
+
+@media (max-width: @xf-responsiveNarrow)
+{
+	.p-title-value
+	{
+		font-size: @xf-fontSizeLarger;
+	}
+}]]></template>
+    <template title="app_user_banners.less" type="public" addon_id="XF" version_id="2000035" version_string="2.0.0 Beta 5"><![CDATA[.m-userBannerVariation(@color; @bg; @border: false)
+{
+	color: @color;
+	background: @bg;
+	border-color: xf-intensify(@bg, 10%);
+	border-radius: @xf-borderRadiusMedium;
+
+	& when (iscolor(@border))
+	{
+		border-color: @border;
+	}
+}
+
+.userBanner
+{
+	font-size: 75%;
+	font-size: @xf-fontSizeSmall;
+	font-weight: @xf-fontWeightNormal;
+	font-style: normal;
+	padding: 1px @xf-paddingMedium;
+	padding: 3px 8px;
+	border: 1px solid transparent;
+	border-radius: @xf-borderRadiusSmall;
+	text-align: center;
+	display: inline-block;
+
+	strong
+	{
+		font-weight: inherit;
+	}
+
+	// variations
+	&.userBanner--hidden
+	{
+		background: none;
+		border: none;
+		box-shadow: none;
+	}
+
+	&.userBanner--staff,
+	&.userBanner--primary
+	{
+		.m-userBannerVariation(@xf-linkColor, @xf-contentHighlightBg, @xf-borderColorHighlight);
+		.m-userBannerVariation(#fff, @xf-uix_primaryColor, @xf-uix_primaryColor);
+	}
+
+	&.userBanner--accent
+	{
+		.m-userBannerVariation(@xf-textColorAccentContent, @xf-contentAccentBg, @xf-borderColorAccentContent);
+	}
+
+	&.userBanner--red { .m-userBannerVariation(white, #d80000); }
+	&.userBanner--green { .m-userBannerVariation(white, green); }
+	&.userBanner--olive { .m-userBannerVariation(white, olive); }
+	&.userBanner--lightGreen { .m-userBannerVariation(black, #ccf9c8, #bee8ba); }
+	&.userBanner--blue { .m-userBannerVariation(white, #0008e3); }
+	&.userBanner--royalBlue { .m-userBannerVariation(white, royalblue); }
+	&.userBanner--skyBlue { .m-userBannerVariation(white, #7cc3e0); }
+	&.userBanner--gray { .m-userBannerVariation(white, gray); }
+	&.userBanner--silver { .m-userBannerVariation(black, silver); }
+	&.userBanner--yellow { .m-userBannerVariation(black, #ffff91, #e6e687); }
+	&.userBanner--orange { .m-userBannerVariation(black, #ffcb00); }
+}]]></template>
+    <template title="category_view" type="public" addon_id="XF" version_id="2000070" version_string="2.0.0"><![CDATA[<xf:title>{$category.title}</xf:title>
+<xf:description>{$category.description|raw}</xf:description>
+
+<xf:macro template="metadata_macros" name="canonical_url" arg-canonicalUrl="{{ link('canonical:categories', $category) }}" />
+
+<xf:breadcrumb source="$category.getBreadcrumbs(false)" />
+
+<xf:if is="$nodeTree">
+	<div class="block uix_nodeList block">
+		<div class="block-outer"><xf:trim>
+			<xf:if contentcheck="true">
+				<div class="block-outer-opposite">
+					<div class="buttonGroup">
+					<xf:contentcheck>
+						<xf:if is="$xf.visitor.user_id && $hasForumDescendents">
+							<xf:button href="{{ link('categories/mark-read', $category, {'date': $xf.time}) }}"
+								class="button--link" overlay="true">
+								{{ phrase('mark_read') }}
+							</xf:button>
+						</xf:if>
+					</xf:contentcheck>
+					</div>
+				</div>
+			</xf:if>
+		</xf:trim></div>
+		<div class="block-container">
+			<div class="block-body">
+				<xf:macro template="forum_list" name="node_list"
+					arg-children="{$nodeTree}"
+					arg-extras="{$nodeExtras}"
+					arg-depth="2" />
+			</div>
+		</div>
+	</div>
+<xf:else />
+	<div class="blockMessage">{{ phrase('there_is_nothing_to_display') }}</div>
+</xf:if>
+
+<xf:widgetpos id="category_view_sidebar" context-category="{$category}" position="sidebar" />
+]]></template>
+    <template title="code_editor.less" type="public" addon_id="XF" version_id="2000170" version_string="2.0.1"><![CDATA[.codeEditor
+{
+	// standard editor with fixed-width font and 55% screen height, used when the code editor is the primary
+	// editable element on screen
+	&.CodeMirror
+	{
+		height: 55vh;
+		direction: ltr;
+
+		border: @xf-borderSize solid;
+		-ltr-rtl-border-color: @xf-borderColorHeavy @xf-borderColorLight @xf-borderColorLight @xf-borderColorHeavy;
+		border-radius: @xf-borderRadiusMedium;
+
+		font-family: @xf-fontFamilyCode;
+		.m-inputZoomFix();
+
+		background: mix(@xf-contentBg, @xf-paletteColor1, 60%);
+
+		&.CodeMirror-focused
+		{
+			.xf-inputFocus();
+		}
+	}
+
+	// short editor, taking only 30% of the vertical height
+	&.codeEditor--short
+	{
+		height: 30vh;
+	}
+
+	// show an editor that shrinks to a very small height for very little content
+	&.codeEditor--autoSize
+	{
+		height: auto;
+
+		.CodeMirror-lines
+		{
+			min-height: (@xf-fontSizeNormal * @xf-lineHeightDefault * 2) + 8px; // 2 lines, 4px padding from .CodeMirror-lines
+		}
+	}
+
+	// like --autoSize, but shrinks to a single line when empty
+	&.codeEditor--oneLine
+	{
+		min-height: auto;
+	}
+
+	// use proportional font - use this when syntax highlighting is useful, but not imperative, like HTML-enabled descriptions
+	&.codeEditor--proportional
+	{
+		font-family: @xf-fontFamilyUi;
+	}
+}
+
+[disabled] + .codeEditor,
+[disabled] + .codeEditor.CodeMirror-focused
+{
+	.xf-inputDisabled();
+}
+
+[readonly] + .codeEditor,
+[readonly] + .codeEditor.CodeMirror-focused
+{
+	background: mix(xf-default(@xf-input--background-color, @xf-contentBg), xf-default(@xf-inputDisabled--background-color, @xf-paletteNeutral1));
+}
+
+/* XF-RTL:disable */
+
+/* BASICS */
+
+.CodeMirror {
+	/* Set height, width, borders, and global font properties here */
+	font-family: monospace;
+	height: 300px;
+	color: black;
+}
+
+/* PADDING */
+
+.CodeMirror-lines {
+	padding: 4px 0; /* Vertical padding around content */
+}
+.CodeMirror pre {
+	padding: 0 4px; /* Horizontal padding of content */
+}
+
+.CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler {
+	background-color: white; /* The little square between H and V scrollbars */
+}
+
+/* GUTTER */
+
+.CodeMirror-gutters {
+	border-right: 1px solid #ddd;
+	background-color: #f7f7f7;
+	white-space: nowrap;
+}
+.CodeMirror-linenumbers {}
+.CodeMirror-linenumber {
+	padding: 0 3px 0 5px;
+	min-width: 20px;
+	text-align: right;
+	color: #999;
+	white-space: nowrap;
+}
+
+.CodeMirror-guttermarker { color: black; }
+.CodeMirror-guttermarker-subtle { color: #999; }
+
+/* CURSOR */
+
+.CodeMirror-cursor {
+	border-left: 1px solid black;
+	border-right: none;
+	width: 0;
+}
+/* Shown when moving in bi-directional text */
+.CodeMirror div.CodeMirror-secondarycursor {
+	border-left: 1px solid silver;
+}
+.cm-fat-cursor .CodeMirror-cursor {
+	width: auto;
+	border: 0 !important;
+	background: #7e7;
+}
+.cm-fat-cursor div.CodeMirror-cursors {
+	z-index: 1;
+}
+
+.cm-animate-fat-cursor {
+	width: auto;
+	border: 0;
+	-webkit-animation: blink 1.06s steps(1) infinite;
+	-moz-animation: blink 1.06s steps(1) infinite;
+	animation: blink 1.06s steps(1) infinite;
+	background-color: #7e7;
+}
+@-moz-keyframes blink {
+	0% {}
+	50% { background-color: transparent; }
+	100% {}
+}
+@-webkit-keyframes blink {
+	0% {}
+	50% { background-color: transparent; }
+	100% {}
+}
+@keyframes blink {
+	0% {}
+	50% { background-color: transparent; }
+	100% {}
+}
+
+/* Can style cursor different in overwrite (non-insert) mode */
+.CodeMirror-overwrite .CodeMirror-cursor {}
+
+.cm-tab { display: inline-block; text-decoration: inherit; }
+
+.CodeMirror-rulers {
+	position: absolute;
+	left: 0; right: 0; top: -50px; bottom: -20px;
+	overflow: hidden;
+}
+.CodeMirror-ruler {
+	border-left: 1px solid #ccc;
+	top: 0; bottom: 0;
+	position: absolute;
+}
+
+/* DEFAULT THEME */
+
+.cm-s-default .cm-header {color: blue;}
+.cm-s-default .cm-quote {color: #090;}
+.cm-negative {color: #d44;}
+.cm-positive {color: #292;}
+.cm-header, .cm-strong {font-weight: bold;}
+.cm-em {font-style: italic;}
+.cm-link {text-decoration: underline;}
+.cm-strikethrough {text-decoration: line-through;}
+
+.cm-s-default .cm-keyword {color: #708;}
+.cm-s-default .cm-atom {color: #219;}
+.cm-s-default .cm-number {color: #164;}
+.cm-s-default .cm-def {color: #00f;}
+.cm-s-default .cm-variable,
+.cm-s-default .cm-punctuation,
+.cm-s-default .cm-property,
+.cm-s-default .cm-operator {}
+.cm-s-default .cm-variable-2 {color: #05a;}
+.cm-s-default .cm-variable-3 {color: #085;}
+.cm-s-default .cm-comment {color: #a50;}
+.cm-s-default .cm-string {color: #a11;}
+.cm-s-default .cm-string-2 {color: #f50;}
+.cm-s-default .cm-meta {color: #555;}
+.cm-s-default .cm-qualifier {color: #555;}
+.cm-s-default .cm-builtin {color: #30a;}
+.cm-s-default .cm-bracket {color: #997;}
+.cm-s-default .cm-tag {color: #170;}
+.cm-s-default .cm-attribute {color: #00c;}
+.cm-s-default .cm-hr {color: #999;}
+.cm-s-default .cm-link {color: #00c;}
+
+.cm-s-default .cm-error {color: #f00;}
+.cm-invalidchar {color: #f00;}
+
+.CodeMirror-composing { border-bottom: 2px solid; }
+
+/* Default styles for common addons */
+
+div.CodeMirror span.CodeMirror-matchingbracket {color: #0f0;}
+div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
+.CodeMirror-matchingtag { background: rgba(255, 150, 0, .3); }
+.CodeMirror-activeline-background {background: #e8f2ff;}
+
+/* STOP */
+
+/* The rest of this file contains styles related to the mechanics of
+   the editor. You probably shouldn't touch them. */
+
+.CodeMirror {
+	position: relative;
+	overflow: hidden;
+	background: white;
+}
+
+.CodeMirror-scroll {
+	overflow: scroll !important; /* Things will break if this is overridden */
+	/* 30px is the magic margin used to hide the element's real scrollbars */
+	/* See overflow: hidden in .CodeMirror */
+	margin-bottom: -30px; margin-right: -30px;
+	padding-bottom: 30px;
+	height: 100%;
+	outline: none; /* Prevent dragging from highlighting the element */
+	position: relative;
+	background-color: #fff;
+}
+.CodeMirror-sizer {
+	position: relative;
+	border-right: 30px solid transparent;
+}
+
+/* The fake, visible scrollbars. Used to force redraw during scrolling
+   before actual scrolling happens, thus preventing shaking and
+   flickering artifacts. */
+.CodeMirror-vscrollbar, .CodeMirror-hscrollbar, .CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler {
+	position: absolute;
+	z-index: 6;
+	display: none;
+}
+.CodeMirror-vscrollbar {
+	right: 0; top: 0;
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+.CodeMirror-hscrollbar {
+	bottom: 0; left: 0;
+	overflow-y: hidden;
+	overflow-x: scroll;
+}
+.CodeMirror-scrollbar-filler {
+	right: 0; bottom: 0;
+}
+.CodeMirror-gutter-filler {
+	left: 0; bottom: 0;
+}
+
+.CodeMirror-gutters {
+	position: absolute; left: 0; top: 0;
+	min-height: 100%;
+	z-index: 3;
+}
+.CodeMirror-gutter {
+	white-space: normal;
+	height: 100%;
+	display: inline-block;
+	vertical-align: top;
+	margin-bottom: -30px;
+}
+.CodeMirror-gutter-wrapper {
+	position: absolute;
+	z-index: 4;
+	background: none !important;
+	border: none !important;
+}
+.CodeMirror-gutter-background {
+	position: absolute;
+	top: 0; bottom: 0;
+	z-index: 4;
+}
+.CodeMirror-gutter-elt {
+	position: absolute;
+	cursor: default;
+	z-index: 4;
+}
+.CodeMirror-gutter-wrapper {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+}
+
+.CodeMirror-lines {
+	cursor: text;
+	min-height: 1px; /* prevents collapsing before first draw */
+}
+.CodeMirror pre {
+	/* Reset some styles that the rest of the page might have set */
+	-moz-border-radius: 0; -webkit-border-radius: 0; border-radius: 0;
+	border-width: 0;
+	background: transparent;
+	font-family: inherit;
+	font-size: inherit;
+	margin: 0;
+	white-space: pre;
+	word-wrap: normal;
+	line-height: inherit;
+	color: inherit;
+	z-index: 2;
+	position: relative;
+	overflow: visible;
+	-webkit-tap-highlight-color: transparent;
+	-webkit-font-variant-ligatures: none;
+	font-variant-ligatures: none;
+}
+.CodeMirror-wrap pre {
+	word-wrap: break-word;
+	white-space: pre-wrap;
+	word-break: normal;
+}
+
+.CodeMirror-linebackground {
+	position: absolute;
+	left: 0; right: 0; top: 0; bottom: 0;
+	z-index: 0;
+}
+
+.CodeMirror-linewidget {
+	position: relative;
+	z-index: 2;
+	overflow: auto;
+}
+
+.CodeMirror-widget {}
+
+.CodeMirror-code {
+	outline: none;
+}
+
+/* Force content-box sizing for the elements where we expect it */
+.CodeMirror-scroll,
+.CodeMirror-sizer,
+.CodeMirror-gutter,
+.CodeMirror-gutters,
+.CodeMirror-linenumber {
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+}
+
+.CodeMirror-measure {
+	position: absolute;
+	width: 100%;
+	height: 0;
+	overflow: hidden;
+	visibility: hidden;
+}
+
+.CodeMirror-cursor {
+	position: absolute;
+	pointer-events: none;
+}
+.CodeMirror-measure pre { position: static; }
+
+div.CodeMirror-cursors {
+	visibility: hidden;
+	position: relative;
+	z-index: 3;
+}
+div.CodeMirror-dragcursors {
+	visibility: visible;
+}
+
+.CodeMirror-focused div.CodeMirror-cursors {
+	visibility: visible;
+}
+
+.CodeMirror-selected { background: #d9d9d9; }
+.CodeMirror-focused .CodeMirror-selected { background: #d7d4f0; }
+.CodeMirror-crosshair { cursor: crosshair; }
+.CodeMirror-line::selection, .CodeMirror-line > span::selection, .CodeMirror-line > span > span::selection { background: #d7d4f0; .xf-uix_textSelection();}
+.CodeMirror-line::-moz-selection, .CodeMirror-line > span::-moz-selection, .CodeMirror-line > span > span::-moz-selection { background: #d7d4f0; .xf-uix_textSelection();}
+
+.cm-searching {
+	background: #ffa;
+	background: rgba(255, 255, 0, .4);
+}
+
+/* Used to force a border model for a node */
+.cm-force-border { padding-right: .1px; }
+
+@media print {
+	/* Hide the cursor when printing */
+	.CodeMirror div.CodeMirror-cursors {
+		visibility: hidden;
+	}
+}
+
+/* See issue #2901 */
+.cm-tab-wrap-hack:after { content: ''; }
+
+/* Help users use markselection to safely style text background */
+span.CodeMirror-selectedtext { background: none; }
+
+/* Simple scrollbars */
+
+.CodeMirror-simplescroll-horizontal div, .CodeMirror-simplescroll-vertical div {
+	position: absolute;
+	background: #ccc;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	border: 1px solid #bbb;
+	border-radius: 2px;
+}
+
+.CodeMirror-simplescroll-horizontal, .CodeMirror-simplescroll-vertical {
+	position: absolute;
+	z-index: 6;
+	background: #eee;
+}
+
+.CodeMirror-simplescroll-horizontal {
+	bottom: 0; left: 0;
+	height: 8px;
+}
+.CodeMirror-simplescroll-horizontal div {
+	bottom: 0;
+	height: 100%;
+}
+
+.CodeMirror-simplescroll-vertical {
+	right: 0; top: 0;
+	width: 8px;
+}
+.CodeMirror-simplescroll-vertical div {
+	right: 0;
+	width: 100%;
+}
+
+
+.CodeMirror-overlayscroll .CodeMirror-scrollbar-filler, .CodeMirror-overlayscroll .CodeMirror-gutter-filler {
+	display: none;
+}
+
+.CodeMirror-overlayscroll-horizontal div, .CodeMirror-overlayscroll-vertical div {
+	position: absolute;
+	background: #bcd;
+	border-radius: 3px;
+}
+
+.CodeMirror-overlayscroll-horizontal, .CodeMirror-overlayscroll-vertical {
+	position: absolute;
+	z-index: 6;
+}
+
+.CodeMirror-overlayscroll-horizontal {
+	bottom: 0; left: 0;
+	height: 6px;
+}
+.CodeMirror-overlayscroll-horizontal div {
+	bottom: 0;
+	height: 100%;
+}
+
+.CodeMirror-overlayscroll-vertical {
+	right: 0; top: 0;
+	width: 6px;
+}
+.CodeMirror-overlayscroll-vertical div {
+	right: 0;
+	width: 100%;
+}
+
+/* Dialog add-on */
+
+.CodeMirror-dialog {
+	position: absolute;
+	left: 0; right: 0;
+	background: inherit;
+	z-index: 15;
+	padding: .1em .8em;
+	overflow: hidden;
+	color: inherit;
+}
+
+.CodeMirror-dialog-top {
+	border-bottom: 1px solid #eee;
+	top: 0;
+}
+
+.CodeMirror-dialog-bottom {
+	border-top: 1px solid #eee;
+	bottom: 0;
+}
+
+.CodeMirror-dialog input {
+	border: none;
+	outline: none;
+	background: transparent;
+	width: 20em;
+	color: inherit;
+}
+
+.CodeMirror-dialog button {
+	font-size: 70%;
+}
+
+.CodeMirror-fullscreen {
+	position: fixed;
+	top: 0; left: 0; right: 0; bottom: 0;
+	height: auto;
+	z-index: @zIndex-9;
+}
+
+/* XF-RTL:enable */]]></template>
+    <template title="conversation_list" type="public" addon_id="XF" version_id="2000170" version_string="2.0.1"><![CDATA[<xf:title page="{$page}">{{ phrase('conversations') }}</xf:title>
+
+<xf:js src="xf/inline_mod.js" min="1" />
+
+<xf:pageaction if="$xf.visitor.canStartConversation()">
+	<xf:button href="{{ link('conversations/add') }}" class="button--cta" icon="write">{{ phrase('start_conversation') }}</xf:button>
+</xf:pageaction>
+
+<div class="block" data-xf-init="inline-mod" data-type="conversation" data-href="{{ link('inline-mod') }}">
+	<div class="block-outer">
+		<xf:pagenav
+			page="{$page}" perpage="{$perPage}" total="{$total}"
+			link="conversations" params="{$filters}"
+			wrapperclass="block-outer-main" />
+		<div class="block-outer-opposite">
+			<div class="buttonGroup">
+				<xf:macro template="inline_mod_macros" name="button"
+					arg-variant="inlineModButton--withLabel"
+					arg-label="{{ phrase('selected') }}"
+					arg-tooltip="{{ false }}" />
+			</div>
+		</div>
+	</div>
+
+	<div class="block-container">
+		<div class="block-filterBar">
+			<div class="filterBar">
+				<xf:if contentcheck="true">
+					<ul class="filterBar-filters">
+					<xf:contentcheck>
+						<xf:if is="$filters.starter_id AND $starterFilter">
+							<li><a href="{{ link('conversations', null, $filters|replace('starter_id', null)) }}"
+								class="filterBar-filterToggle" data-xf-init="tooltip" title="{{ phrase('remove_this_filter')|for_attr }}">
+								{{ phrase('started_by_x', {'name': $starterFilter.username}) }}</a></li>
+						</xf:if>
+						<xf:if is="$filters.receiver_id AND $receiverFilter">
+							<li><a href="{{ link('conversations', null, $filters|replace('receiver_id', null)) }}"
+								class="filterBar-filterToggle" data-xf-init="tooltip" title="{{ phrase('remove_this_filter')|for_attr }}">
+								{{ phrase('received_by_x', {'name': $receiverFilter.username}) }}</a></li>
+						</xf:if>
+						<xf:if is="$filters.starred">
+							<li><a href="{{ link('conversations', null, $filters|replace('starred', null)) }}"
+								class="filterBar-filterToggle" data-xf-init="tooltip" title="{{ phrase('remove_this_filter')|for_attr }}">
+								<span class="filterBar-filterToggle-label">{{ phrase('show_only:') }}</span>
+								{{ phrase('starred') }}</a></li>
+						</xf:if>
+					</xf:contentcheck>
+					</ul>
+				</xf:if>
+
+				<a class="filterBar-menuTrigger" data-xf-click="menu" role="button" tabindex="0" aria-expanded="false" aria-haspopup="true">{{ phrase('filters') }}</a>
+				<div class="menu" data-menu="menu" aria-hidden="true">
+					<div class="menu-content">
+						<h4 class="menu-header">{{ phrase('show_only:') }}</h4>
+						<xf:form action="{{ link('conversations/filters') }}">
+							<div class="menu-row menu-row--separated">
+								<xf:radio name="filter_type">
+									<xf:option value="" selected="{{ !$starterFilter AND !$receiverFilter }}">{{ phrase('show_all_conversations') }}</xf:option>
+									<xf:option value="started" selected="{{ $starterFilter ? true : false }}" data-hide="true"
+										label="{{ phrase('started_by...') }}">
+
+										<xf:textbox name="starter" value="{{ $starterFilter ? $starterFilter.username : '' }}" ac="single"
+											maxlength="{{ max_length($xf.visitor, 'username') }}"/>
+									</xf:option>
+									<xf:option value="received" selected="{{ $receiverFilter ? true : false }}" data-hide="true"
+										label="{{ phrase('received_by...') }}">
+
+										<xf:textbox name="receiver" value="{{ $receiverFilter ? $receiverFilter.username : '' }}" ac="single"
+											maxlength="{{ max_length($xf.visitor, 'username') }}" />
+									</xf:option>
+								</xf:radio>
+							</div>
+							<div class="menu-row menu-row--separated">
+								<xf:checkbox standalone="true">
+									<xf:option name="starred" selected="{$filters.starred}" label="{{ phrase('starred_conversations') }}" />
+								</xf:checkbox>
+							</div>
+
+							<div class="menu-footer">
+								<span class="menu-footer-controls">
+									<xf:button type="submit" class="button--primary">{{ phrase('filter') }}</xf:button>
+								</span>
+							</div>
+							<xf:hiddenval name="apply">1</xf:hiddenval>
+						</xf:form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="block-body">
+			<xf:if is="$userConvs is not empty">
+				<div class="structItemContainer">
+					<xf:foreach loop="$userConvs" value="$userConv">
+						<xf:macro template="conversation_list_macros" name="item" arg-userConv="{$userConv}" />
+					</xf:foreach>
+				</div>
+			<xf:else />
+				<div class="block-row">{{ phrase('there_no_conversations_to_display') }}</div>
+			</xf:if>
+		</div>
+	</div>
+
+	<xf:pagenav page="{$page}" perpage="{$perPage}" total="{$total}"
+		link="conversations" params="{$filters}"
+		wrapperclass="block-outer block-outer--after" />
+	</div>
+</div>
+
+<xf:widgetpos id="conversation_list_sidebar" position="sidebar" />]]></template>
+    <template title="core.less" type="email" addon_id="XF" version_id="2000170" version_string="2.0.1"><![CDATA[// NOTE: THIS DOES NOT HAVE ACCESS TO public:setup.less automatically!
+// THE LESS HERE SHOULD BE KEPT AS SIMPLE AS POSSIBLE
+
+body
+{
+	margin: 0;
+	padding: 0;
+	word-wrap: break-word;
+	-ms-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
+
+	background-color: @xf-emailBg;
+	font-size: @xf-fontSizeNormal;
+	font-family: @xf-emailFont;
+	line-height: @xf-lineHeightDefault;
+	color: @xf-textColor;
+}
+
+table
+{
+	border-spacing: 0;
+	mso-table-lspace: 0pt;
+	mso-table-rspace: 0pt;
+}
+
+table,
+td
+{
+	border-collapse: collapse;
+}
+
+a
+{
+	color: @xf-linkColor;
+	text-decoration: none;
+}
+
+#bodyTable
+{
+	height: 100% !important;
+	width: 100% !important;
+	margin: 0;
+	padding: 0;
+	background-color: @xf-emailBg;
+}
+
+#bodyTableContainer
+{
+	background-color: @xf-emailBg;
+}
+
+.container
+{
+	width: 100%;
+	max-width: 600px;
+}
+
+.header
+{
+	color: @xf-emailHeaderColor;
+	padding: @xf-paddingMedium @xf-paddingLarge;
+	border-top-left-radius: @xf-borderRadiusMedium;
+	border-top-right-radius: @xf-borderRadiusMedium;
+	font-family: @xf-emailFont;
+	font-size: @xf-fontSizeLargest;
+	line-height: @xf-lineHeightDefault;
+}
+
+.header a
+{
+	color: @xf-emailHeaderColor;
+}
+
+.content
+{
+	background-color: @xf-contentBg;
+	border-radius: @xf-borderRadiusSmall;
+	color: @xf-textColor;
+	padding: @xf-paddingLarge;
+	font-size: @xf-fontSizeNormal;
+	font-family: @xf-emailFont;
+	line-height: @xf-lineHeightDefault;
+}
+
+.content .bbImage
+{
+	max-width: 100%;
+}
+
+.content > p:first-child
+{
+	margin-top: 0;
+}
+
+.content > p:last-child
+{
+	margin-bottom: 0;
+}
+
+.footer
+{
+	padding: @xf-paddingMedium @xf-paddingLarge;
+	text-align: center;
+	color: @xf-textColorMuted;
+	font-size: @xf-fontSizeSmall;
+	font-family: @xf-emailFont;
+	line-height: @xf-lineHeightDefault;
+}
+
+.footer a
+{
+	color: @xf-textColorMuted;
+	text-decoration: underline;
+}
+
+.footerExtra
+{
+	margin-top: 1em;
+}
+
+h2
+{
+	font-size: @xf-fontSizeLargest;
+	font-weight: normal;
+	margin: @xf-paddingLarge 0;
+	padding: 0;
+}
+
+hr
+{
+	border: 0;
+	border-bottom: @xf-borderSize solid @xf-borderColor;
+}
+
+div.message
+{
+	border-left: @xf-borderSizeFeature solid @xf-borderColorFeature;
+	margin: @xf-paddingLarge 0;
+	padding: @xf-paddingLarge;
+}
+
+div.quote
+{
+	border-left: @xf-borderSizeFeature solid @xf-borderColorAttention;
+	border-top: @xf-borderSize solid @xf-borderColor;
+	border-bottom: @xf-borderSize solid @xf-borderColor;
+	border-right: @xf-borderSize solid @xf-borderColor;
+	background: @xf-contentAltBg;
+	margin: @xf-paddingLarge 0;
+	padding: @xf-paddingLarge;
+}
+
+.quote-name
+{
+	color: @xf-textColorAttention;
+	font-size: @xf-fontSizeSmall;
+	margin-bottom: @xf-paddingMedium;
+}
+
+pre.code
+{
+	margin: @xf-paddingLarge 0;
+	padding: @xf-paddingLarge;
+	border-right: @xf-borderSize solid @xf-borderColor;
+	background: @xf-contentAltBg;
+	width: 100%;
+	max-width: 600px;
+	overflow: scroll;
+}
+
+.textLink
+{
+	color: @xf-textColor;
+	text-decoration: none;
+}
+
+.linkBar
+{
+	padding: @xf-paddingMedium;
+	background-color: @xf-contentAltBg;
+	border-top: @xf-borderSize solid @xf-borderColor;
+}
+
+.button
+{
+	display: inline-block;
+	padding: 5px 10px;
+	background-color: @xf-paletteColor4;
+	border: none;
+	border-radius: @xf-borderRadiusMedium;
+	font-size: @xf-fontSizeSmall;
+	color: @xf-paletteColor1;
+	text-decoration: none;
+	.xf-buttonBase();
+	.xf-buttonDefault();
+	.xf-buttonPrimary();
+}
+
+.buttonFake
+{
+	display: inline-block;
+	padding: 5px 10px;
+	font-size: @xf-fontSizeSmall;
+}
+
+.minorText,
+.unsubscribeLink
+{
+	font-size: @xf-fontSizeSmall;
+	color: @xf-textColorMuted;
+}
+
+.minorText a,
+.unsubscribeLink a
+{
+	color: @xf-textColorMuted;
+	text-decoration: underline;
+}
+
+.unsubscribeLink
+{
+	margin-top: 1em;
+	text-align: center;
+}
+
+.mediaPlaceholder,
+.spoilerPlaceholder
+{
+	border-radius: @xf-borderRadiusSmall;
+	margin: @xf-paddingMedium 0;
+	padding: @xf-paddingMedium;
+	font-size: @xf-fontSizeLargest;
+	line-height: 3;
+	text-align: center;
+	border: @xf-borderSize solid @xf-borderColor;
+	background-color: @xf-contentAltBg;
+}]]></template>
+    <template title="core.less" type="public" addon_id="XF" version_id="2000170" version_string="2.0.1"><![CDATA[// ########################## GLOBAL BASE SETUP #######################
+
+html
+{
+	font: @xf-fontSizeNormal / @xf-lineHeightDefault sans-serif;
+	font-family: @xf-fontFamilyUi;
+	font-weight: @xf-fontWeightNormal;
+	color: @xf-textColor;
+	margin: 0;
+	padding: 0;
+	word-wrap: break-word;
+	background-color: @xf-pageBg;
+
+	/* // just a reminder that we *might* want this at some point
+	-ms-text-size-adjust: none;
+	-webkit-text-size-adjust: none;*/
+}
+
+button, input, optgroup, select, textarea
+{
+	font-family: @xf-fontFamilyUi;
+	line-height: @xf-lineHeightDefault;
+}
+
+img
+{
+	max-width: 100%;
+	height: auto;
+}
+
+a
+{
+	.xf-link();
+
+	&:hover
+	{
+		.xf-linkHover();
+	}
+}
+
+{{ include('core_setup.less') }}
+{{ include('core_utilities.less') }}
+{{ include('core_list.less') }}
+{{ include('core_categorylist.less') }}
+{{ include('core_block.less') }}
+{{ include('core_blockmessage.less') }}
+{{ include('core_blockstatus.less') }}
+{{ include('core_blocklink.less') }}
+{{ include('core_blockend.less') }}
+{{ include('core_fixedmessage.less') }}
+{{ include('core_button.less') }}
+
+// ################################# INPUTS & FORMS #####################
+
+.m-formElementExplain()
+{
+	display: block;
+	font-style: normal;
+	.xf-formExplain();
+
+	.m-textColoredLinks();
+}
+
+{{ include('core_input.less') }}
+{{ include('core_formrow.less') }}
+
+{{ include('core_collapse.less') }}
+{{ include('core_badge.less') }}
+{{ include('core_tooltip.less') }}
+{{ include('core_menu.less') }}
+{{ include('core_offcanvas.less') }}
+{{ include('core_tab.less') }}
+{{ include('core_overlay.less') }}
+{{ include('core_globalaction.less') }}
+{{ include('core_avatar.less') }}
+{{ include('core_datalist.less') }}
+{{ include('core_filter.less') }}
+{{ include('core_contentrow.less') }}
+{{ include('core_pagenav.less') }}
+{{ include('core_hscroller.less') }}
+
+// FLASH MESSAGES
+.flashMessage
+{
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	padding: @xf-paddingLargest;
+	font-size: @xf-fontSizeLargest;
+	text-align: center;
+	z-index: @zIndex-9;
+	background: #e2e2e2;
+	color: #202020;
+	.m-dropShadow(0, 5px, 5px);
+
+	.m-transitionFadeDown(@xf-animationSpeed);
+}
+
+// AUTOCOMPLETE
+.autoCompleteList
+{
+	.m-autoCompleteList();
+	margin-top: 2px;
+}
+
+// #################################### TAGS ##############################
+// note that while this is related to tags, it's commonly used so just include it
+
+.tagItem
+{
+	display: inline-block;
+	max-width: 100%;
+	padding: 0 6px 1px;
+	margin: 0 0 2px;
+	border-radius: @xf-borderRadiusMedium;
+	font-size: @xf-fontSizeSmaller;
+	.xf-chip();
+	.xf-uix_tag();
+
+	&:hover
+	{
+		text-decoration: none;
+		color: @xf-chip--color;
+		.xf-chipHover();
+		.xf-uix_tagHover();
+	}
+}
+
+// ############################# MISC #########################
+
+.recaptcha
+{
+	&.input
+	{
+		box-sizing: content-box;
+		max-width: 100%;
+	}
+
+	img
+	{
+		max-width: 100%;
+	}
+}
+
+.likesBar
+{
+	.m-transitionFadeDown();
+	.xf-minorBlockContent();
+	border-left: @xf-borderSizeMinorFeature solid @xf-borderColorFeature;
+	padding: @xf-paddingMedium;
+	font-size: @xf-fontSizeSmaller;
+	margin-top: @xf-paddingMedium;
+	.xf-uix_messageLikes();
+}
+
+.likeIcon
+{
+	&:before
+	{
+		.m-faBase();
+		.m-faContent(@fa-var-thumbs-o-up, 0.86em);
+		<xf:macro template="uix_icons.less" name="content" arg-icon="like" />
+		color: @xf-textColorFeature;
+		margin-right: .2em;
+	}
+}
+
+// these are BB code rendering related, but they're very core and basic styles that may be used elsewhere.
+.bbImage
+{
+	max-width: 100%;
+}
+
+.bbMediaWrapper
+{
+	width: 500px;
+	max-width: 100%;
+	margin: 0;
+}
+
+.bbMediaWrapper-inner
+{
+	position: relative;
+	padding-bottom: 56.25%; /* 16:9 ratio */
+	height: 0;
+
+	&.bbMediaWrapper-inner--4to3
+	{
+		padding-bottom: 75%; /* 4:3 ratio */
+	}
+
+	&.bbMediaWrapper-inner--104px
+	{
+		padding-bottom: 104px;
+	}
+	&.bbMediaWrapper-inner--110px
+	{
+		padding-bottom: 110px;
+	}
+	&.bbMediaWrapper-inner--500px
+	{
+		padding-bottom: 500px;
+	}
+
+	iframe,
+	object,
+	embed,
+	.bbMediaWrapper-fallback
+	{
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+}
+
+.bbMediaWrapper-fallback
+{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	max-width: 100%;
+	.xf-minorBlockContent();
+}
+
+	.bbOembed
+{
+	margin: 0;
+	max-width: 500px;
+	&.bbOembed--loaded
+	{
+		display: block;
+	}
+	> :not(.embedly-card),
+	.embedly-card-hug
+	{
+		/*width: auto !important;
+		max-width: 500px !important;
+		margin-left: 0 !important;
+		margin-right: 0 !important;*/
+	}
+	.reddit-card
+	{
+		margin: 0;
+	}
+}
+
+.colorChip
+{
+	display: inline-block;
+	border: @xf-borderSize solid @xf-borderColor;
+	border-radius: @xf-borderRadiusMedium;
+	padding: 1px;
+	width: 100px;
+}
+.colorChip-inner
+{
+	display: block;
+	background-color: transparent;
+	border-radius: @xf-borderRadiusSmall;
+	height: 1em;
+}
+.colorChip-value
+{
+	display: none;
+}
+
+	pre.sf-dump
+{
+	// not ideal, but then again neither is the default of 99999...
+	z-index: @zIndex-1 !important;
+}
+
+.grecaptcha-badge
+{
+	z-index: @zIndex-5;
+}
+
+{{ include('core_action_bar.less') }}
+{{ include('core_labels.less') }}
+{{ include('core_pikaday.less') }}
+{{ include('core_smilie.less') }}
+{{ include('core_bbcode.less') }}
+{{ include('core_fawidths.less') }}
+
+// RESOLUTION OUTPUT
+
+.debugResolution
+{
+	font-size: @xf-fontSizeSmallest;
+	.debugResolution-output:before
+	{
+		content: "Full @{xf-responsiveWide} - @{xf-pageWidthMax}";
+		@media (min-width: @xf-pageWidthMax) { content: "Max > @{xf-pageWidthMax}"; }
+		@media (max-width: @xf-responsiveWide) { content: "Wide < @{xf-responsiveWide}"; }
+		@media (max-width: @xf-responsiveMedium) { content: "Medium < @{xf-responsiveMedium}"; }
+		@media (max-width: @xf-responsiveNarrow) { content: "Narrow < @{xf-responsiveNarrow}"; }
+	}
+}]]></template>
+    <template title="core_avatar.less" type="public" addon_id="XF" version_id="2000070" version_string="2.0.0"><![CDATA[// ################################### AVATARS #############################
+
+.m-uix_avatarShape() {
+	<xf:if is="property('uix_avatarShape') == 1">
+		border-radius: 100%;
+	<xf:elseif is="property('uix_avatarShape') == 2" />
+		border-radius: 0;
+	<xf:elseif is="property('uix_avatarShape') == 3" />
+		-webkit-clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+		clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+	<xf:elseif is="property('uix_avatarShape') == 4" />
+		-webkit-clip-path: polygon(50% 0, 100% 38%, 80% 100%, 20% 100%, 0 38%);
+		clip-path: polygon(50% 0, 100% 38%, 80% 100%, 20% 100%, 0 38%);
+	<xf:elseif is="property('uix_avatarShape') == 5" />
+		-webkit-clip-path: polygon(50% 0, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
+		clip-path: polygon(50% 0, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
+	<xf:elseif is="property('uix_avatarShape') == 6" />
+		-webkit-clip-path: polygon(0 50%, 15% 15%, 50% 0, 85% 15%, 100% 50%, 85% 85%, 50% 100%, 15% 85%);
+		clip-path: polygon(0 50%, 15% 15%, 50% 0, 85% 15%, 100% 50%, 85% 85%, 50% 100%, 15% 85%);
+	</xf:if>
+}
+
+.avatar
+{
+	// display: inline-block;
+	border-radius: @xf-avatarBorderRadius;
+	vertical-align: top;
+	overflow: hidden;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	line-height: 1;
+	.m-uix_avatarShape();
+
+	img { background-color: @xf-avatarBg; }
+
+	&.avatar--default
+	{
+		&.avatar--default--dynamic,
+		&.avatar--default--text
+		{
+			font-family: @xf-avatarDynamicFont;
+			font-weight: normal;
+			text-align: center;
+			text-decoration: none !important;
+
+			// converts our avatar sized LH to a font sized version which adapts based solely on font-size
+			line-height: (@xf-avatarDynamicLineHeight) / ((@xf-avatarDynamicTextPercent) / 100);
+
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			-ms-user-select: none;
+			user-select: none;
+			
+		}
+
+		&.avatar--default--text
+		{
+			color: @xf-textColorMuted !important;
+			background: mix(@xf-textColorMuted, @xf-avatarBg, 25%) !important;
+			> span:before { content: ~"'@{xf-avatarDefaultTextContent}'"; }
+		}
+
+		&.avatar--default--image
+		{
+			background-color: @xf-avatarBg;
+			background-image: url(@xf-avatarDefaultImage);
+			background-size: cover;
+			> span { display: none; }
+		}
+	}
+
+	&:hover
+	{
+		text-decoration: none;
+	}
+
+	&.avatar--updateLink
+	{
+		position: relative;
+	}
+
+	&.avatar--separated
+	{
+		border: 1px solid @xf-avatarBg;
+	}
+
+	&.avatar--xxs
+	{
+		.m-avatarSize(@avatar-xxs);
+	}
+
+	&.avatar--xs
+	{
+		.m-avatarSize(@avatar-xs);
+	}
+
+	&.avatar--s
+	{
+		.m-avatarSize(@avatar-s);
+	}
+
+	&.avatar--m
+	{
+		.m-avatarSize(@avatar-m);
+	}
+
+	&.avatar--l
+	{
+		.m-avatarSize(@avatar-l);
+	}
+
+	&.avatar--o
+	{
+		.m-avatarSize(@avatar-o);
+	}
+
+	img:not(.cropImage)
+	{
+		.m-hideText;
+		display: block;
+		border-radius: inherit;
+		width: 100%;
+		height: 100%;
+	}
+
+	&:not(a)
+	{
+		cursor: default;
+	}
+}
+
+.avatar-update
+{
+	width: 100%;
+	height: 30px;
+	bottom: -30px;
+	position: absolute;
+
+	.m-hiddenLinks();
+	.m-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3), #000);
+	.m-transition();
+
+	padding: @xf-paddingSmall;
+	overflow: hidden;
+
+	font-size: @xf-fontSizeSmaller;
+
+	display: none;
+	align-items: flex-end;
+	justify-content: center;
+
+	.avatar--updateLink &
+	{
+		display: flex;
+	}
+
+	.has-no-flexbox &
+	{
+		display: table;
+		width: 100%;
+	}
+
+	.has-touchevents &,
+	.avatar:hover &
+	{
+		bottom: 0;
+	}
+
+	a
+	{
+		text-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
+		color: #fff;
+
+		&:hover
+		{
+			text-decoration: none;
+		}
+	}
+}]]></template>
+    <template title="core_badge.less" type="public" addon_id="XF" version_id="2000031" version_string="2.0.0 Beta 1"><![CDATA[// #################################################### BADGES ###########################
+
+.badge,
+.badgeContainer:after
+{
+	display: inline-block;
+	padding: 2px 4px;
+	margin: -2px 0;
+	font-size: 80%;
+	line-height: 1;
+	font-weight: @xf-fontWeightNormal;
+	.xf-badge();
+}
+
+.badgeContainer
+{
+	&:after
+	{
+		content: attr(data-badge);
+		display: none;
+	}
+
+	&.badgeContainer--visible:after
+	{
+		display: inline-block;
+	}
+}
+
+.badge.badge--highlighted,
+.badgeContainer.badgeContainer--highlighted:after
+{
+	display: inline-block;
+	.xf-badgeHighlighted();
+}]]></template>
+    <template title="core_block.less" type="public" addon_id="XF" version_id="2000170" version_string="2.0.1"><![CDATA[// ################################# BLOCKS ##################
+
+.blocks
+{
+	margin-bottom: @xf-elementSpacer;
+
+	&:last-child
+	{
+		margin-bottom: 0;
+	}
+
+	.block
+	{
+		margin-bottom: (@xf-elementSpacer / 2);
+
+		&:last-child
+		{
+			margin-bottom: 0;
+		}
+	}
+}
+
+.blocks-header
+{
+	font-size: @xf-fontSizeLarger;
+	font-weight: @xf-fontWeightNormal;
+	color: @xf-textColorMuted;
+
+	margin-bottom: 5px;
+}
+
+.blocks-textJoiner
+{
+	display: table;
+	width: 100%;
+	margin-bottom: (@xf-elementSpacer / 2);
+	padding: 0 @xf-paddingMedium;
+
+	> span
+	{
+		display: table-cell;
+		position: relative;
+
+		&:before
+		{
+			content: '';
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 50%;
+			border-top: @xf-borderSize solid @xf-borderColor;
+		}
+	}
+
+	> em
+	{
+		display: table-cell;
+		padding: 0 @xf-paddingLarge;
+		width: 1%;
+		white-space: nowrap;
+		font-size: @xf-fontSizeLargest;
+		line-height: 1;
+		font-style: normal;
+		text-align: center;
+	}
+}
+
+
+.block
+{
+	margin-bottom: @xf-elementSpacer;
+	
+	&:last-child {margin-bottom: 0;}
+
+	&.block--close
+	{
+		margin: 5px;
+	}
+
+	&.block--treeEntryChooser
+	{
+		.block-header
+		{
+			font-size: @xf-fontSizeLarge;
+
+			.block-desc
+			{
+				font-size: @xf-fontSizeSmallest;
+			}
+		}
+
+		.block-row
+		{
+			padding-top: 6px;
+			padding-bottom: 6px;
+		}
+
+		.contentRow
+		{
+			&.is-disabled
+			{
+				opacity: 0.5;
+			}
+		}
+
+		.contentRow-title
+		{
+			font-size: @xf-fontSizeNormal;
+		}
+
+		.contentRow-minor
+		{
+			font-size: @xf-fontSizeSmaller;
+		}
+
+		.contentRow-suffix
+		{
+			font-size: @xf-fontSizeSmall;
+		}
+	}
+}
+
+.block-outer
+{
+	padding-bottom: @xf-blockPaddingV;
+	.m-clearFix();
+	.xf-uix_blockOuter();
+
+	&:empty
+	{
+		display: none;
+	}
+
+	&.block-outer--after
+	{
+		padding-top: @xf-blockPaddingV;
+		padding-bottom: 0;
+	}
+
+	.block-outer-hint
+	{
+		font-size: @xf-fontSizeSmall;
+		color: @xf-textColorMuted;
+	}
+}
+.block-outer-main { float: left; }
+.block-outer-opposite { float: right; }
+.block-outer-middle { text-align: center; }
+
+.block-container
+{
+	.xf-contentBase();
+	.xf-blockBorder();
+	border-radius: @xf-blockBorderRadius;
+	.m-transition(); .m-transitionProperty(border margin); // edgeSpacerRemoval
+	.xf-uix_blockContainer();
+}
+
+@media (min-width: @xf-responsiveEdgeSpacerRemoval)
+{
+	@{block-noStripSel} > :first-child,
+	.block-topRadiusContent,
+	@{block-noStripSel} > .block-body:first-child > .blockLink:first-child
+	{
+		border-top-left-radius: @block-borderRadius-inner;
+		border-top-right-radius: @block-borderRadius-inner;
+	}
+
+	@{block-noStripSel} > :last-child,
+	.block-bottomRadiusContent,
+	@{block-noStripSel} > .block-body:last-child > .blockLink:last-child
+	{
+		border-bottom-left-radius: @block-borderRadius-inner;
+		border-bottom-right-radius: @block-borderRadius-inner;
+	}
+
+	@{block-noStripSel} > .block-body:first-child > .dataList:first-child,
+	.block-topRadiusContent.dataList,
+	.block-topRadiusContent > .dataList:first-child
+	{
+		tbody:first-child .dataList-row:first-child,
+		thead:first-child .dataList-row:first-child
+		{
+			> .dataList-cell:first-child { border-top-left-radius: @block-borderRadius-inner; }
+			> .dataList-cell:last-child { border-top-right-radius: @block-borderRadius-inner; }
+		}
+	}
+
+	@{block-noStripSel} > .block-body:first-child > .formRow:first-child,
+	.block-topRadiusContent.formRow,
+	.block-topRadiusContent > .formRow:first-child
+	{
+		> dt { border-top-left-radius: @block-borderRadius-inner; }
+		> dd { border-top-right-radius: @block-borderRadius-inner; }
+	}
+
+	@{block-noStripSel} > .block-body:last-child > .dataList:last-child,
+	.block-bottomRadiusContent.dataList,
+	.block-bottomRadiusContent > .dataList:last-child
+	{
+		tbody:last-child .dataList-row:last-child
+		{
+			> .dataList-cell:first-child { border-bottom-left-radius: @block-borderRadius-inner; }
+			> .dataList-cell:last-child { border-bottom-right-radius: @block-borderRadius-inner; }
+		}
+	}
+
+	@{block-noStripSel} > .block-body:last-child > .formRow:last-child,
+	.block-bottomRadiusContent.formRow,
+	.block-bottomRadiusContent > .formRow:last-child
+	{
+		> dt { border-bottom-left-radius: @block-borderRadius-inner; }
+		> dd { border-bottom-right-radius: @block-borderRadius-inner; }
+	}
+
+	@{block-noStripSel} > .block-body:last-child .formSubmitRow:not(.is-sticky),
+	@{block-noStripSel} > .formSubmitRow:not(.is-sticky):last-child,
+	.block-bottomRadiusContent > .formSubmitRow:not(.is-sticky)
+	{
+		> dt { border-bottom-left-radius: @block-borderRadius-inner; }
+		> dd { border-bottom-right-radius: @block-borderRadius-inner; }
+
+		.formSubmitRow-bar
+		{
+			border-bottom-left-radius: @block-borderRadius-inner;
+			border-bottom-right-radius: @block-borderRadius-inner;
+		}
+	}
+}
+
+.block-header
+{
+	padding: @xf-blockPaddingV @xf-blockPaddingH;
+	margin: 0;
+	font-weight: @xf-fontWeightNormal;
+	text-decoration: none;
+	.xf-blockHeader();
+
+	.m-clearFix();
+	.m-hiddenLinks();
+
+	&.block-header--separated
+	{
+		border-top: @xf-borderSize solid @xf-borderColorLight;
+	}
+
+	.block-desc
+	{
+		color: fade(@xf-blockHeader--color, 70);
+		.m-textColoredLinks();
+	}
+}
+
+.block-minorHeader
+{
+	padding: @xf-blockPaddingV @xf-blockPaddingH;
+	margin: 0;
+	font-weight: @xf-fontWeightNormal;
+	text-decoration: none;
+	.xf-blockMinorHeader();
+
+	.m-clearFix();
+	.m-hiddenLinks();
+
+	.block-body + &
+	{
+		border-top: @xf-borderSize solid @xf-borderColorLight;
+	}
+
+	.block-desc
+	{
+		.m-textColoredLinks();
+	}
+
+	&--small
+	{
+		font-size: @xf-fontSizeSmall;
+	}
+}
+
+.block-tabHeader
+{
+	padding: 0;
+	margin: 0;
+	font-weight: @xf-fontWeightNormal;
+	.xf-blockTabHeader();
+	.m-tabsTogether(xf-default(@xf-blockTabHeader--font-size, @xf-fontSizeNormal));
+
+	.tabs-tab
+	{
+		padding: @xf-blockPaddingV @xf-blockPaddingH max(0px, @xf-blockPaddingV - @xf-borderSizeFeature);
+		border-bottom: @xf-borderSizeFeature solid transparent;
+
+		&:hover
+		{
+			color: @xf-blockTabHeaderSelected--color;
+			background: fade(@xf-blockTabHeaderSelected--color, 10%);
+		}
+
+		&.is-active
+		{
+			background: none;
+			.xf-blockTabHeaderSelected();
+		}
+	}
+
+	.block-tabHeader-extra
+	{
+		float: right;
+		color: inherit;
+		font-size: @xf-blockTabHeader--font-size;
+		padding: @xf-blockPaddingV @xf-blockPaddingH;
+	}
+
+	.hScroller-action
+	{
+		.m-hScrollerActionColorVariation(
+			xf-default(@xf-blockTabHeader--background-color, transparent),
+			@xf-blockTabHeader--color,
+			@xf-blockTabHeaderSelected--color
+		);
+	}
+}
+
+.block-minorTabHeader
+{
+	padding: 0;
+	margin: 0;
+	font-weight: @xf-fontWeightNormal;
+	.xf-blockMinorTabHeader();
+	.m-tabsTogether(xf-default(@xf-blockMinorTabHeader--font-size, @xf-fontSizeNormal));
+
+	.tabs-tab
+	{
+		padding: @xf-blockPaddingV @xf-blockPaddingH max(0px, @xf-blockPaddingV - @xf-borderSizeFeature);
+		border-bottom: @xf-borderSizeFeature solid transparent;
+
+		&:hover
+		{
+			color: @xf-blockMinorTabHeaderSelected--color;
+		}
+
+		&.is-active
+		{
+			background: none;
+			.xf-blockMinorTabHeaderSelected();
+		}
+	}
+
+	.hScroller-action
+	{
+		.m-hScrollerActionColorVariation(
+			xf-default(@xf-blockMinorTabHeader--background-color, transparent),
+			@xf-blockMinorTabHeader--color,
+			@xf-blockMinorTabHeaderSelected--color
+		);
+	}
+}
+
+.block-filterBar
+{
+	padding: (@xf-blockPaddingH / 2) @xf-blockPaddingH;
+	.xf-blockFilterBar();
+
+	.filterBar-filterToggle
+	{
+		background: mix(
+			xf-default(@xf-blockFilterBar--color, @xf-linkColor),
+			xf-default(@xf-blockFilterBar--background-color, transparent),
+			8%
+		);
+	}
+
+	.filterBar-filterToggle,
+	.filterBar-menuTrigger
+	{
+		&:hover
+		{
+			text-decoration: none;
+			background: mix(
+				xf-default(@xf-blockFilterBar--color, @xf-linkColor),
+				xf-default(@xf-blockFilterBar--background-color, transparent),
+				16%
+			);
+		}
+	}
+
+	.filterBar-menuTrigger
+	{
+		margin-right: -5px;
+	}
+}
+
+.block-textHeader
+{
+	margin: @xf-blockPaddingV/2 0;
+	padding: 0;
+	font-weight: @xf-fontWeightNormal;
+	.xf-blockTextHeader();
+
+	.m-clearFix();
+	.m-hiddenLinks();
+
+	&.block-textHeader--scaled
+	{
+		font-size: inherit;
+	}
+
+	.block-textHeader-highlight
+	{
+		color: @xf-textColor;
+	}
+
+	.block-desc
+	{
+		.m-textColoredLinks();
+	}
+
+	&:first-child
+	{
+		margin-top: 0;
+	}
+}
+
+.block-formSectionHeader
+{
+	padding: @xf-blockPaddingV @xf-blockPaddingH;
+	margin: 0;
+	font-weight: @xf-fontWeightNormal;
+	text-decoration: none;
+	.xf-formSectionHeader();
+
+	.m-clearFix();
+	.m-hiddenLinks();
+
+	.block-desc
+	{
+		.m-textColoredLinks();
+	}
+
+	.block-container > &:first-child
+	{
+		border-top: none;
+	}
+
+	.block-formSectionHeader-aligner
+	{
+		@_blockPaddingShift: (unit(@xf-formLabelWidth) / 100) * (@xf-blockPaddingH);
+
+		display: inline-block;
+		text-align: right;
+		min-width: @xf-formLabelWidth;
+		min-width: ~"calc((@{xf-formLabelWidth}) - (@{_blockPaddingShift}) - (@{xf-formRowPaddingHInner}) - (@{xf-borderSize}))";
+		max-width: 100%;
+		
+		.menu & {
+			display: inline;
+			text-align: left;
+			min-width: 0;
+			padding-left: 0;
+		}
+
+		@media (max-width: @xf-formResponsive)
+		{
+			display: inline;
+			text-align: left;
+			min-width: 0;
+			padding-left: 0;
+		}
+	}
+	
+	.menu & {padding-left: @xf-formRowPaddingHOuter;}
+
+	@media (max-width: @xf-formResponsive)
+	{
+		padding-left: @xf-formRowPaddingHOuter;
+	}
+
+	.block-formSectionHeader-multiChecker
+	{
+		float: right;
+	}
+}
+
+.block-desc
+{
+	display: block;
+	// font-size: @xf-fontSizeSmaller;
+	// font-weight: @xf-fontWeightNormal;
+	.xf-uix_categoryDescription();
+}
+
+.block-body
+{
+	.m-listPlain();
+	.xf-uix_blockBody();
+
+	&.block-body--collapsible
+	{
+		.has-no-js & { display: block; }
+
+		.m-transitionFadeDown();
+	}
+
+	&.block-body--contained
+	{
+		overflow: auto;
+		max-height: 300px;
+		max-height: 70vh;
+	}
+}
+
+.block-row
+{
+	margin: 0;
+	padding: @xf-blockPaddingV @xf-blockPaddingH;
+	.m-clearFix();
+
+	&.block-row--alt
+	{
+		.xf-contentAltBase();
+	}
+
+	&.block-row--minor
+	{
+		font-size: @xf-fontSizeSmall;
+	}
+
+	&.block-row--separated
+	{
+		// padding-top: (@xf-blockPaddingV) * 2;
+		// padding-bottom: (@xf-blockPaddingV) * 2;
+		padding-bottom: @xf-blockPaddingV;
+		padding-top: @xf-blockPaddingV;
+
+		+ .block-row
+		{
+			border-top: @xf-borderSize solid @xf-borderColorLight;
+		}
+	}
+
+	&.block-row--connectAbove
+	{
+		padding-bottom: (@xf-blockPaddingV) * 2;
+
+		.block-body > &:last-child
+		{
+			padding-bottom: @xf-blockPaddingV;
+		}
+	}
+
+	&.block-row--highlighted
+	{
+		.xf-contentHighlightBase();
+	}
+
+	&.block-row--clickable:hover
+	{
+		.xf-contentHighlightBase();
+	}
+
+	&.is-mod-selected
+	{
+		background: @xf-inlineModHighlightColor;
+	}
+
+	> pre
+	{
+		&:first-child { margin-top: 0; }
+		&:last-child { margin-bottom: 0; }
+	}
+}
+
+.block-separator
+{
+	margin: 0;
+	padding: 0;
+	border: none;
+	border-top: @xf-borderSize solid @xf-borderColorLight;
+}
+
+.block-footer
+{
+	padding: @xf-blockPaddingV @xf-blockPaddingH;
+	.xf-blockFooter();
+	.m-clearFix();
+
+	&:first-child
+	{
+		border: none;
+	}
+
+	[data-app=admin] &
+	{
+		.block-footer-counter,
+		.block-footer-select
+		{
+			line-height: 30px;
+		}
+	}
+
+	&:not(.block-footer--split)
+	{
+		.block-footer-counter
+		{
+			float: left;
+		}
+
+		.block-footer-controls
+		{
+			float: right;
+		}
+	}
+	
+	.block-footer-controls .button {
+		.xf-uix_buttonSmall();
+	}
+
+	&.block-footer--split
+	{
+		display: flex;
+		align-items: center;
+
+		.block-footer-main,
+		.block-footer-counter
+		{
+			flex-grow: 1;
+
+			.has-no-flexbox &
+			{
+				float: left;
+			}
+		}
+
+		.block-footer-select:not(:last-child)
+		{
+			margin: 0 1em;
+		}
+
+		.block-footer-opposite,
+		.block-footer-controls
+		{
+			margin-left: auto;
+
+			.has-no-flexbox &
+			{
+				float: right;
+			}
+		}
+	}
+}
+
+@media (max-width: @xf-responsiveNarrow)
+{
+	.block-outer
+	{
+		text-align: center;
+	}
+
+	.block-outer-main,
+	.block-outer-opposite
+	{
+		float: none;
+		text-align: center;
+	}
+
+	.block-outer-main + .block-outer-opposite
+	{
+		margin-top: @xf-paddingMedium;
+	}
+}]]></template>
+    <template title="core_blockend.less" type="public" addon_id="XF" version_id="2000037" version_string="2.0.0 Beta 7"><![CDATA[// This contains rules that apply to various block and block-related systems. This file should be included
+// after all of the primary definitions to ensure the rules override.
+
+.blockMessage,
+.blockStatus,
+.block-row
+{
+	p:first-child
+	{
+		margin-top: 0;
+	}
+
+	p:last-child
+	{
+		margin-bottom: 0;
+	}
+}
+
+@media (max-width: @xf-responsiveEdgeSpacerRemoval)
+{
+	.block-container,
+	.blockMessage
+	{
+		margin-left: -@xf-pageEdgeSpacer * .5;
+		margin-right: -@xf-pageEdgeSpacer * .5;
+		border-radius: 0;
+		border-left: none;
+		border-right: none;
+	}
+
+	.blockStatus
+	{
+		margin-left: -@xf-pageEdgeSpacer;
+		margin-right: -@xf-pageEdgeSpacer;
+		border-radius: 0;
+		border-right: none;
+	}
+
+	.blockMessage.blockMessage--none
+	{
+		margin-left: 0;
+		margin-right: 0;
+	}
+}]]></template>
+    <template title="core_blocklink.less" type="public" addon_id="XF" version_id="2000170" version_string="2.0.1"><![CDATA[// ############################ BLOCK LINKS ##################
+
+.blockLink
+{
+	display: block;
+	padding: (@xf-blockPaddingV / 2) @xf-blockPaddingH;
+	.xf-blockLink();
+
+	&.is-selected
+	{
+		.xf-blockLinkSelected(no-border);
+		border-left: @xf-blockLinkSelected--border-width solid @xf-blockLinkSelected--border-color;
+		padding-left: (@xf-blockPaddingH - xf-default(@xf-blockLinkSelected--border-width, 0));
+	}
+
+	&:hover
+	{
+		.xf-blockLinkSelected(background);
+		text-decoration: inherit;
+		color: inherit;
+	}
+}
+
+.blockLink-desc
+{
+	display: block;
+	color: @xf-textColorMuted;
+	font-size: @xf-fontSizeSmaller;
+	font-weight: @xf-fontWeightNormal;
+}
+
+.blockLinkSplitToggle
+{
+	display: flex;
+	padding: 0;
+	text-decoration: none;
+	cursor: pointer;
+
+	.has-no-flexbox &
+	{
+		display: table;
+		table-layout: fixed;
+		width: 100%;
+	}
+
+	&.is-selected
+	{
+		.xf-blockLinkSelected(no-border);
+	}
+
+	&:hover
+	{
+		.xf-blockLinkSelected(background);
+		text-decoration: inherit;
+	}
+}
+
+.blockLinkSplitToggle-link
+{
+	display: block;
+	padding: @xf-blockPaddingV @xf-blockPaddingH;
+	text-decoration: none;
+	flex-grow: 1;
+
+	.has-no-flexbox &
+	{
+		display: table-cell;
+	}
+
+	&:hover
+	{
+		text-decoration: none;
+	}
+
+	.blockLinkSplitToggle.is-selected &
+	{
+		border-left: @xf-blockLinkSelected--border-width solid @xf-blockLinkSelected--border-color;
+		padding-left: (@xf-blockPaddingH - xf-default(@xf-blockLinkSelected--border-width, 0));
+	}
+}
+
+.blockLinkSplitToggle-toggle
+{
+	display: inline-block;
+	padding: @xf-blockPaddingV @xf-blockPaddingH;
+	text-decoration: none;
+	flex-grow: 0;
+	line-height: 1;
+
+	.has-no-flexbox &
+	{
+		display: table-cell;
+		width: ((@xf-blockPaddingH) * 2 + 14px);
+	}
+
+	&:hover
+	{
+		text-decoration: none;
+	}
+
+	&:after
+	{
+		.m-faBase();
+		font-size: 80%;
+		.m-faContent(@fa-var-chevron-down, 1em);
+		<xf:macro template="uix_icons.less" name="content" arg-icon="chevron-down" />
+	}
+
+	&.is-active:after
+	{
+		.m-faContent(@fa-var-chevron-up, 1em);
+		<xf:macro template="uix_icons.less" name="content" arg-icon="chevron-up" />
+	}
+}
+
+.blockLink--iconic
+{
+	i:after
+	{
+		.m-faBase();
+		display: inline-block;
+		min-width: 1em;
+		position: absolute;
+		left: @xf-blockPaddingH;
+		top: 8px;
+		display: none !important;
+	}
+
+	&--started i:after
+	{
+		.m-faContent(@fa-var-file-text, 0.86em);
+		<xf:macro template="uix_icons.less" name="content" arg-icon="file-document" />
+	}
+	&--contributed i:after
+	{
+		.m-faContent(@fa-var-comments-o, 1em);
+		<xf:macro template="uix_icons.less" name="content" arg-icon="comment-multiple" />
+	}
+	&--watched i:after
+	{
+		.m-faContent(@fa-var-bookmark, 0.72em);
+		<xf:macro template="uix_icons.less" name="content" arg-icon="bookmark" />
+	}
+	&--unanswered i:after
+	{
+		.m-faContent(@fa-var-question-circle-o, 0.86em);
+		<xf:macro template="uix_icons.less" name="content" arg-icon="help" />
+	}
+
+}
+
+// ################################ FAUX BLOCK LINKS #######################
+// concept from https://codepen.io/BPScott/pen/Erwan and http://codepen.io/IschaGast/pen/Qjxpxo
+// z-indexes are bumped to have the link sit on top of positioned elements (without z-index)
+
+.fauxBlockLink
+{
+	position: relative;
+
+	a,
+	.fauxBlockLink-link
+	{
+		position: relative;
+		z-index: 2;
+	}
+
+	.fauxBlockLink-blockLink
+	{
+		position: static;
+
+		&:before
+		{
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			z-index: 1;
+		}
+	}
+
+	&.fauxBlockLink--noHover
+	{
+		.fauxBlockLink-blockLink:hover
+		{
+			text-decoration: none;
+		}
+	}
+}]]></template>
+    <template title="core_blockmessage.less" type="public" addon_id="XF" version_id="2000038" version_string="2.0.0 Beta 8"><![CDATA[// ############################ BLOCK MESSAGE ###################
+
+.block-rowMessage
+{
+	margin: @xf-blockPaddingV 0;
+	padding: @xf-blockPaddingV @xf-blockPaddingH;
+	.xf-blockBorder();
+	border-radius: @xf-blockBorderRadius;
+
+	.m-clearFix();
+
+	&:first-child
+	{
+		margin-top: 0;
+	}
+
+	&:last-child
+	{
+		margin-bottom: 0;
+	}
+
+	&.block-rowMessage--small
+	{
+		font-size: @xf-fontSizeSmall;
+		padding: @xf-blockPaddingV/2 @xf-blockPaddingH/2;
+	}
+
+	.m-blockMessageVariants();
+}
+
+.blockMessage
+{
+	margin-bottom: @xf-elementSpacer;
+	padding: @xf-blockPaddingV @xf-blockPaddingH;
+	.xf-contentBase();
+	.xf-blockBorder();
+	border-radius: @xf-blockBorderRadius;
+	.xf-uix_blockMessage();
+
+	.m-clearFix();
+
+	.m-transition(); .m-transitionProperty(border margin); // edgeSpacerRemoval
+
+	&.blockMessage--none
+	{
+		background: none;
+		border: none;
+		color: @xf-textColor;
+		padding: 0;
+		box-shadow: none;
+	}
+
+	&.blockMessage--close
+	{
+		margin-top: 5px;
+		margin-bottom: 5px;
+	}
+
+	&.blockMessage--small
+	{
+		font-size: @xf-fontSizeSmall;
+		padding: @xf-blockPaddingV/2 @xf-blockPaddingH/2;
+	}
+
+	.m-blockMessageVariants();
+}
+
+.blockMessage--iconic,
+.block-rowMessage--iconic
+{
+	text-align: left;
+	position: relative;
+	// padding-left: 4em;
+	min-height: 3.5em;
+	display: flex;
+	align-items: center;
+
+	&:before
+	{
+		.m-faBase();
+		// font-size: 280%; // 2 x line height
+		// position: absolute;
+		// left: @xf-blockPaddingH;
+		font-size: @xf-uix_iconSizeLarge !important;
+		padding-right: @xf-paddingLarge;
+	}
+}
+
+.m-blockMessageVariants()
+{
+	// note: the double && is correct here -- it enforces output like ".x.x--variant". The extra specificity helps
+	// prevent issues from things like media query overrides.
+
+	&&--highlight
+	{
+		.xf-contentHighlightBase();
+	}
+	&--highlight&--iconic:before
+	{
+		.m-faContent(@fa-var-info-circle);
+		<xf:macro name="content" template="uix_icons.less" arg-icon="info" />
+	}
+
+	@important-featureColor: @xf-borderColorAttention;
+	&&--important
+	{
+		.xf-contentAccentBase();
+		border-left: @xf-borderSizeFeature solid @important-featureColor;
+
+		a { .xf-contentAccentLink(); }
+	}
+	&--important&--iconic:before
+	{
+		.m-faContent(@fa-var-exclamation-circle);
+		<xf:macro name="content" template="uix_icons.less" arg-icon="warning" />
+		color: @important-featureColor;
+	}
+
+	@success-featureColor: #63b265;
+	&&--success
+	{
+		border-left: @xf-borderSizeFeature solid @success-featureColor;
+		background: #daf3d8;
+		color: #3d793f;
+
+		.m-textColoredLinks();
+	}
+	&--success&--iconic:before
+	{
+		.m-faContent(@fa-var-check-circle);
+		<xf:macro name="content" template="uix_icons.less" arg-icon="check" />
+		color: @success-featureColor;
+	}
+
+	@warning-featureColor: #dcda54;
+	&&--warning
+	{
+		border-left: @xf-borderSizeFeature solid @warning-featureColor;
+		background: #fbf7e2;
+		color: #84653d;
+
+		.m-textColoredLinks();
+	}
+	&--warning&--iconic:before
+	{
+		.m-faContent(@fa-var-warning);
+		<xf:macro name="content" template="uix_icons.less" arg-icon="warning" />
+		color: @warning-featureColor;
+	}
+
+	@error-featureColor: #c84448;
+	&&--error
+	{
+		border-left: @xf-borderSizeFeature solid @error-featureColor;
+		background: #fde9e9;
+		color: @error-featureColor;
+
+		.m-textColoredLinks();
+	}
+	&--error&--iconic:before
+	{
+		.m-faContent(@fa-var-times-circle);
+		<xf:macro name="content" template="uix_icons.less" arg-icon="warning" />
+		color: @error-featureColor;
+	}
+}]]></template>
+    <template title="core_blockstatus.less" type="public" addon_id="XF" version_id="2000031" version_string="2.0.0 Beta 1"><![CDATA[// ################################## BLOCK STATUS MESSAGES ##############################
+
+.blockStatus
+{
+	.xf-contentAltBase();
+	.xf-blockBorder();
+	border-left: @xf-borderSizeFeature solid @xf-borderColorAttention;
+	border-radius: @xf-blockBorderRadius;
+	margin: 0;
+	padding: @xf-paddingMedium 0;
+	font-size: @xf-fontSizeSmall;
+	text-align: left;
+	
+	.m-transition(); .m-transitionProperty(border margin); // edgeSpacerRemoval
+
+	> dt
+	{
+		display: none;
+	}
+
+	&.blockStatus--info
+	{
+		border-left-color: @xf-borderColorFeature;
+	}
+
+	&.blockStatus--simple
+	{
+		.xf-blockBorder();
+	}
+
+	&.blockStatus--standalone
+	{
+		margin-bottom: (@xf-elementSpacer) / 2;
+	}
+}
+
+.blockStatus-message
+{
+	display: block;
+	padding: 0 @xf-paddingMedium;
+	margin: .2em 0 0;
+
+	&:first-of-type
+	{
+		margin-top: 0;
+	}
+
+	&:before
+	{
+		.m-faBase();
+		display: inline-block;
+		min-width: .8em;
+		color: @xf-textColorAttention;
+	}
+
+	&--deleted::before { .m-faContent("@{fa-var-trash-o}\20"); }
+	&--locked::before { .m-faContent("@{fa-var-lock}\20"); }
+	&--moderated::before { .m-faContent("@{fa-var-shield}\20"); }
+	&--warning:before { .m-faContent("@{fa-var-warning}\20"); }
+	&--ignored:before { .m-faContent("@{fa-var-microphone-slash}\20"); }
+
+	&--deleted::before { <xf:macro template="uix_icons.less" name="content" arg-icon="delete" /> }
+	&--locked::before { <xf:macro template="uix_icons.less" name="content" arg-icon="lock" /> }
+	&--moderated::before { <xf:macro template="uix_icons.less" name="content" arg-icon="moderate" /> }
+	&--warning:before { <xf:macro template="uix_icons.less" name="content" arg-icon="warning" /> }
+	&--ignored:before { <xf:macro template="uix_icons.less" name="content" arg-icon="ignore" /> }
+
+}]]></template>
+    <template title="core_button.less" type="public" addon_id="XF" version_id="2000170" version_string="2.0.1"><![CDATA[// ############################ BUTTONS #################
+
+.button,
+a.button // needed for specificity over a:link
+{
+	.m-buttonBase();
+
+	a
+	{
+		color: inherit;
+		text-decoration: none;
+	}
+
+	&:hover,
+	&:focus {
+		.xf-uix_buttonHover();
+	}
+
+	&:active {
+		.xf-uix_buttonActive();
+	}
+
+	.xf-buttonDefault();
+	.m-buttonBlockColorVariationSimple(xf-default(@xf-buttonDefault--background-color, transparent));
+
+	&.button--primary
+	{
+		.xf-buttonPrimary();
+		.m-buttonBlockColorVariationSimple(xf-default(@xf-buttonPrimary--background-color, transparent));
+
+		&:hover,
+		&:focus {.xf-uix_buttonPrimaryHover();}
+
+		&:active {.xf-uix_buttonPrimaryActive();}
+	}
+
+	&.button--cta
+	{
+		.xf-buttonCta();
+		.m-buttonBlockColorVariationSimple(xf-default(@xf-buttonCta--background-color, transparent));
+
+		&:hover,
+		&:focus {.xf-uix_buttonCtaHover();}
+
+		&:active {.xf-uix_buttonCtaActive();}
+	}
+
+	&.button--link
+	{
+		// block colors
+		// background: @xf-contentBg;
+		// color: @xf-linkColor;
+		// .m-buttonBorderColorVariation(@xf-borderColor);
+
+		&:hover,
+		&:focus
+		{
+			text-decoration: none;
+			// background: @xf-contentHighlightBg;
+			.xf-uix_buttonHover();
+		}
+
+		&:active {
+			.xf-uix_buttonActive();
+		}
+	}
+	
+	&.button--longText
+	{
+		white-space: normal;
+		text-align: left;
+	}
+
+	&.is-disabled
+	{
+		.xf-buttonDisabled();
+		// .m-buttonBorderColorVariation(xf-default(@xf-buttonDisabled--background-color, transparent));
+
+		&:hover,
+		&:active,
+		&:focus
+		{
+			.xf-buttonDisabled();
+			// background: xf-default(@xf-buttonDisabled--background-color, transparent) !important;
+		}
+	}
+	
+	&.button--scroll
+	{
+		// background: fade(xf-default(@xf-buttonDefault--background-color, transparent), 75%);
+		.xf-buttonPrimary();
+		padding: 5px 8px;
+		.m-dropShadow();
+		
+		&:hover,
+		&:focus {.xf-uix_buttonPrimaryHover();}
+
+		&:active {.xf-uix_buttonPrimaryActive();}
+	}
+
+	&.button--small
+	{
+		font-size: @xf-fontSizeSmaller;
+		padding: 3px 6px;
+		.xf-uix_buttonSmall();
+	}
+	
+	&.button--fullWidth
+	{
+		display: block;
+	}
+
+
+	&.button--icon
+	{
+		> .button-text:before
+		{
+			.m-faBase();
+			// font-size: 120%;
+			font-size: @xf-uix_iconSize;
+			vertical-align: middle;
+			display: inline-block;
+			// margin: -.255em 6px -.255em 0;
+			margin-right: .5em;
+		}
+		
+		&.button--iconOnly > .button-text
+		{
+			&:before
+			{
+				margin: 0;
+			}
+		}		
+
+		/*
+		&--add          { .m-buttonIcon(@fa-var-plus-square, .79em) }
+		&--confirm      { .m-buttonIcon(@fa-var-check, 1em); }
+		&--write	    { .m-buttonIcon(@fa-var-pencil-square-o, 1em); }
+		&--import  	    { .m-buttonIcon(@fa-var-upload, .93em); }
+		&--export  	    { .m-buttonIcon(@fa-var-download, .93em); }
+		&--download	    { .m-buttonIcon(@fa-var-download, .93em); }
+		&--disable      { .m-buttonIcon(@fa-var-power-off); }
+		&--edit         { .m-buttonIcon(@fa-var-pencil, .86em); }
+		&--save         { .m-buttonIcon(@fa-var-save, .86em); }
+		&--reply	    { .m-buttonIcon(@fa-var-mail-reply, 1em); }
+		&--quote	    { .m-buttonIcon(@fa-var-quote-left, .93em); }
+		&--purchase	    { .m-buttonIcon(@fa-var-credit-card, 1.11em); }
+		&--payment	    { .m-buttonIcon(@fa-var-credit-card, 1.08em); }
+		&--convert	    { .m-buttonIcon(@fa-var-flash, .5em); }
+		&--search	    { .m-buttonIcon(@fa-var-search, .93em); }
+		&--sort         { .m-buttonIcon(@fa-var-sort, .58em); }
+		&--upload	    { .m-buttonIcon(@fa-var-upload, .93em); }
+		&--attach	    { .m-buttonIcon(@fa-var-paperclip, .79em); }
+		&--login        { .m-buttonIcon(@fa-var-lock, .65em); }
+		&--rate         { .m-buttonIcon(@fa-var-star-half-empty, .93em); }
+		&--config       { .m-buttonIcon(@fa-var-cog, .86em); }
+		&--refresh      { .m-buttonIcon(@fa-var-refresh, .86em); }
+		&--translate    { .m-buttonIcon(@fa-var-globe, .86em); }
+		&--vote         { .m-buttonIcon(@fa-var-check-circle-o, .86em); }
+		&--result       { .m-buttonIcon(@fa-var-bar-chart-o, 1.15em); }
+		&--history	    { .m-buttonIcon(@fa-var-history, .86em); }
+		&--cancel       { .m-buttonIcon(@fa-var-remove, .86em); }
+		&--preview      { .m-buttonIcon(@fa-var-eye, 1em); }
+		&--conversation { .m-buttonIcon(@fa-var-comments-o, 1em); }
+		&--bolt         { .m-buttonIcon(@fa-var-bolt, .5em); }
+		&--list         { .m-buttonIcon(@fa-var-list, .86em); }
+		&--markRead     { .m-buttonIcon(@fa-var-check-square-o, .93em); }
+
+		&--notificationsOn  { .m-buttonIcon(@fa-var-bell-o, 1em); }
+		&--notificationsOff { .m-buttonIcon(@fa-var-bell-slash-o, 1.15em); }
+
+		// for inline mod confirmations
+		&--merge { .m-buttonIcon(@fa-var-compress, .86em); }
+		&--move { .m-buttonIcon(@fa-var-share, 1em); }
+		&--copy { .m-buttonIcon(@fa-var-clone, 1em); }
+		&--approve, &--unapprove { .m-buttonIcon(@fa-var-shield, .72em); }
+		&--delete, &--undelete { .m-buttonIcon(@fa-var-trash-o, .79em); }
+		&--stick, &--unstick { .m-buttonIcon(@fa-var-thumb-tack, .65em); }
+		&--lock { .m-buttonIcon(@fa-var-lock, .65em); }
+		&--unlock { .m-buttonIcon(@fa-var-unlock, .93em); }
+		*/
+
+		&--add .button-text:before			{ .m-buttonIcon(@fa-var-plus-square, 0.79em); <xf:macro template="uix_icons.less" name="content" arg-icon="plus" />} // fa-plus-square
+		&--import .button-text:before		{ .m-buttonIcon(@fa-var-upload, 0.93em); <xf:macro template="uix_icons.less" name="content" arg-icon="import" /> } // fa-upload
+		&--export .button-text:before		{ .m-buttonIcon(@fa-var-download); <xf:macro template="uix_icons.less" name="content" arg-icon="export" /> } // fa-download
+		&--edit	.button-text:before			{ .m-buttonIcon(@fa-var-pencil, 0.86em); <xf:macro template="uix_icons.less" name="content" arg-icon="edit" />} // fa-pencil
+		&--save	.button-text:before			{ .m-buttonIcon(@fa-var-save, 0.86em); <xf:macro template="uix_icons.less" name="content" arg-icon="save" /> } // fa-floppy-o
+		&--delete .button-text:before		{ .m-buttonIcon(@fa-var-trash-o, 0.79em); <xf:macro template="uix_icons.less" name="content" arg-icon="delete" /> } // fa-trash-o
+		&--reply .button-text:before		{ .m-buttonIcon(@fa-var-mail-reply, 1em); <xf:macro template="uix_icons.less" name="content" arg-icon="reply" />} // fa-reply
+		&--quote .button-text:before		{ .m-buttonIcon(@fa-var-quote-left, 0.93em); <xf:macro template="uix_icons.less" name="content" arg-icon="quote" />} // fa-quote-left
+		&--purchase	.button-text:before		{ .m-buttonIcon(@fa-var-shopping-basket, 1.15em); <xf:macro template="uix_icons.less" name="content" arg-icon="shopping-cart" />} // fa-shopping-cart
+		&--payment .button-text:before		{ .m-buttonIcon(@fa-var-credit-card, 1.08em); <xf:macro template="uix_icons.less" name="content" arg-icon="payment" />} // fa-credit-card
+		&--convert .button-text:before		{ .m-buttonIcon(@fa-var-flash, 0.5em); <xf:macro template="uix_icons.less" name="content" arg-icon="convert" />} // fa-bolt
+		&--search .button-text:before		{ .m-buttonIcon(@fa-var-search, 0.93em); <xf:macro template="uix_icons.less" name="content" arg-icon="search" />} // fa-search
+		&--sort .button-text:before			{ .m-buttonIcon(@fa-var-sort, 0.58em); <xf:macro template="uix_icons.less" name="content" arg-icon="sort" /> } // fa-sort
+		&--upload .button-text:before		{ .m-buttonIcon(@fa-var-upload, 0.93em); <xf:macro template="uix_icons.less" name="content" arg-icon="upload" />} // fa-upload
+		&--attach .button-text:before		{ .m-buttonIcon(@fa-var-paperclip, 0.79em); <xf:macro template="uix_icons.less" name="content" arg-icon="attachment" />} // fa-attachment
+		&--login .button-text:before		{ .m-buttonIcon(@fa-var-lock, 0.65em); <xf:macro template="uix_icons.less" name="content" arg-icon="login" />} // fa-lock
+		&--rate .button-text:before			{ .m-buttonIcon(@fa-var-star-half-empty, 0.93em); <xf:macro template="uix_icons.less" name="content" arg-icon="rate" />} // fa-star-half-o
+		&--config.button-text:before		{ .m-buttonIcon(@fa-var-cog, 0.86em); <xf:macro template="uix_icons.less" name="content" arg-icon="settings" />} // fa-cog
+		&--refresh .button-text:before		{ .m-buttonIcon(@fa-var-refresh, 0.86em); <xf:macro template="uix_icons.less" name="content" arg-icon="refresh" />}
+		&--translate .button-text:before   	{ .m-buttonIcon(@fa-var-globe, .86em); <xf:macro template="uix_icons.less" name="content" arg-icon="translate" /> }
+		&--vote .button-text:before        	{ .m-buttonIcon(@fa-var-check-circle-o, .86em); <xf:macro template="uix_icons.less" name="content" arg-icon="poll" />}
+		&--result .button-text:before      	{ .m-buttonIcon(@fa-var-bar-chart-o, 1.15em); <xf:macro template="uix_icons.less" name="content" arg-icon="graph" />}
+		&--history.button-text:before	    { .m-buttonIcon(@fa-var-history, .86em); <xf:macro template="uix_icons.less" name="content" arg-icon="history" />}
+		&--cancel .button-text:before       { .m-buttonIcon(@fa-var-ban, .86em); <xf:macro template="uix_icons.less" name="content" arg-icon="close" /> }
+		&--preview .button-text:before     	{ .m-buttonIcon(@fa-var-eye, 1em); <xf:macro template="uix_icons.less" name="content" arg-icon="watched" />}
+		&--conversation .button-text:before	{ .m-buttonIcon(@fa-var-comments-o, 1em); <xf:macro template="uix_icons.less" name="content" arg-icon="message" />}
+		&--write .button-text:before	    { .m-buttonIcon(@fa-var-pencil-square-o, 1em); <xf:macro template="uix_icons.less" name="content" arg-icon="edit" /> }
+		&--download	.button-text:before    	{ .m-buttonIcon(@fa-var-download, .93em); <xf:macro template="uix_icons.less" name="content" arg-icon="download" />}
+		&--bolt .button-text:before	    	{ .m-buttonIcon(@fa-var-bolt, 1em); <xf:macro template="uix_icons.less" name="content" arg-icon="comment-alert" /> }
+		&--list	.button-text:before    		{ .m-buttonIcon(@fa-var-list, .93em); <xf:macro template="uix_icons.less" name="content" arg-icon="list" />}
+		&--confirm .button-text:before     { .m-buttonIcon(@fa-var-check, 1em); <xf:macro template="uix_icons.less" name="content" arg-icon="check" />}
+		&--disable .button-text:before     { .m-buttonIcon(@fa-var-power-off); <xf:macro template="uix_icons.less" name="content" arg-icon="disable" />}
+		&--markRead .button-text:before    { .m-buttonIcon(@fa-var-check-square-o, .93em); <xf:macro template="uix_icons.less" name="content" arg-icon="check" />}
+		&--notificationsOn .button-text:before { .m-buttonIcon(@fa-var-bell-o, 1em); <xf:macro template="uix_icons.less" name="content" arg-icon="alert" />}
+		&--notificationsOff .button-text:before { .m-buttonIcon(@fa-var-bell-slash-o, 1.15em); <xf:macro template="uix_icons.less" name="content" arg-icon="alert-off" />}
+		&--merge .button-text:before { .m-buttonIcon(@fa-var-compress, .86em); <xf:macro template="uix_icons.less" name="content" arg-icon="merge" />}
+		&--move .button-text:before { .m-buttonIcon(@fa-var-share, 1em); <xf:macro template="uix_icons.less" name="content" arg-icon="move" />}
+		&--copy .button-text:before { .m-buttonIcon(@fa-var-clone, 1em); <xf:macro template="uix_ico

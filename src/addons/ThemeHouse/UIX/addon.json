@@ -1,0 +1,14 @@
+{
+    "legacy_addon_id": "uix",
+    "title": "[TH] UI.X",
+    "description": "Add-on required to add additional functionality to all ThemeHouse styles",
+    "version_id": 2010293,
+    "version_string": "2.1.2 Patch Level 3",
+    "dev": "ThemeHouse",
+    "dev_url": "https://www.themehouse.com",
+    "faq_url": "https://www.themehouse.com/help/documentation/uix2/faqs",
+    "support_url": "https://www.themehouse.com/help",
+    "extra_urls": [],
+    "require": [],
+    "icon": "icon.png"
+}

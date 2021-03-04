@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<permissions>
+  <permission permission_group_id="forum" permission_id="thMonetize_maxPosts" permission_type="integer" depend_permission_id="viewContent" interface_group_id="thMonetizePermissions" display_order="5"/>
+  <permission permission_group_id="forum" permission_id="thMonetize_postSnippet" permission_type="integer" depend_permission_id="thMonetize_viewPost" interface_group_id="thMonetizePermissions" display_order="3"/>
+  <permission permission_group_id="forum" permission_id="thMonetize_viewPost" permission_type="flag" depend_permission_id="viewContent" interface_group_id="thMonetizePermissions" display_order="1"/>
+</permissions>

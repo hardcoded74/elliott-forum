@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<class_extensions>
+  <extension from_class="XF\CssRenderer" to_class="ThemeHouse\Nodes\XF\CssRenderer" execute_order="10" active="1"/>
+  <extension from_class="XF\Entity\Node" to_class="ThemeHouse\Nodes\XF\Entity\Node" execute_order="10" active="1"/>
+  <extension from_class="XF\Repository\Node" to_class="ThemeHouse\Nodes\XF\Repository\Node" execute_order="10" active="1"/>
+</class_extensions>

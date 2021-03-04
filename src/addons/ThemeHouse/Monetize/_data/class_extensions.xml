@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<class_extensions>
+  <extension from_class="XF\Admin\Controller\Category" to_class="ThemeHouse\Monetize\XF\Admin\Controller\Category" execute_order="10" active="1"/>
+  <extension from_class="XF\Admin\Controller\Forum" to_class="ThemeHouse\Monetize\XF\Admin\Controller\Forum" execute_order="10" active="1"/>
+  <extension from_class="XF\Admin\Controller\Log" to_class="ThemeHouse\Monetize\XF\Admin\Controller\Log" execute_order="10" active="1"/>
+  <extension from_class="XF\Admin\Controller\UserUpgrade" to_class="ThemeHouse\Monetize\XF\Admin\Controller\UserUpgrade" execute_order="10" active="1"/>
+  <extension from_class="XF\BbCode\Renderer\Html" to_class="ThemeHouse\Monetize\XF\BbCode\Renderer\Html" execute_order="10" active="1"/>
+  <extension from_class="XF\ChangeLog\User" to_class="ThemeHouse\Monetize\XF\ChangeLog\User" execute_order="10" active="1"/>
+  <extension from_class="XF\ControllerPlugin\Error" to_class="ThemeHouse\Monetize\XF\ControllerPlugin\Error" execute_order="10" active="1"/>
+  <extension from_class="XF\Data\Currency" to_class="ThemeHouse\Monetize\XF\Data\Currency" execute_order="10" active="1"/>
+  <extension from_class="XF\Entity\Category" to_class="ThemeHouse\Monetize\XF\Entity\Category" execute_order="10" active="1"/>
+  <extension from_class="XF\Entity\Forum" to_class="ThemeHouse\Monetize\XF\Entity\Forum" execute_order="10" active="1"/>
+  <extension from_class="XF\Entity\PaymentProfile" to_class="ThemeHouse\Monetize\XF\Entity\PaymentProfile" execute_order="10" active="1"/>
+  <extension from_class="XF\Entity\Post" to_class="ThemeHouse\Monetize\XF\Entity\Post" execute_order="10" active="1"/>
+  <extension from_class="XF\Entity\User" to_class="ThemeHouse\Monetize\XF\Entity\User" execute_order="10" active="1"/>
+  <extension from_class="XF\Entity\UserProfile" to_class="ThemeHouse\Monetize\XF\Entity\UserProfile" execute_order="10" active="1"/>
+  <extension from_class="XF\Entity\UserUpgrade" to_class="ThemeHouse\Monetize\XF\Entity\UserUpgrade" execute_order="10" active="1"/>
+  <extension from_class="XF\Entity\UserUpgradeActive" to_class="ThemeHouse\Monetize\XF\Entity\UserUpgradeActive" execute_order="10" active="1"/>
+  <extension from_class="XF\Entity\UserUpgradeExpired" to_class="ThemeHouse\Monetize\XF\Entity\UserUpgradeExpired" execute_order="10" active="1"/>
+  <extension from_class="XF\Job\CoreCacheRebuild" to_class="ThemeHouse\Monetize\XF\Job\CoreCacheRebuild" execute_order="10" active="1"/>
+  <extension from_class="XF\Job\User" to_class="ThemeHouse\Monetize\XF\Job\User" execute_order="10" active="1"/>
+  <extension from_class="XF\Payment\PayPal" to_class="ThemeHouse\Monetize\XF\Payment\PayPal" execute_order="10" active="1"/>
+  <extension from_class="XF\PermissionCache" to_class="ThemeHouse\Monetize\XF\PermissionCache" execute_order="10" active="1"/>
+  <extension from_class="XF\PermissionSet" to_class="ThemeHouse\Monetize\XF\PermissionSet" execute_order="10" active="1"/>
+  <extension from_class="XF\Pub\Controller\Account" to_class="ThemeHouse\Monetize\XF\Pub\Controller\Account" execute_order="10" active="1"/>
+  <extension from_class="XF\Pub\Controller\Purchase" to_class="ThemeHouse\Monetize\XF\Pub\Controller\Purchase" execute_order="10" active="1"/>
+  <extension from_class="XF\Pub\Controller\Register" to_class="ThemeHouse\Monetize\XF\Pub\Controller\Register" execute_order="10" active="1"/>
+  <extension from_class="XF\Purchasable\UserUpgrade" to_class="ThemeHouse\Monetize\XF\Purchasable\UserUpgrade" execute_order="10" active="1"/>
+  <extension from_class="XF\Repository\UserUpgrade" to_class="ThemeHouse\Monetize\XF\Repository\UserUpgrade" execute_order="10" active="1"/>
+  <extension from_class="XF\Searcher\User" to_class="ThemeHouse\Monetize\XF\Searcher\User" execute_order="10" active="1"/>
+  <extension from_class="XF\Service\User\Registration" to_class="ThemeHouse\Monetize\XF\Service\User\Registration" execute_order="10" active="1"/>
+  <extension from_class="XF\Service\User\Upgrade" to_class="ThemeHouse\Monetize\XF\Service\User\Upgrade" execute_order="10" active="1"/>
+  <extension from_class="XF\Template\Templater" to_class="ThemeHouse\Monetize\XF\Template\Templater" execute_order="10" active="1"/>
+</class_extensions>
